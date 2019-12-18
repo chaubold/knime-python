@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: KNIME Python API
 Bundle-SymbolicName: org.knime.python2;singleton:=true
 Bundle-Version: 4.4.0.qualifier
-Bundle-ClassPath: knime-python2.jar
+Bundle-ClassPath: knime-python2.jar,
+ lib/py4j-0.10.8.1.jar
 Bundle-Activator: org.knime.python2.Activator
 Bundle-Vendor: KNIME AG, Zurich, Switzerland
 Export-Package: org.knime.python2,
