@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="" type="Manipulator">
+	<name>My First Python Node</name>
+
+	<shortDescription>
+		TODO
+	</shortDescription>
+
+	<fullDescription>
+		<intro>
+			TODO
+		</intro>
+		<tab name="TODO">
+			<option name="TODO">
+			</option>
+		</tab>
+	</fullDescription>
+
+	<ports>
+		<inPort name="The table that contains the first operand" index="0"></inPort>
+		<inPort name="The table that contains the second operand" index="1"></inPort>
+		<outPort name="Result" index="0"></outPort>
+	</ports>
+</knimeNode>

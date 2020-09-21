@@ -57,6 +57,7 @@ import org.eclipse.core.runtime.Platform;
 import org.knime.core.node.NodeLogger;
 import org.knime.core.util.FileUtil;
 import org.knime.python2.extensions.serializationlibrary.SerializationLibraryExtensions;
+import org.knime.python2.gateway.PythonGateway;
 import org.knime.python2.generic.templates.SourceCodeTemplatesExtensions;
 import org.knime.python2.kernel.PythonKernelQueue;
 import org.knime.python2.prefs.PythonPreferences;
@@ -105,6 +106,8 @@ public final class Activator implements BundleActivator {
     @Override
     public void stop(final BundleContext bundleContext) throws Exception {
         PythonKernelQueue.close();
+        // EXPERIMENTAL
+        PythonGateway.shutdown();
     }
 
     /**

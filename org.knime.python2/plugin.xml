@@ -54,5 +54,13 @@
             extension="org.knime.python2.CondaEnvironmentPropagation$CondaEnvironmentType$CondaEnvironmentTypeExtension">
       </VariableType>
    </extension>
+   <extension
+         point="org.knime.workbench.repository.nodes">
+      <node
+            deprecated="false"
+            factory-class="org.knime.python2.mynode.PythonWrappingNodeFactory"
+            hidden="false">
+      </node>
+   </extension>
 
 </plugin>
