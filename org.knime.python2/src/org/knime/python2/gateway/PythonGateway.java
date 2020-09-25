@@ -53,12 +53,37 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.ConnectException;
 import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang.SystemUtils;
+import org.knime.core.data.container.CloseableRowIterator;
+import org.knime.core.node.BufferedDataTable;
+import org.knime.core.node.ExecutionContext;
+import org.knime.core.node.ExecutionMonitor;
+import org.knime.core.node.port.PortObject;
+import org.knime.python.typeextension.KnimeToPythonExtension;
+import org.knime.python.typeextension.KnimeToPythonExtensions;
 import org.knime.python.typeextension.PythonModuleExtensions;
+import org.knime.python.typeextension.PythonToKnimeExtension;
+import org.knime.python.typeextension.PythonToKnimeExtensions;
 import org.knime.python2.Activator;
 import org.knime.python2.ManualPythonCommand;
 import org.knime.python2.PythonVersion;
+import org.knime.python2.extensions.serializationlibrary.SerializationException;
+import org.knime.python2.extensions.serializationlibrary.SerializationLibraryExtensions;
+import org.knime.python2.extensions.serializationlibrary.SerializationOptions;
+import org.knime.python2.extensions.serializationlibrary.interfaces.SerializationLibrary;
+import org.knime.python2.extensions.serializationlibrary.interfaces.TableChunker;
+import org.knime.python2.extensions.serializationlibrary.interfaces.TableIterator;
+import org.knime.python2.extensions.serializationlibrary.interfaces.TableSpec;
+import org.knime.python2.extensions.serializationlibrary.interfaces.impl.BufferedDataTableChunker;
+import org.knime.python2.extensions.serializationlibrary.interfaces.impl.BufferedDataTableCreator;
+import org.knime.python2.kernel.PythonCancelable;
+import org.knime.python2.kernel.PythonCanceledExecutionException;
+import org.knime.python2.kernel.PythonExecutionMonitorCancelable;
+import org.knime.python2.kernel.PythonIOException;
 
 import py4j.ClientServer;
 import py4j.Py4JException;
@@ -167,11 +192,114 @@ public final class PythonGateway implements AutoCloseable {
                 break;
             }
         }
+
+        m_entryPoint.setSerializer(
+            SerializationLibraryExtensions.getSerializationLibraryPath("org.knime.python2.serde.arrow"), this);
     }
 
     public EntryPoint getEntryPoint() {
         return m_entryPoint;
     }
+
+    // Python process-wide stuff:
+
+    private static final AtomicLong TABLE_PUT_ID = new AtomicLong();
+
+    private static final SerializationLibrary SERIALIZER =
+        SerializationLibraryExtensions.getSerializationLibrary("org.knime.python2.serde.arrow");
+
+    public Future<String[]> getSerializerForType(final String type) {
+        for (final PythonToKnimeExtension extension : PythonToKnimeExtensions.getExtensions()) {
+            if (extension.getType().equals(type) || extension.getId().equals(type)) {
+                return CompletableFuture.completedFuture(
+                    new String[]{extension.getId(), extension.getType(), extension.getPythonSerializerPath()});
+            }
+        }
+        return CompletableFuture.completedFuture(new String[]{"", "", ""});
+    }
+
+    public Future<String[]> getDeserializerForType(final String type) {
+        for (final KnimeToPythonExtension extension : KnimeToPythonExtensions.getExtensions()) {
+            if (extension.getId().equals(type)) {
+                return CompletableFuture
+                    .completedFuture(new String[]{extension.getId(), extension.getPythonDeserializerPath()});
+            }
+        }
+        return CompletableFuture.completedFuture(new String[]{"", ""});
+    }
+
+    public String putTable(final BufferedDataTable table, final ExecutionMonitor monitor)
+        throws PythonIOException, SerializationException, PythonCanceledExecutionException {
+        final ExecutionMonitor serializationMonitor = monitor.createSubProgress(0.5);
+        final ExecutionMonitor deserializationMonitor = monitor.createSubProgress(0.5);
+        final int chunkSize = 50_000;
+        try (final CloseableRowIterator iterator = table.iterator()) {
+            if (table.size() > Integer.MAX_VALUE) {
+                throw new PythonIOException(
+                    "Number of rows exceeds maximum of " + Integer.MAX_VALUE + " rows for input table!");
+            }
+            final int rowCount = (int)table.size();
+            int numberChunks = (int)Math.ceil(rowCount / (double)chunkSize);
+            if (numberChunks == 0) {
+                numberChunks = 1;
+            }
+            int rowsDone = 0;
+            final TableChunker tableChunker =
+                new BufferedDataTableChunker(table.getDataTableSpec(), iterator, rowCount);
+            final String handle = "table" + TABLE_PUT_ID.incrementAndGet();
+            for (int i = 0; i < numberChunks; i++) {
+                final int rowsInThisIteration = Math.min(rowCount - rowsDone, chunkSize);
+                final ExecutionMonitor chunkProgress =
+                    serializationMonitor.createSubProgress(rowsInThisIteration / (double)rowCount);
+                final TableIterator tableIterator =
+                    ((BufferedDataTableChunker)tableChunker).nextChunk(rowsInThisIteration, chunkProgress);
+                // Note: we only (efficiently) support disk-based serializers that send only the file path via the
+                // socket (supporting serializers that transmit the actual data via the socket would probably require
+                // writing a custom py4j command).
+                final byte[] bytes = SERIALIZER.tableToBytes(tableIterator, new SerializationOptions(),
+                    new PythonExecutionMonitorCancelable(monitor));
+                chunkProgress.setProgress(1);
+                rowsDone += rowsInThisIteration;
+                serializationMonitor.setProgress(rowsDone / (double)rowCount);
+                if (i == 0) {
+                    m_entryPoint.deserializeNew(handle, bytes);
+                } else {
+                    m_entryPoint.deserializeAppend(handle, bytes);
+                }
+                deserializationMonitor.setProgress(rowsDone / (double)rowCount);
+            }
+            return handle;
+        }
+    }
+
+    public PortObject getTable(final String handle, final ExecutionContext exec)
+        throws SerializationException, PythonCanceledExecutionException {
+        final PythonCancelable cancelable = new PythonExecutionMonitorCancelable(exec);
+        final ExecutionMonitor serializationMonitor = exec.createSubProgress(0.5);
+        final ExecutionMonitor deserializationMonitor = exec.createSubProgress(0.5);
+        final int tableSize = m_entryPoint.getTableSize(handle);
+        final int chunkSize = 50_000;
+        int numberChunks = (int)Math.ceil(tableSize / (double)chunkSize);
+        if (numberChunks == 0) {
+            numberChunks = 1;
+        }
+        BufferedDataTableCreator tableCreator = null;
+        for (int i = 0; i < numberChunks; i++) {
+            final int start = chunkSize * i;
+            final int end = Math.min(tableSize, (start + chunkSize) - 1);
+            final byte[] bytes = m_entryPoint.serializeChunk(handle, start, end);
+            serializationMonitor.setProgress((end + 1) / (double)tableSize);
+            if (tableCreator == null) {
+                final TableSpec spec = SERIALIZER.tableSpecFromBytes(bytes, cancelable);
+                tableCreator = new BufferedDataTableCreator(spec, exec, deserializationMonitor, tableSize);
+            }
+            SERIALIZER.bytesIntoTable(tableCreator, bytes, new SerializationOptions(), cancelable);
+            deserializationMonitor.setProgress((end + 1) / (double)tableSize);
+        }
+        return tableCreator.getTable();
+    }
+
+    // --
 
     @Override
     public void close() {

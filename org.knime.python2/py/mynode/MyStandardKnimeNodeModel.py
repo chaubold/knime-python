@@ -50,12 +50,14 @@
 #  code and introduce pythonic intermediate API layers.
 
 import threading
+from pandas import DataFrame
 from py4j.java_gateway import get_java_class
-from py4j.java_gateway import is_instance_of
 from py4j.java_gateway import java_import
 
 # Import KNIME classes:
 from knime.gateway import client_server as cs
+from knime.gateway import get_next_table_id
+from knime.gateway import workspace
 
 knime = cs.new_jvm_view()
 java_import(knime, 'java.io.File')
@@ -191,10 +193,10 @@ class MyStandardKnimeNodeModel():
     def execute(self, inObjects, exec_context: knime.ExecutionContext):
         _logger.debug("Executing node on thread " + str(threading.get_ident()))
 
-        table1 = inObjects[0]
-        table2 = inObjects[1]
+        table1 = workspace[inObjects[0]]
+        table2 = workspace[inObjects[1]]
 
-        if table1.size() != table2.size():
+        if len(table1) != len(table2):
             raise ValueError("Input tables must have the same number of rows.")
 
         operand1_name = self._operand1_settings.getStringValue()
@@ -203,58 +205,26 @@ class MyStandardKnimeNodeModel():
         operator = self._operator_settings.getStringValue()
         constant = self._constant_settings.getIntValue()
 
-        def _filter_table(table, operand_name):
-            table_spec = table.getDataTableSpec()
-            operand_name_arr = cs.new_array(knime.java.lang.String, 1)
-            operand_name_arr[0] = operand_name
-            operand_column_index_arr = table_spec.columnsToIndices(operand_name_arr)
-            table_iterator = table.filter(knime.TableFilter.materializeCols(operand_column_index_arr)).iterator()
-            return table_iterator, operand_column_index_arr[0]
+        def do_computation(operand1, operand2):
+            if operator == '+':
+                result = operand1 + operand2 + constant
+            elif operator == '-':
+                result = operand1 - operand2 + constant
+            elif operator == '*':
+                result = operand1 * operand2 + constant
+            elif operator == '/':
+                result = operand1 / operand2 + constant
+            else:
+                raise ValueError('Unknown operator: ' + operator)
+            return result
 
-        table1_iterator, operand1_column_idex = _filter_table(table1, operand1_name)
-        table2_iterator, operand2_column_idex = _filter_table(table2, operand2_name)
+        result = [do_computation(x, y) for x, y in zip(table1[operand1_name], table2[operand2_name])]
+        result_table = DataFrame({'Result': result})
+        handle = 'table' + str(get_next_table_id())
+        workspace[handle] = result_table
 
-        result_table = exec_context.createDataContainer(self._configure(
-            table1.getDataTableSpec().getColumnSpec(operand1_column_idex),
-            table2.getDataTableSpec().getColumnSpec(operand2_column_idex)))
-
-        try:
-            while table1_iterator.hasNext():
-                operand1_row = table1_iterator.next()
-                operand2_row = table2_iterator.next()
-
-                operand1_cell = operand1_row.getCell(operand1_column_idex)
-                operand2_cell = operand2_row.getCell(operand2_column_idex)
-
-                operand1 = operand1_cell.getIntValue() if is_instance_of(cs, operand1_cell, knime.IntValue) \
-                    else operand1_cell.getDoubleValue()
-                operand2 = operand2_cell.getIntValue() if is_instance_of(cs, operand2_cell, knime.IntValue) \
-                    else operand2_cell.getDoubleValue()
-
-                if operator == '+':
-                    result = operand1 + operand2 + constant
-                elif operator == '-':
-                    result = operand1 - operand2 + constant
-                elif operator == '*':
-                    result = operand1 * operand2 + constant
-                elif operator == '/':
-                    result = operand1 / operand2 + constant
-                else:
-                    raise ValueError('Unknown operator: ' + operator)
-
-                result_cell = knime.IntCell(result) if isinstance(result, int) else knime.DoubleCell(result)
-
-                result_cell_arr = cs.new_array(knime.DataCell, 1)
-                result_cell_arr[0] = result_cell
-                result_row = knime.DefaultRow(operand1_row.getKey(), result_cell_arr)
-                result_table.addRowToTable(result_row)
-        finally:
-            table1_iterator.close()
-            table2_iterator.close()
-            result_table.close()
-
-        outObjects = cs.new_array(knime.PortObject, 1)
-        outObjects[0] = exec_context.createBufferedDataTable(result_table.getTable(), exec_context)
+        outObjects = cs.new_array(knime.Object, 1)
+        outObjects[0] = handle
         return outObjects
 
     def reset(self):

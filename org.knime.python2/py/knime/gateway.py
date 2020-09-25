@@ -48,9 +48,39 @@
 from importlib import reload
 
 import os
+import sys
 from py4j.clientserver import ClientServer, JavaParameters, PythonParameters
 
+from PythonUtils import Simpletype
+from PythonUtils import load_module_from_path
+from Serializer import Serializer
+from TypeExtensionManager import TypeExtensionManager
+
 client_server = None
+
+workspace = {}
+
+_table_get_id = 0
+
+
+# TODO: make atomic
+def get_next_table_id():
+    global _table_get_id
+    _table_get_id -= 1
+    return _table_get_id
+
+
+_serializer = None
+
+
+def _load_serialization_library(serializer_path):
+    last_separator = serializer_path.rfind(os.sep)
+    serializer_directory_path = serializer_path[0:last_separator + 1]
+    sys.path.append(serializer_directory_path)
+    serializer = load_module_from_path(serializer_path)
+    serializer.init(Simpletype)
+    return serializer
+
 
 _is_debug = True
 
@@ -65,6 +95,27 @@ class EntryPoint(object):
 
     def getPid(self):
         return os.getpid()
+
+    def setSerializer(self, path, serializers):
+        global _serializer
+        _serializer = Serializer(_load_serialization_library(path), TypeExtensionManager(serializers))
+
+    def deserializeNew(self, handle, bytes):
+        chunk = _serializer.bytes_to_data_frame(bytes)
+        workspace[handle] = chunk
+
+    def deserializeAppend(self, handle, bytes):
+        chunk = _serializer.bytes_to_data_frame(bytes)
+        workspace[handle] = workspace[handle].append(chunk)
+
+    def getTableSize(self, handle):
+        table = workspace[handle]
+        return len(table)
+
+    def serializeChunk(self, handle, start, end):
+        table = workspace[handle]
+        chunk = table[start:end + 1]
+        return _serializer.data_frame_to_bytes(chunk, start)
 
     def createNodeModel(self):
         import mynode.MyStandardKnimeNodeModel as node_model_module

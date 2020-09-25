@@ -63,7 +63,7 @@ public class PythonWrappingNodeFactory extends NodeFactory<PythonWrappingNodeMod
     public PythonWrappingNodeModel createNodeModel() {
         try {
             final PythonNodeModel wrappedNodeModel = PythonGateway.getInstance().getEntryPoint().createNodeModel();
-            return new PythonWrappingNodeModel(wrappedNodeModel);
+            return new PythonWrappingNodeModel(PythonGateway.getInstance(), wrappedNodeModel);
         } catch (final Exception ex) {
             NodeLogger.getLogger(PythonWrappingNodeFactory.class).error(ex);
             throw ex;

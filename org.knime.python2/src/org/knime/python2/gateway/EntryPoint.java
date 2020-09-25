@@ -54,13 +54,24 @@ import org.knime.python2.mynode.PythonNodeModel;
 /**
  * py4j callback interface.
  * <P>
- * TODO: currently doubles as entry point into the Python process and as node factory for the example node.
+ * TODO: currently doubles as entry point into the Python process/global gateway and as node factory for the example
+ * node.
  *
  * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
  */
 public interface EntryPoint {
 
     int getPid();
+
+    void setSerializer(String path, PythonGateway serializers);
+
+    void deserializeNew(String handle, byte[] bytes);
+
+    void deserializeAppend(String handle, byte[] bytes);
+
+    int getTableSize(String handle);
+
+    byte[] serializeChunk(String handle, int start, int end);
 
     PythonNodeModel createNodeModel();
 

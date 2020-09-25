@@ -51,6 +51,7 @@ package org.knime.python2.mynode;
 import java.io.File;
 import java.io.IOException;
 
+import org.knime.core.node.BufferedDataTable;
 import org.knime.core.node.CanceledExecutionException;
 import org.knime.core.node.ExecutionContext;
 import org.knime.core.node.ExecutionMonitor;
@@ -60,16 +61,20 @@ import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.node.port.PortObject;
 import org.knime.core.node.port.PortObjectSpec;
+import org.knime.python2.gateway.PythonGateway;
 
 /**
  * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
  */
 public class PythonWrappingNodeModel extends NodeModel {
 
-    private PythonNodeModel m_pythonNodeModel;
+    private final PythonGateway m_gateway;
 
-    public PythonWrappingNodeModel(final PythonNodeModel pythonNodeModel) {
+    private final PythonNodeModel m_pythonNodeModel;
+
+    public PythonWrappingNodeModel(final PythonGateway gateway, final PythonNodeModel pythonNodeModel) {
         super(pythonNodeModel.getInputPortTypes(), pythonNodeModel.getOutputPortTypes());
+        m_gateway = gateway;
         m_pythonNodeModel = pythonNodeModel;
     }
 
@@ -107,7 +112,28 @@ public class PythonWrappingNodeModel extends NodeModel {
 
     @Override
     protected PortObject[] execute(final PortObject[] inObjects, final ExecutionContext exec) throws Exception {
-        return m_pythonNodeModel.execute(inObjects, exec);
+        final Object[] inObjectsWithBDTsReplacedByPythonHandles = new Object[inObjects.length];
+        for (int i = 0; i < inObjects.length; i++) {
+            final PortObject inObject = inObjects[i];
+            if (inObject instanceof BufferedDataTable) {
+                inObjectsWithBDTsReplacedByPythonHandles[i] =
+                    m_gateway.putTable((BufferedDataTable)inObject, exec.createSubProgress(0.3));
+            } else {
+                inObjectsWithBDTsReplacedByPythonHandles[i] = inObject;
+            }
+        }
+        final Object[] outObjectsWithPythonHandlesInsteadOfBDTs =
+            m_pythonNodeModel.execute(inObjectsWithBDTsReplacedByPythonHandles, exec);
+        final PortObject[] outObjects = new PortObject[outObjectsWithPythonHandlesInsteadOfBDTs.length];
+        for (int i = 0; i < outObjectsWithPythonHandlesInsteadOfBDTs.length; i++) {
+            final Object outObject = outObjectsWithPythonHandlesInsteadOfBDTs[i];
+            if (outObject instanceof String) {
+                outObjects[i] = m_gateway.getTable((String)outObject, exec.createSubExecutionContext(0.3));
+            } else {
+                outObjects[i] = (PortObject)outObject;
+            }
+        }
+        return outObjects;
     }
 
     @Override

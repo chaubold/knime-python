@@ -57,7 +57,6 @@ import org.knime.core.node.ExecutionMonitor;
 import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
-import org.knime.core.node.port.PortObject;
 import org.knime.core.node.port.PortObjectSpec;
 import org.knime.core.node.port.PortType;
 
@@ -84,7 +83,8 @@ public interface PythonNodeModel {
 
     PortObjectSpec[] configure(final PortObjectSpec[] inSpecs) throws InvalidSettingsException;
 
-    PortObject[] execute(final PortObject[] inObjects, final ExecutionContext exec) throws Exception;
+    // TODO: more explicit typing
+    Object[] execute(final Object[] inObjects, final ExecutionContext exec) throws Exception;
 
     void reset();
 }
