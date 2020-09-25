@@ -49,6 +49,7 @@
 # TODO: In the long term, we will want to remove all the py4j-specific (and/or tedious Java-specific) stuff from user
 #  code and introduce pythonic intermediate API layers.
 
+import threading
 from py4j.java_gateway import get_java_class
 from py4j.java_gateway import is_instance_of
 from py4j.java_gateway import java_import
@@ -71,6 +72,7 @@ java_import(knime, 'org.knime.core.data.def.IntCell')
 java_import(knime, 'org.knime.core.node.BufferedDataTable')
 java_import(knime, 'org.knime.core.node.ExecutionContext')
 java_import(knime, 'org.knime.core.node.ExecutionMonitor')
+java_import(knime, 'org.knime.core.node.NodeLogger')
 java_import(knime, 'org.knime.core.node.NodeSettingsRO')
 java_import(knime, 'org.knime.core.node.NodeSettingsWO')
 java_import(knime, 'org.knime.core.node.defaultnodesettings.SettingsModelInteger')
@@ -78,6 +80,8 @@ java_import(knime, 'org.knime.core.node.defaultnodesettings.SettingsModelString'
 java_import(knime, 'org.knime.core.node.port.PortObject')
 java_import(knime, 'org.knime.core.node.port.PortObjectSpec')
 java_import(knime, 'org.knime.core.node.port.PortType')
+
+_logger = knime.NodeLogger.getLogger("MyStandardKnimeNodeModel")
 
 _operators = cs.new_array(knime.java.lang.String, 4)
 _operators[0] = '+'
@@ -148,6 +152,8 @@ class MyStandardKnimeNodeModel():
         self._constant_settings.loadSettingsFrom(settings)
 
     def configure(self, inSpecs):
+        _logger.debug("Configuring node on thread " + str(threading.get_ident()))
+
         column_spec1 = inSpecs[0].getColumnSpec(self._operand1_settings.getStringValue())
         column_spec2 = inSpecs[1].getColumnSpec(self._operand2_settings.getStringValue())
 
@@ -183,6 +189,8 @@ class MyStandardKnimeNodeModel():
         return knime.DataTableSpec(result_columns)
 
     def execute(self, inObjects, exec_context: knime.ExecutionContext):
+        _logger.debug("Executing node on thread " + str(threading.get_ident()))
+
         table1 = inObjects[0]
         table2 = inObjects[1]
 

@@ -51,6 +51,7 @@ package org.knime.python2.gateway;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.net.ConnectException;
 import java.util.Collections;
 
 import org.apache.commons.lang.SystemUtils;
@@ -60,6 +61,7 @@ import org.knime.python2.ManualPythonCommand;
 import org.knime.python2.PythonVersion;
 
 import py4j.ClientServer;
+import py4j.Py4JException;
 
 /**
  * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
@@ -133,18 +135,37 @@ public final class PythonGateway implements AutoCloseable {
         }
 
         // Connect to py4j.
+        // TODO: use dynamic port
         m_clientServer = new ClientServer(null);
-        sleep();
         m_entryPoint = (EntryPoint)m_clientServer.getPythonServerEntryPoint(new Class[]{EntryPoint.class});
-        System.out.println("Connected to Python process with PID: " + m_entryPoint.getPid());
-    }
 
-    private static void sleep() {
-        try {
-            Thread.sleep(10000);
-        } catch (final InterruptedException ex) {
-            Thread.currentThread().interrupt();
-            throw new IllegalStateException(ex);
+        // Python process requires about 150ms on my machine to start up, wait for it.
+        // TODO: must of course be configurable, etc.
+        boolean connected = false;
+        int numAttempts = 0;
+        final int numMaxAttempts = 1000;
+        while (!connected) {
+            if (numAttempts < numMaxAttempts) {
+                try {
+                    System.out.println("Connected to Python process with PID: " + m_entryPoint.getPid()
+                        + ", after attempts: " + numAttempts);
+                    connected = true;
+                } catch (final Py4JException ex) {
+                    if (!(ex.getCause() instanceof ConnectException)) {
+                        throw ex;
+                    } else {
+                        numAttempts++;
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex1) {
+                            Thread.currentThread().interrupt();
+                            break;
+                        }
+                    }
+                }
+            } else {
+                break;
+            }
         }
     }
 
