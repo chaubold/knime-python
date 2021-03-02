@@ -69,8 +69,6 @@ import org.knime.python.typeextension.PythonModuleExtensions;
 import org.knime.python.typeextension.PythonToKnimeExtension;
 import org.knime.python.typeextension.PythonToKnimeExtensions;
 import org.knime.python2.Activator;
-import org.knime.python2.ManualPythonCommand;
-import org.knime.python2.PythonVersion;
 import org.knime.python2.extensions.serializationlibrary.SerializationException;
 import org.knime.python2.extensions.serializationlibrary.SerializationLibraryExtensions;
 import org.knime.python2.extensions.serializationlibrary.SerializationOptions;
@@ -84,6 +82,7 @@ import org.knime.python2.kernel.PythonCancelable;
 import org.knime.python2.kernel.PythonCanceledExecutionException;
 import org.knime.python2.kernel.PythonExecutionMonitorCancelable;
 import org.knime.python2.kernel.PythonIOException;
+import org.knime.python2.prefs.PythonPreferences;
 
 import py4j.ClientServer;
 import py4j.Py4JException;
@@ -133,10 +132,9 @@ public final class PythonGateway implements AutoCloseable {
 
     private PythonGateway() {
         // Mostly copied from PythonKernel.
-        final ProcessBuilder pb =
-            new ManualPythonCommand(PythonVersion.PYTHON3, "/home/marcel/python-configs/knime_nodes.sh")
-                .createProcessBuilder();
-        final String launcherScriptPath = "/home/marcel/git/knime-python/org.knime.python2/py/knime/launcher.py";
+        final ProcessBuilder pb = PythonPreferences.getPython3CommandPreference().createProcessBuilder();
+        final String launcherScriptPath =
+            Activator.getFile(Activator.PLUGIN_ID, "py/knime/launcher.py").getAbsolutePath();
         // Use the -u options to force Python to not buffer stdout and stderror.
         Collections.addAll(pb.command(), "-u", launcherScriptPath);
         // Add all python modules to PYTHONPATH variable.

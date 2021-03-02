@@ -84,7 +84,7 @@ public interface PythonNodeModel {
     PortObjectSpec[] configure(final PortObjectSpec[] inSpecs) throws InvalidSettingsException;
 
     // TODO: more explicit typing
-    Object[] execute(final Object[] inObjects, final ExecutionContext exec) throws Exception;
+    Object[][] execute(final Object[] inObjects, final ExecutionContext exec) throws Exception;
 
     void reset();
 }

@@ -49,10 +49,17 @@
 # TODO: In the long term, we will want to remove all the py4j-specific (and/or tedious Java-specific) stuff from user
 #  code and introduce pythonic intermediate API layers.
 
+import sys
 import threading
+
+import numpy as np
+import pyarrow as pa
+import pyarrow.compute as pc
+
 from pandas import DataFrame
 from py4j.java_gateway import get_java_class
 from py4j.java_gateway import java_import
+from pyarrow.ipc import RecordBatchFileReader, RecordBatchFileWriter
 
 # Import KNIME classes:
 from knime.gateway import client_server as cs
@@ -71,6 +78,7 @@ java_import(knime, 'org.knime.core.data.container.filter.TableFilter')
 java_import(knime, 'org.knime.core.data.def.DefaultRow')
 java_import(knime, 'org.knime.core.data.def.DoubleCell')
 java_import(knime, 'org.knime.core.data.def.IntCell')
+java_import(knime, 'org.knime.core.data.container.DataContainer')
 java_import(knime, 'org.knime.core.node.BufferedDataTable')
 java_import(knime, 'org.knime.core.node.ExecutionContext')
 java_import(knime, 'org.knime.core.node.ExecutionMonitor')
@@ -191,10 +199,25 @@ class MyStandardKnimeNodeModel():
         return knime.DataTableSpec(result_columns)
 
     def execute(self, inObjects, exec_context: knime.ExecutionContext):
-        _logger.debug("Executing node on thread " + str(threading.get_ident()))
+        _logger.debug(
+            "Executing node using executable: " + str(sys.executable) + ", on thread: " + str(threading.get_ident()))
 
-        table1 = workspace[inObjects[0]]
-        table2 = workspace[inObjects[1]]
+        for i, in_object in enumerate(inObjects):
+            _logger.debug("Object at input port " + str(i) + ":" + str(in_object))
+
+        # TODO: handle multiple input tables pointing to the same file; in general: virtual tables, etc.
+        # TODO: handle compression. Seems to only be available when using streams? See pyarrow.open_stream(..., compression, ...)
+        # TODO: handle different types of row keys
+        # TODO: domain computation, duplicate key checks, etc.
+
+        reader1 = RecordBatchFileReader(pa.OSFile(inObjects[0][1]))
+        reader2 = RecordBatchFileReader(pa.OSFile(inObjects[1][1]))
+
+        table1 = reader1.read_all()
+        table2 = reader2.read_all()
+
+        _logger.debug("Length of first table: " + str(len(table1)))
+        _logger.debug("Length of second table: " + str(len(table2)))
 
         if len(table1) != len(table2):
             raise ValueError("Input tables must have the same number of rows.")
@@ -202,29 +225,46 @@ class MyStandardKnimeNodeModel():
         operand1_name = self._operand1_settings.getStringValue()
         operand2_name = self._operand2_settings.getStringValue()
 
+        operand1_arrow_name = str(inObjects[0][0].findColumnIndex(operand1_name) + 1)  # + 1 because of row key
+        operand2_arrow_name = str(inObjects[1][0].findColumnIndex(operand2_name) + 1)  # + 1 because of row key
+
         operator = self._operator_settings.getStringValue()
-        constant = self._constant_settings.getIntValue()
+        constant = pa.scalar(self._constant_settings.getIntValue(), type=pa.float64())
 
         def do_computation(operand1, operand2):
             if operator == '+':
-                result = operand1 + operand2 + constant
+                result = pc.add(operand1, operand2)
             elif operator == '-':
-                result = operand1 - operand2 + constant
+                result = pc.subtract(operand1, operand2)
             elif operator == '*':
-                result = operand1 * operand2 + constant
+                result = pc.multiply(operand1, operand2)
             elif operator == '/':
-                result = operand1 / operand2 + constant
+                result = pc.divide(operand1, operand2)
             else:
                 raise ValueError('Unknown operator: ' + operator)
-            return result
+            return pc.add(result, constant)
 
-        result = [do_computation(x, y) for x, y in zip(table1[operand1_name], table2[operand2_name])]
-        result_table = DataFrame({'Result': result})
-        handle = 'table' + str(get_next_table_id())
-        workspace[handle] = result_table
+        result = do_computation(table1[operand1_arrow_name], table2[operand2_arrow_name])
+        row_keys = pa.array(np.arange(len(result), dtype='int32'))
+        result = pa.Table.from_arrays([row_keys, result], names=["Row ID", "Result"])
 
-        outObjects = cs.new_array(knime.Object, 1)
-        outObjects[0] = handle
+        out_table_file_path = knime.DataContainer.createTempFile(".knable").getAbsolutePath()
+        schema = result.schema
+        schema = schema.remove_metadata()
+        metadata = {"KNIME:basic:factoryVersions": "0,0",
+                    "KNIME:basic:chunkSize": str(len(result))}  # TODO: change to actual chunk size once we use chunking
+        schema = schema.add_metadata(metadata)
+        writer = RecordBatchFileWriter(out_table_file_path,
+                                       schema)  # TODO: set Arrow format metadata to fixed version? (current default: V5)
+        writer.write_table(result)
+        writer.close()
+
+        outObjects = cs.new_array(knime.Object, 1, 3)
+        column_spec1 = inObjects[0][0].getColumnSpec(operand1_name)
+        column_spec2 = inObjects[1][0].getColumnSpec(operand2_name)
+        outObjects[0][0] = self._configure(column_spec1, column_spec2)
+        outObjects[0][1] = out_table_file_path
+        outObjects[0][2] = len(result)
         return outObjects
 
     def reset(self):

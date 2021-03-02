@@ -51,10 +51,21 @@ package org.knime.python2.mynode;
 import java.io.File;
 import java.io.IOException;
 
+import org.knime.core.columnar.store.ColumnStore;
+import org.knime.core.columnar.store.ColumnStoreFactory;
+import org.knime.core.data.DataTableSpec;
+import org.knime.core.data.columnar.ColumnStoreFactoryRegistry;
+import org.knime.core.data.columnar.schema.ColumnarValueSchema;
+import org.knime.core.data.columnar.schema.DefaultColumnarValueSchema;
+import org.knime.core.data.columnar.table.UnsavedColumnarContainerTable;
+import org.knime.core.data.v2.RowKeyType;
+import org.knime.core.data.v2.ValueSchema;
 import org.knime.core.node.BufferedDataTable;
+import org.knime.core.node.BufferedDataTable.KnowsRowCountTable;
 import org.knime.core.node.CanceledExecutionException;
 import org.knime.core.node.ExecutionContext;
 import org.knime.core.node.ExecutionMonitor;
+import org.knime.core.node.ExtensionTable;
 import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
@@ -116,19 +127,31 @@ public class PythonWrappingNodeModel extends NodeModel {
         for (int i = 0; i < inObjects.length; i++) {
             final PortObject inObject = inObjects[i];
             if (inObject instanceof BufferedDataTable) {
-                inObjectsWithBDTsReplacedByPythonHandles[i] =
-                    m_gateway.putTable((BufferedDataTable)inObject, exec.createSubProgress(0.3));
+                final KnowsRowCountTable delegate = ((BufferedDataTable)inObject).getDelegate();
+                final String tableFilePath = ((ExtensionTable)delegate).getFile().getAbsolutePath();
+                inObjectsWithBDTsReplacedByPythonHandles[i] = new Object[]{delegate.getDataTableSpec(), tableFilePath};
             } else {
                 inObjectsWithBDTsReplacedByPythonHandles[i] = inObject;
             }
         }
-        final Object[] outObjectsWithPythonHandlesInsteadOfBDTs =
+        final Object[][] outObjectsWithPythonHandlesInsteadOfBDTs =
             m_pythonNodeModel.execute(inObjectsWithBDTsReplacedByPythonHandles, exec);
         final PortObject[] outObjects = new PortObject[outObjectsWithPythonHandlesInsteadOfBDTs.length];
         for (int i = 0; i < outObjectsWithPythonHandlesInsteadOfBDTs.length; i++) {
-            final Object outObject = outObjectsWithPythonHandlesInsteadOfBDTs[i];
+            final Object outObject = outObjectsWithPythonHandlesInsteadOfBDTs[i][1];
             if (outObject instanceof String) {
-                outObjects[i] = m_gateway.getTable((String)outObject, exec.createSubExecutionContext(0.3));
+                final ColumnStoreFactory storeFactory =
+                    ColumnStoreFactoryRegistry.getOrCreateInstance().getFactorySingleton();
+                final DataTableSpec outTableSpec = (DataTableSpec)outObjectsWithPythonHandlesInsteadOfBDTs[i][0];
+                final ColumnarValueSchema outTableSchema =
+                    new DefaultColumnarValueSchema(ValueSchema.create(outTableSpec, RowKeyType.CUSTOM,
+                        null /* TODO: why do we need a file-store handler in a _schema_?*/));
+                // TODO: this should only be a read store
+                final ColumnStore store = storeFactory.createStore(outTableSchema, new File((String)outObject));
+                final long tableSize = ((Number)outObjectsWithPythonHandlesInsteadOfBDTs[i][2]).longValue();
+                final UnsavedColumnarContainerTable outTable =
+                    UnsavedColumnarContainerTable.create(-1, storeFactory, outTableSchema, store, tableSize);
+                outObjects[i] = outTable.create(exec);
             } else {
                 outObjects[i] = (PortObject)outObject;
             }
