@@ -210,11 +210,12 @@ class MyStandardKnimeNodeModel():
         # TODO: handle different types of row keys
         # TODO: domain computation, duplicate key checks, etc.
 
-        reader1 = RecordBatchFileReader(pa.OSFile(inObjects[0][1]))
-        reader2 = RecordBatchFileReader(pa.OSFile(inObjects[1][1]))
-
-        table1 = reader1.read_all()
-        table2 = reader2.read_all()
+        with pa.memory_map(inObjects[0][1]) as table1_file:
+            reader1 = RecordBatchFileReader(table1_file)
+            table1 = reader1.read_all()
+        with pa.memory_map(inObjects[1][1]) as table2_file:
+            reader2 = RecordBatchFileReader(table2_file)
+            table2 = reader2.read_all()
 
         _logger.debug("Length of first table: " + str(len(table1)))
         _logger.debug("Length of second table: " + str(len(table2)))
@@ -244,20 +245,24 @@ class MyStandardKnimeNodeModel():
                 raise ValueError('Unknown operator: ' + operator)
             return pc.add(result, constant)
 
-        result = do_computation(table1[operand1_arrow_name], table2[operand2_arrow_name])
-        row_keys = pa.array(np.arange(len(result), dtype='int32'))
-        result = pa.Table.from_arrays([row_keys, result], names=["Row ID", "Result"])
+        result_column = do_computation(table1[operand1_arrow_name], table2[operand2_arrow_name])
+        row_keys = table1[0]
+        result = pa.Table.from_arrays([row_keys, result_column], names=["Row ID", "Result"])
 
+
+        min_chunk_size = min((len(c.chunks[0]) for c in result.columns))
         out_table_file_path = knime.DataContainer.createTempFile(".knable").getAbsolutePath()
         schema = result.schema
         schema = schema.remove_metadata()
         metadata = {"KNIME:basic:factoryVersions": "0,0",
-                    "KNIME:basic:chunkSize": str(len(result))}  # TODO: change to actual chunk size once we use chunking
+                    "KNIME:basic:chunkSize": str(min_chunk_size)}
         schema = schema.add_metadata(metadata)
         writer = RecordBatchFileWriter(out_table_file_path,
                                        schema)  # TODO: set Arrow format metadata to fixed version? (current default: V5)
-        writer.write_table(result)
-        writer.close()
+        try:
+            writer.write_table(result)
+        finally:
+            writer.close()
 
         outObjects = cs.new_array(knime.Object, 1, 3)
         column_spec1 = inObjects[0][0].getColumnSpec(operand1_name)
