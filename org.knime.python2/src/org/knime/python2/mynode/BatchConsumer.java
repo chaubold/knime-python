@@ -44,47 +44,59 @@
  * ---------------------------------------------------------------------
  *
  * History
- *   Dec 19, 2019 (marcel): created
+ *   Mar 5, 2021 (marcel): created
  */
 package org.knime.python2.mynode;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.knime.core.node.CanceledExecutionException;
+import org.knime.core.columnar.store.ColumnStore;
+import org.knime.core.columnar.store.ColumnStoreFactory;
+import org.knime.core.data.DataTableSpec;
+import org.knime.core.data.columnar.ColumnStoreFactoryRegistry;
+import org.knime.core.data.columnar.schema.ColumnarValueSchema;
+import org.knime.core.data.columnar.schema.DefaultColumnarValueSchema;
+import org.knime.core.data.columnar.table.ColumnarRowContainer;
+import org.knime.core.data.columnar.table.UnsavedColumnarContainerTable;
+import org.knime.core.data.v2.RowKeyType;
+import org.knime.core.data.v2.ValueSchema;
+import org.knime.core.node.BufferedDataTable;
 import org.knime.core.node.ExecutionContext;
-import org.knime.core.node.ExecutionMonitor;
-import org.knime.core.node.InvalidSettingsException;
-import org.knime.core.node.NodeSettingsRO;
-import org.knime.core.node.NodeSettingsWO;
-import org.knime.core.node.port.PortObjectSpec;
-import org.knime.core.node.port.PortType;
 
-/**
- * py4j callback interface.
- *
- * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
- */
-public interface PythonNodeModel {
+public final class BatchConsumer {
 
-    PortType[] getInputPortTypes();
+    private final ColumnStoreFactory m_storeFactory;
 
-    PortType[] getOutputPortTypes();
+    private final ColumnarValueSchema m_tableSchema;
 
-    void loadInternals(File nodeInternDir, ExecutionMonitor exec) throws IOException, CanceledExecutionException;
+    private final String m_storeRootDir;
 
-    void saveInternals(File nodeInternDir, ExecutionMonitor exec) throws IOException, CanceledExecutionException;
+    private final ColumnStore m_store;
 
-    void saveSettingsTo(final NodeSettingsWO settings);
+    private int m_currentBatchIndex = 0;
 
-    void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException;
+    private int m_tableSize = 0;
 
-    void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException;
+    public BatchConsumer(final DataTableSpec spec) throws Exception {
+        m_storeFactory = ColumnStoreFactoryRegistry.getOrCreateInstance().getFactorySingleton();
+        m_tableSchema = new DefaultColumnarValueSchema(ValueSchema.create(spec, RowKeyType.CUSTOM,
+            null /* TODO: why do we need a file-store handler in a _schema_?*/));
+        // TODO: this should only need to be a read store
+        m_store = m_storeFactory.createStore(m_tableSchema, ColumnarRowContainer.createTempDir());
+        m_storeRootDir = m_store.getFile().getAbsolutePath();
+    }
 
-    PortObjectSpec[] configure(final PortObjectSpec[] inSpecs) throws InvalidSettingsException;
+    public String getNextWriteFile() {
+        return m_storeRootDir + File.separatorChar + "batch" + Integer.toString(m_currentBatchIndex++);
+    }
 
-    // TODO: more explicit typing
-    Object[] execute(final Object[] inObjects, final ExecutionContext exec) throws Exception;
+    public void notifyDoneWritingBatch(final int batchSize) {
+        // TODO: pass to store; domain calculation, etc.
+        m_tableSize += batchSize;
+    }
 
-    void reset();
+    BufferedDataTable createTable(final ExecutionContext exec) {
+        return UnsavedColumnarContainerTable.create(-1, m_storeFactory, m_tableSchema, m_store, m_tableSize)
+            .create(exec);
+    }
 }

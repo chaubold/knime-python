@@ -42,49 +42,44 @@
  *  may freely choose the license terms applicable to such Node, including
  *  when such Node is propagated with or for interoperation with KNIME.
  * ---------------------------------------------------------------------
- *
+ * 
  * History
- *   Dec 19, 2019 (marcel): created
+ *   Mar 5, 2021 (marcel): created
  */
 package org.knime.python2.mynode;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.knime.core.node.CanceledExecutionException;
-import org.knime.core.node.ExecutionContext;
-import org.knime.core.node.ExecutionMonitor;
-import org.knime.core.node.InvalidSettingsException;
-import org.knime.core.node.NodeSettingsRO;
-import org.knime.core.node.NodeSettingsWO;
-import org.knime.core.node.port.PortObjectSpec;
-import org.knime.core.node.port.PortType;
+import org.knime.core.data.DataTableSpec;
+import org.knime.core.node.BufferedDataTable;
+import org.knime.core.node.ExtensionTable;
 
-/**
- * py4j callback interface.
- *
- * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
- */
-public interface PythonNodeModel {
+public final class BatchSupplier {
 
-    PortType[] getInputPortTypes();
+    private final BufferedDataTable m_table;
 
-    PortType[] getOutputPortTypes();
+    private final String m_tableRootDir;
 
-    void loadInternals(File nodeInternDir, ExecutionMonitor exec) throws IOException, CanceledExecutionException;
+    private int m_currentBatchIndex = 0;
 
-    void saveInternals(File nodeInternDir, ExecutionMonitor exec) throws IOException, CanceledExecutionException;
+    public BatchSupplier(final BufferedDataTable table) {
+        m_table = table;
+        m_tableRootDir = ((ExtensionTable)table.getDelegate()).getFile().getAbsolutePath();
+    }
 
-    void saveSettingsTo(final NodeSettingsWO settings);
+    public DataTableSpec getTableSpec() {
+        return m_table.getDataTableSpec();
+    }
 
-    void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException;
+    public String getSchemaFile() {
+        return m_tableRootDir + File.separatorChar + "schema";
+    }
 
-    void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException;
-
-    PortObjectSpec[] configure(final PortObjectSpec[] inSpecs) throws InvalidSettingsException;
-
-    // TODO: more explicit typing
-    Object[] execute(final Object[] inObjects, final ExecutionContext exec) throws Exception;
-
-    void reset();
+    public String getNextBatchFile() {
+        // TODO: mock up; needs to be delegated to store
+        // HACK: we need to notify clients if the end of the store is reached, do this by checking whether the file exists
+        final File f =
+            new File(m_tableRootDir + File.separatorChar + "batch" + Integer.toString(m_currentBatchIndex++));
+        return f.exists() ? f.getAbsolutePath() : null;
+    }
 }

@@ -49,17 +49,19 @@
 # TODO: In the long term, we will want to remove all the py4j-specific (and/or tedious Java-specific) stuff from user
 #  code and introduce pythonic intermediate API layers.
 
+import math
+import os
 import sys
 import threading
 
 import numpy as np
 import pyarrow as pa
+import pyarrow.ipc as pi
 import pyarrow.compute as pc
 
 from pandas import DataFrame
 from py4j.java_gateway import get_java_class
 from py4j.java_gateway import java_import
-from pyarrow.ipc import RecordBatchFileReader, RecordBatchFileWriter
 
 # Import KNIME classes:
 from knime.gateway import client_server as cs
@@ -78,7 +80,7 @@ java_import(knime, 'org.knime.core.data.container.filter.TableFilter')
 java_import(knime, 'org.knime.core.data.def.DefaultRow')
 java_import(knime, 'org.knime.core.data.def.DoubleCell')
 java_import(knime, 'org.knime.core.data.def.IntCell')
-java_import(knime, 'org.knime.core.data.container.DataContainer')
+java_import(knime, 'org.knime.core.data.columnar.table.ColumnarRowContainer')
 java_import(knime, 'org.knime.core.node.BufferedDataTable')
 java_import(knime, 'org.knime.core.node.ExecutionContext')
 java_import(knime, 'org.knime.core.node.ExecutionMonitor')
@@ -90,6 +92,8 @@ java_import(knime, 'org.knime.core.node.defaultnodesettings.SettingsModelString'
 java_import(knime, 'org.knime.core.node.port.PortObject')
 java_import(knime, 'org.knime.core.node.port.PortObjectSpec')
 java_import(knime, 'org.knime.core.node.port.PortType')
+
+java_import(knime, 'org.knime.python2.mynode.BatchConsumer')
 
 _logger = knime.NodeLogger.getLogger("MyStandardKnimeNodeModel")
 
@@ -210,24 +214,18 @@ class MyStandardKnimeNodeModel():
         # TODO: handle different types of row keys
         # TODO: domain computation, duplicate key checks, etc.
 
-        with pa.memory_map(inObjects[0][1]) as table1_file:
-            reader1 = RecordBatchFileReader(table1_file)
-            table1 = reader1.read_all()
-        with pa.memory_map(inObjects[1][1]) as table2_file:
-            reader2 = RecordBatchFileReader(table2_file)
-            table2 = reader2.read_all()
+        table1_batch_supplier = inObjects[0]
+        table1_spec = table1_batch_supplier.getTableSpec()
+        table1_schema = pi.read_schema(table1_batch_supplier.getSchemaFile())
 
-        _logger.debug("Length of first table: " + str(len(table1)))
-        _logger.debug("Length of second table: " + str(len(table2)))
-
-        if len(table1) != len(table2):
-            raise ValueError("Input tables must have the same number of rows.")
+        table2_batch_supplier = inObjects[1]
+        table2_spec = table2_batch_supplier.getTableSpec()
 
         operand1_name = self._operand1_settings.getStringValue()
         operand2_name = self._operand2_settings.getStringValue()
 
-        operand1_arrow_name = str(inObjects[0][0].findColumnIndex(operand1_name) + 1)  # + 1 because of row key
-        operand2_arrow_name = str(inObjects[1][0].findColumnIndex(operand2_name) + 1)  # + 1 because of row key
+        operand1_arrow_name = str(table1_spec.findColumnIndex(operand1_name) + 1)  # + 1 because of row key
+        operand2_arrow_name = str(table2_spec.findColumnIndex(operand2_name) + 1)  # + 1 because of row key
 
         operator = self._operator_settings.getStringValue()
         constant = pa.scalar(self._constant_settings.getIntValue(), type=pa.float64())
@@ -245,31 +243,43 @@ class MyStandardKnimeNodeModel():
                 raise ValueError('Unknown operator: ' + operator)
             return pc.add(result, constant)
 
-        result_column = do_computation(table1[operand1_arrow_name], table2[operand2_arrow_name])
-        row_keys = table1[0]
-        result = pa.Table.from_arrays([row_keys, result_column], names=["Row ID", "Result"])
+        column_spec1 = table1_spec.getColumnSpec(operand1_name)
+        column_spec2 = table2_spec.getColumnSpec(operand2_name)
+        out_table_spec = self._configure(column_spec1, column_spec2)
 
+        out_table_batch_consumer = knime.BatchConsumer(out_table_spec)
 
-        min_chunk_size = min((len(c.chunks[0]) for c in result.columns))
-        out_table_file_path = knime.DataContainer.createTempFile(".knable").getAbsolutePath()
-        schema = result.schema
-        schema = schema.remove_metadata()
-        metadata = {"KNIME:basic:factoryVersions": "0,0",
-                    "KNIME:basic:chunkSize": str(min_chunk_size)}
-        schema = schema.add_metadata(metadata)
-        writer = RecordBatchFileWriter(out_table_file_path,
-                                       schema)  # TODO: set Arrow format metadata to fixed version? (current default: V5)
-        try:
-            writer.write_table(result)
-        finally:
-            writer.close()
+        # TODO: second table
 
-        outObjects = cs.new_array(knime.Object, 1, 3)
-        column_spec1 = inObjects[0][0].getColumnSpec(operand1_name)
-        column_spec2 = inObjects[1][0].getColumnSpec(operand2_name)
-        outObjects[0][0] = self._configure(column_spec1, column_spec2)
-        outObjects[0][1] = out_table_file_path
-        outObjects[0][2] = len(result)
+        schema = None
+        while True:
+            table1_batch_file_path = table1_batch_supplier.getNextBatchFile()
+            if table1_batch_file_path is None:
+                break
+            table1_batch_file = pa.OSFile(table1_batch_file_path)
+            # TODO: check if this supports compression. If not, the method also accepts a Message, which we could try to
+            #  read from a compressed stream by other means (open_stream or MessageReader). Try out memory mapping.
+            table1_batch = pi.read_record_batch(table1_batch_file, table1_schema)
+
+            result_column = do_computation(table1_batch[operand1_arrow_name], table1_batch[operand2_arrow_name])
+            out_batch = pa.RecordBatch.from_arrays([table1_batch[0], result_column], names=["Row ID", "Result"])
+
+            if schema is None:
+                schema = out_batch.schema
+                metadata = {"KNIME:basic:factoryVersions": "0,0",
+                            "KNIME:basic:chunkSize": str(out_batch.num_rows)}
+                schema = schema.add_metadata(metadata)
+
+            out_batch_file_path = out_table_batch_consumer.getNextWriteFile()
+            # TODO: compression; try out memory mapping
+            # TODO: set Arrow format metadata to fixed version? (current default: V5)
+            with pi.RecordBatchStreamWriter(out_batch_file_path, schema) as writer:
+                writer.write_batch(out_batch)
+
+            out_table_batch_consumer.notifyDoneWritingBatch(out_batch.num_rows)
+
+        outObjects = cs.new_array(knime.Object, 1)
+        outObjects[0] = out_table_batch_consumer
         return outObjects
 
     def reset(self):
