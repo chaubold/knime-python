@@ -93,7 +93,7 @@ java_import(knime, 'org.knime.core.node.port.PortObject')
 java_import(knime, 'org.knime.core.node.port.PortObjectSpec')
 java_import(knime, 'org.knime.core.node.port.PortType')
 
-java_import(knime, 'org.knime.python2.mynode.BatchConsumer')
+java_import(knime, 'org.knime.python2.mynode.ArrowIPCBatchConsumer')
 
 _logger = knime.NodeLogger.getLogger("MyStandardKnimeNodeModel")
 
@@ -247,7 +247,7 @@ class MyStandardKnimeNodeModel():
         column_spec2 = table2_spec.getColumnSpec(operand2_name)
         out_table_spec = self._configure(column_spec1, column_spec2)
 
-        out_table_batch_consumer = knime.BatchConsumer(out_table_spec)
+        out_table_batch_consumer = knime.ArrowIPCBatchConsumer(out_table_spec)
 
         # TODO: second table
 
@@ -256,9 +256,11 @@ class MyStandardKnimeNodeModel():
             table1_batch_file_path = table1_batch_supplier.getNextBatchFile()
             if table1_batch_file_path is None:
                 break
+
+            # TODO: compression
+            # table1_batch_file = pa.input_stream(table1_batch_file_path, compression='lz4')
             table1_batch_file = pa.OSFile(table1_batch_file_path)
-            # TODO: check if this supports compression. If not, the method also accepts a Message, which we could try to
-            #  read from a compressed stream by other means (open_stream or MessageReader). Try out memory mapping.
+            # TODO: try out memory mapping; memory mapping vs compression
             table1_batch = pi.read_record_batch(table1_batch_file, table1_schema)
 
             result_column = do_computation(table1_batch[operand1_arrow_name], table1_batch[operand2_arrow_name])

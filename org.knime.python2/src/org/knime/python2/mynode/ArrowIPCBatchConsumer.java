@@ -82,7 +82,7 @@ import org.knime.core.node.ExecutionContext;
 import org.knime.core.util.DuplicateChecker;
 import org.knime.core.util.ThreadUtils;
 
-public final class BatchConsumer {
+public final class ArrowIPCBatchConsumer {
 
     private final ColumnStoreFactory m_storeFactory;
 
@@ -143,7 +143,7 @@ public final class BatchConsumer {
         }
     };
 
-    public BatchConsumer(final DataTableSpec spec) throws Exception {
+    public ArrowIPCBatchConsumer(final DataTableSpec spec) throws Exception {
         m_storeFactory = ColumnStoreFactoryRegistry.getOrCreateInstance().getFactorySingleton();
         m_tableSchema = new DefaultColumnarValueSchema(ValueSchema.create(spec, RowKeyType.CUSTOM,
             null /* TODO: why do we need a file-store handler in a _schema_?*/));

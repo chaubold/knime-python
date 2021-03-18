@@ -116,7 +116,7 @@ public class PythonWrappingNodeModel extends NodeModel {
         for (int i = 0; i < inObjects.length; i++) {
             final PortObject inObject = inObjects[i];
             if (inObject instanceof BufferedDataTable) {
-                inObjectsWithBDTsReplacedByPythonHandles[i] = new BatchSupplier((BufferedDataTable)inObject);
+                inObjectsWithBDTsReplacedByPythonHandles[i] = new ArrowIPCBatchSupplier((BufferedDataTable)inObject);
             } else {
                 inObjectsWithBDTsReplacedByPythonHandles[i] = inObject;
             }
@@ -126,8 +126,8 @@ public class PythonWrappingNodeModel extends NodeModel {
         final PortObject[] outObjects = new PortObject[outObjectsWithPythonHandlesInsteadOfBDTs.length];
         for (int i = 0; i < outObjectsWithPythonHandlesInsteadOfBDTs.length; i++) {
             final Object outObject = outObjectsWithPythonHandlesInsteadOfBDTs[i];
-            if (outObject instanceof BatchConsumer) {
-                outObjects[i] = ((BatchConsumer)outObject).createTable(exec);
+            if (outObject instanceof ArrowIPCBatchConsumer) {
+                outObjects[i] = ((ArrowIPCBatchConsumer)outObject).createTable(exec);
             } else {
                 outObjects[i] = (PortObject)outObject;
             }
