@@ -256,9 +256,11 @@ class MyStandardKnimeNodeModel():
             table1_batch_file_path = table1_batch_supplier.getNextBatchFile()
             if table1_batch_file_path is None:
                 break
-            table1_batch_file = pa.OSFile(table1_batch_file_path)
+            table1_batch_file = pa.memory_map(table1_batch_file_path)
             # TODO: check if this supports compression. If not, the method also accepts a Message, which we could try to
             #  read from a compressed stream by other means (open_stream or MessageReader). Try out memory mapping.
+            # Read the schema from the file to advance to the record batch
+            pi.read_schema(table1_batch_file)
             table1_batch = pi.read_record_batch(table1_batch_file, table1_schema)
 
             result_column = do_computation(table1_batch[operand1_arrow_name], table1_batch[operand2_arrow_name])
