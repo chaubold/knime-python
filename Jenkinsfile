@@ -13,7 +13,7 @@ properties([
 ])
 
 try {
-	knimetools.defaultTychoBuild('org.knime.update.python', 'maven && python2 && python3 && java11')
+	/* knimetools.defaultTychoBuild('org.knime.update.python', 'maven && python2 && python3 && java11') */
 
     
     withEnv([ "KNIME_POSTGRES_USER=knime01", "KNIME_POSTGRES_PASSWORD=password",
@@ -38,20 +38,20 @@ try {
                     'knime-xml'
                 ]
             ],
-            sidecarContainers: [
-                [ image: "${dockerTools.ECR}/knime/postgres:12", namePrefix: "POSTGRES", port: 5432, 
-                    envArgs: [
-                        "POSTGRES_USER=${env.KNIME_POSTGRES_USER}", "POSTGRES_PASSWORD=${env.KNIME_POSTGRES_PASSWORD}",
-                        "POSTGRES_DB=knime_testing"
-                    ]
-                ],
-                [ image: "${dockerTools.ECR}/knime/mysql5", namePrefix: "MYSQL", port: 3306, 
-                    envArgs: ["MYSQL_ROOT_PASSWORD=${env.KNIME_MYSQL_PASSWORD}"]
-                ],
-                [ image: "${dockerTools.ECR}/knime/mssql-server", namePrefix: "MSSQLSERVER", port: 1433, 
-                    envArgs: ["ACCEPT_EULA=Y", "SA_PASSWORD=${env.KNIME_MSSQLSERVER_PASSWORD}", "MSSQL_DB=knime_testing"]
-                ]                
-            ]
+            /* sidecarContainers: [ */
+            /*     [ image: "${dockerTools.ECR}/knime/postgres:12", namePrefix: "POSTGRES", port: 5432, */ 
+            /*         envArgs: [ */
+            /*             "POSTGRES_USER=${env.KNIME_POSTGRES_USER}", "POSTGRES_PASSWORD=${env.KNIME_POSTGRES_PASSWORD}", */
+            /*             "POSTGRES_DB=knime_testing" */
+            /*         ] */
+            /*     ], */
+            /*     [ image: "${dockerTools.ECR}/knime/mysql5", namePrefix: "MYSQL", port: 3306, */ 
+            /*         envArgs: ["MYSQL_ROOT_PASSWORD=${env.KNIME_MYSQL_PASSWORD}"] */
+            /*     ], */
+            /*     [ image: "${dockerTools.ECR}/knime/mssql-server", namePrefix: "MSSQLSERVER", port: 1433, */ 
+            /*         envArgs: ["ACCEPT_EULA=Y", "SA_PASSWORD=${env.KNIME_MSSQLSERVER_PASSWORD}", "MSSQL_DB=knime_testing"] */
+            /*     ] */                
+            /* ] */
     	)
     }
 
