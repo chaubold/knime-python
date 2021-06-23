@@ -120,6 +120,7 @@ public final class SerializationLibraryExtensions {
         for (final IConfigurationElement config : configs) {
             try {
                 final String id = config.getAttribute(EXT_POINT_ATTR_ID);
+                NodeLogger.getLogger(SerializationLibraryExtensions.class).warn("Adding serde extension: " + id);
                 if (id != null && !id.isEmpty()) {
                     if (!extensions.containsKey(id)) {
                         final Object o = config.createExecutableExtension(EXT_POINT_ATTR_JAVA_CLASS);
