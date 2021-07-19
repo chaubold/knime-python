@@ -39,10 +39,23 @@
 		<module>org.knime.python.nodes</module>
 		<module>org.knime.python.typeextensions</module>
 		<module>org.knime.update.python</module>
+		<module>org.knime.python3</module>
+		<module>org.knime.python3.arrow</module>
+		<module>org.knime.python3.arrow.tests</module>
 	</modules>
 
 	<!-- List all required repositories here. The variables are defined in knime-maven-parent/pom.xml. -->
 	<repositories>
+		<repository>
+			<id>p2-knime-core-columnar</id>
+			<layout>p2</layout>
+			<url>${knime.core.columnar.p2}</url>
+		</repository>
+		<repository>
+			<id>p2-knime-core-arrow</id>
+			<layout>p2</layout>
+			<url>${knime.core.arrow.p2}</url>
+		</repository>
 		<repository>
 			<id>p2-knime-core</id>
 			<layout>p2</layout>

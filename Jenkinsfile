@@ -13,7 +13,9 @@ properties([
 ])
 
 try {
+    withEnv(["PYTHON3_EXEC_PATH=/home/jenkins/miniconda3/envs/py3_knime43/bin/python"]){
 	knimetools.defaultTychoBuild('org.knime.update.python', 'maven && python2 && python3 && java11')
+    }
 
     
     withEnv([ "KNIME_POSTGRES_USER=knime01", "KNIME_POSTGRES_PASSWORD=password",
