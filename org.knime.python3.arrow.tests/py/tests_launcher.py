@@ -105,6 +105,13 @@ NUM_BATCHES = 3
 #     LocalDateType(), column0)
 
 
+def encode_string(s):
+    """Encode a string as bytes as done by ArrowBufIO"""
+    s_bytes = bytearray(s, encoding="utf-8")
+    len_bytes = len(s_bytes).to_bytes(4, byteorder="little")
+    return len_bytes + s_bytes
+
+
 def structcomplex_test_value(r, b):
     list_length = r % 10
     int_list = [r + b + i for i in range(list_length)]
@@ -112,6 +119,15 @@ def structcomplex_test_value(r, b):
         f"r:{r},b:{b},i:{i}" if i % 7 != 0 else None for i in range(list_length)
     ]
     return {"0": [{"0": a, "1": b} for a, b in zip(int_list, string_list)], "1": r + b}
+
+
+def zoneddatetime_test_value(r, b):
+    zone_ids = ["Etc/Universal", "Asia/Hong_Kong", "America/Los_Angeles"]
+    return {
+        "epochDay": r + b * 100,
+        "nanoOfDay": datetime.time(microsecond=r),
+        "zoneId": encode_string(zone_ids[r % 3]),
+    }
 
 
 TEST_VALUES = {
@@ -132,7 +148,7 @@ TEST_VALUES = {
     "localdatetime": lambda r, b: {"epochDay": r + b * 100, "nanoOfDay": r * 500 + b},
     "localtime": lambda r, b: r * 500 + b,
     "period": lambda r, b: {"years": r, "months": b % 12, "days": (r + b) % 28},
-    "zoneddatetime": lambda r, b: None,
+    "zoneddatetime": zoneddatetime_test_value,
 }
 
 TEST_ARRAY_TYPES = {
@@ -207,7 +223,16 @@ TEST_VALUE_TYPES = {
             pa.field("days", type=pa.int32()),
         ]
     ),
-    "zoneddatetime": None,
+    "zoneddatetime": pa.struct(
+        [
+            pa.field("epochDay", type=pa.int64()),
+            pa.field("nanoOfDay", type=pa.time64("ns")),
+            pa.field("zoneOffset", type=pa.int32()),
+            pa.field(
+                "zoneId", type=pa.dictionary(pa.int32(), pa.large_binary(), False)
+            ),
+        ]
+    ),
 }
 
 
@@ -241,7 +266,17 @@ class EntryPoint(kg.EntryPoint):
             elif data_type in ["localdatetime", "localtime"]:
                 # We do not compare python values but arrow values for them
                 pa_expected = pa.scalar(expected, type=TEST_VALUE_TYPES[data_type])
-                assert v == pa_expected, wrong_value_message(r, b, expected, v)
+                assert v == pa_expected, wrong_value_message(r, b, pa_expected, v)
+
+            elif data_type == "zoneddatetime":
+                # We do not compare the zoneOffset
+                pyv = v.as_py()
+                expected_nano = pa.scalar(expected["nanoOfDay"], type=pa.time64("ns"))
+                assert (
+                    pyv["epochDay"] == expected["epochDay"]
+                    and v["nanoOfDay"] == expected_nano
+                    and pyv["zoneId"] == expected["zoneId"]
+                ), wrong_value_message(r, b, expected, pyv)
 
             else:
                 # Default: Compare the python values

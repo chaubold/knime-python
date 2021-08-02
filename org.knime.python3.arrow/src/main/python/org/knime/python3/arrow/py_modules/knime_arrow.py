@@ -136,18 +136,20 @@ class _OffsetBasedRecordBatchFileReader:
 
         # Read the schema
         self._source_file.seek(8)  # Skip the ARROW1 magic number + padding
-        self.schema = pa.ipc.read_schema(self._source_file)
+        # self.schema = pa.ipc.read_schema(self._source_file)
+        self.stream_reader = pa.ipc.open_stream(self._source_file)
 
     @property
     def num_record_batches(self):
         return self._java_data_source.numBatches()
 
     def get_batch(self, index: int) -> pa.RecordBatch:
-        # TODO(dictionary) handle dictionaries
         offset = self._java_data_source.getRecordBatchOffset(index)
-        self._source_file.seek(offset)
+        dict_offsets = self._java_data_source.getDictionaryBatchOffsets(index)
+        min_offset = min([d for d in dict_offsets] + [offset])
+        self._source_file.seek(min_offset)
         # TODO do we need to map columns somehow (in Java we have the factory versions)
-        return pa.ipc.read_record_batch(self._source_file, self.schema)
+        return self.stream_reader.read_next_batch()
 
 
 @kg.data_source("org.knime.python3.arrow")
