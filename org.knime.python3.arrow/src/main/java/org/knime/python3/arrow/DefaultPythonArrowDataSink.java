@@ -51,6 +51,7 @@ package org.knime.python3.arrow;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.knime.core.columnar.store.BatchReadStore;
 import org.knime.core.table.schema.ColumnarSchema;
@@ -68,6 +69,10 @@ public final class DefaultPythonArrowDataSink implements PythonArrowDataSink {
     private final List<Long> m_recordBatchOffsets;
 
     private ColumnarSchema m_schema;
+
+    private Map<Integer, List<Object>> m_minsMaxs;
+
+    private Map<Integer, List<Object>> m_nominalValues;
 
     DefaultPythonArrowDataSink(final Path path) {
         m_path = path;
@@ -89,11 +94,17 @@ public final class DefaultPythonArrowDataSink implements PythonArrowDataSink {
         m_schema = schema;
     }
 
+    @Override
+    public void setDomains(final Map<Integer, List<Object>> minsMaxs, final Map<Integer, List<Object>> nominalValues) {
+        m_minsMaxs = minsMaxs;
+        m_nominalValues = nominalValues;
+    }
+
     List<Long> getRecordBatchOffsets() {
         return m_recordBatchOffsets;
     }
 
-    ColumnarSchema getSchema() {
+    public ColumnarSchema getSchema() {
         if (m_schema == null) {
             throw new IllegalStateException(
                 "Cannot get the schema before it has been set. This is an implementation error.");
@@ -101,7 +112,15 @@ public final class DefaultPythonArrowDataSink implements PythonArrowDataSink {
         return m_schema;
     }
 
-    Path getPath() {
+    public Path getPath() {
         return m_path;
+    }
+
+    public Map<Integer, List<Object>> getMinsMaxs() {
+        return m_minsMaxs;
+    }
+
+    public Map<Integer, List<Object>> getNominalValues() {
+        return m_nominalValues;
     }
 }

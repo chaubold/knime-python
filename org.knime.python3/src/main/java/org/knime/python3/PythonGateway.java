@@ -48,8 +48,10 @@
  */
 package org.knime.python3;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.time.Duration;
 import java.util.Collection;
@@ -120,20 +122,20 @@ public class PythonGateway<T extends PythonEntryPoint> implements AutoCloseable 
                 .registerExtensions(extensions.stream().map(e -> e.getPythonModule()).collect(Collectors.toList()));
         } catch (final Throwable th) {
             // TODO: reenable non-blocking
-//            final BufferedReader reader = new BufferedReader(new InputStreamReader(m_process.getInputStream()));
-//            String message;
-//            try {
-//                while ((message = reader.readLine()) != null && !Thread.interrupted()) {
-//                    System.out.println(message);
-//                }
-//            } catch (final IOException ignore) {}
-//            final BufferedReader reader2 = new BufferedReader(new InputStreamReader(m_process.getErrorStream()));
-//            String message2;
-//            try {
-//                while ((message2 = reader2.readLine()) != null && !Thread.interrupted()) {
-//                    System.err.println(message2);
-//                }
-//            } catch (final IOException ignore) {}
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(m_process.getInputStream()));
+            String message;
+            try {
+                while ((message = reader.readLine()) != null && !Thread.interrupted()) {
+                    System.out.println(message);
+                }
+            } catch (final IOException ignore) {}
+            final BufferedReader reader2 = new BufferedReader(new InputStreamReader(m_process.getErrorStream()));
+            String message2;
+            try {
+                while ((message2 = reader2.readLine()) != null && !Thread.interrupted()) {
+                    System.err.println(message2);
+                }
+            } catch (final IOException ignore) {}
             try {
                 close();
             } catch (final Exception ex) {

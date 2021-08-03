@@ -61,19 +61,22 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.knime.core.node.CanceledExecutionException;
-import org.knime.python2.PythonVersion;
 import org.knime.python2.kernel.messaging.AbstractRequestHandler;
 import org.knime.python2.kernel.messaging.AbstractTaskHandler;
 import org.knime.python2.kernel.messaging.DefaultMessage;
 import org.knime.python2.kernel.messaging.DefaultMessage.PayloadDecoder;
 import org.knime.python2.kernel.messaging.DefaultMessage.PayloadEncoder;
 import org.knime.python2.kernel.messaging.Message;
+import org.knime.python2.prefs.PythonPreferences;
 import org.knime.python2.testing.PreferencesSetup;
 
 /**
+ * Tests for the messaging mechanism of the {@link OldPythonKernelBackend old Python kernel back end}.
+ *
  * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
  * @author Christian Dietz, KNIME GmbH, Konstanz, Germany
  */
+@SuppressWarnings("javadoc")
 public final class MessagingTest {
 
 	/**
@@ -83,12 +86,15 @@ public final class MessagingTest {
 	@ClassRule
 	public static final TestRule preferencesSetup = new PreferencesSetup("org.knime.python2.serde.flatbuffers.tests");
 
+	private OldPythonKernelBackend m_backend;
+
 	private PythonKernel m_kernel;
 
 	@Before
 	public void setup() throws IOException {
-		final PythonKernelOptions kernelOptions = new PythonKernelOptions().forPythonVersion(PythonVersion.PYTHON3);
-		m_kernel = new PythonKernel(kernelOptions);
+		m_backend = new OldPythonKernelBackend(PythonPreferences.getPython3CommandPreference());
+		m_kernel = new PythonKernel(m_backend);
+		m_kernel.setOptions(new PythonKernelOptions());
 	}
 
 	@After
@@ -102,18 +108,18 @@ public final class MessagingTest {
 	public void testRequestFromJavaToPython()
 			throws IOException, CanceledExecutionException, InterruptedException, ExecutionException {
 		final String setupSourceCode = "import python3.messaging.testing.MessagingTest as MessagingTest\n" //
-				+ "MessagingTest.test_request_from_java_to_python(globals()['workspace'])";
+			+ "MessagingTest.test_request_from_java_to_python(globals()['workspace'])";
 		// Use cancelable method overload to throw exception on error.
 		m_kernel.execute(setupSourceCode, PythonCancelable.NOT_CANCELABLE);
 
-		final RunnableFuture<String> myTask = m_kernel.getCommands().createTask(new AbstractTaskHandler<String>() {
+		final RunnableFuture<String> myTask = m_backend.getCommands().createTask(new AbstractTaskHandler<String>() {
 
 			@Override
 			protected String handleSuccessMessage(final Message message) throws Exception {
 				return new PayloadDecoder(message.getPayload()).getNextString();
 			}
-		}, new DefaultMessage(m_kernel.getCommands().getMessaging().createNextMessageId(), "my-request-from-java", null,
-				null));
+		}, new DefaultMessage(m_backend.getCommands().getMessaging().createNextMessageId(), "my-request-from-java",
+				null, null));
 
 		Assert.assertEquals("my-response-from-python", myTask.get());
 	}
@@ -122,7 +128,7 @@ public final class MessagingTest {
 	public void testRequestFromPythonToJava()
 			throws IOException, CanceledExecutionException, InterruptedException, ExecutionException {
 		try {
-			m_kernel.registerTaskHandler("my-request-from-python", new AbstractRequestHandler() {
+			m_backend.registerTaskHandler("my-request-from-python", new AbstractRequestHandler() {
 
 				@Override
 				protected Message respond(final Message request, final int responseMessageId) throws Exception {
@@ -132,11 +138,11 @@ public final class MessagingTest {
 			});
 
 			final String sourceCode = "import python3.messaging.testing.MessagingTest as MessagingTest\n" //
-					+ "MessagingTest.test_request_from_python_to_java(globals()['workspace'])";
+				+ "MessagingTest.test_request_from_python_to_java(globals()['workspace'])";
 			final String[] output = m_kernel.execute(sourceCode, PythonCancelable.NOT_CANCELABLE);
 			Assert.assertTrue(output[0].contains("my-response-from-java"));
 		} finally {
-			m_kernel.unregisterTaskHandler("my-request-from-python");
+			m_backend.unregisterTaskHandler("my-request-from-python");
 		}
 	}
 
@@ -144,10 +150,10 @@ public final class MessagingTest {
 	public void testNestedRequestFromJavaToPython()
 			throws IOException, CanceledExecutionException, InterruptedException, ExecutionException {
 		final String setupSourceCode = "import python3.messaging.testing.MessagingTest as MessagingTest\n" //
-				+ "MessagingTest.test_nested_request_from_java_to_python(globals()['workspace'])";
+			+ "MessagingTest.test_nested_request_from_java_to_python(globals()['workspace'])";
 		m_kernel.execute(setupSourceCode, PythonCancelable.NOT_CANCELABLE);
 
-		final RunnableFuture<String> myTask = m_kernel.getCommands().createTask(new AbstractTaskHandler<String>() {
+		final RunnableFuture<String> myTask = m_backend.getCommands().createTask(new AbstractTaskHandler<String>() {
 
 			@Override
 			protected String handleSuccessMessage(final Message message) throws Exception {
@@ -180,7 +186,7 @@ public final class MessagingTest {
 				responseConsumer.accept(response);
 				return true;
 			}
-		}, new DefaultMessage(m_kernel.getCommands().getMessaging().createNextMessageId(),
+		}, new DefaultMessage(m_backend.getCommands().getMessaging().createNextMessageId(),
 				"my-nested-request-from-java", null, null));
 
 		Assert.assertEquals("first-response-second-response", myTask.get());
@@ -190,7 +196,7 @@ public final class MessagingTest {
 	public void testRequestFromJavaThatCausesRequestFromPython()
 			throws IOException, CanceledExecutionException, InterruptedException, ExecutionException {
 		try {
-			m_kernel.registerTaskHandler("caused-request-from-python", new AbstractRequestHandler() {
+			m_backend.registerTaskHandler("caused-request-from-python", new AbstractRequestHandler() {
 
 				@Override
 				protected Message respond(final Message request, final int responseMessageId) throws Exception {
@@ -200,21 +206,21 @@ public final class MessagingTest {
 			});
 
 			final String setupSourceCode = "import python3.messaging.testing.MessagingTest as MessagingTest\n" //
-					+ "MessagingTest.test_request_from_java_that_causes_request_from_python(globals()['workspace'])";
+				+ "MessagingTest.test_request_from_java_that_causes_request_from_python(globals()['workspace'])";
 			m_kernel.execute(setupSourceCode, PythonCancelable.NOT_CANCELABLE);
 
-			final RunnableFuture<String> myTask = m_kernel.getCommands().createTask(new AbstractTaskHandler<String>() {
+			final RunnableFuture<String> myTask = m_backend.getCommands().createTask(new AbstractTaskHandler<String>() {
 
 				@Override
 				protected String handleSuccessMessage(final Message message) throws Exception {
 					return new PayloadDecoder(message.getPayload()).getNextString();
 				}
-			}, new DefaultMessage(m_kernel.getCommands().getMessaging().createNextMessageId(),
+			}, new DefaultMessage(m_backend.getCommands().getMessaging().createNextMessageId(),
 					"my-request-from-java-that-causes-a-request-from-python", null, null));
 
 			Assert.assertEquals("my-response-to-the-caused-request-made-the-task-succeed", myTask.get());
 		} finally {
-			m_kernel.unregisterTaskHandler("caused-request-from-python");
+			m_backend.unregisterTaskHandler("caused-request-from-python");
 		}
 	}
 }

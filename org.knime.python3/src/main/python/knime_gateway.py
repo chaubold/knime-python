@@ -95,8 +95,8 @@ def connect_to_knime(entry_point: EntryPoint):
     """Connect to the KNIME instance that started this Python process.
 
     This function expects the Python process to have been created by the `PythonGateway`
-    Java class. After this function returns `knime_gateway.client_server` will not be
-    different from `None` and can be used to communicate with the JVM.
+    Java class. After this function returns `knime_gateway.client_server` will be populated
+    and can be used to communicate with the JVM.
 
     Args:
         entry_point: A class implementing methods that can be called from Java.

@@ -52,8 +52,8 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.knime.python2.kernel.OldPythonKernelBackend;
 import org.knime.python2.kernel.PythonExecutionMonitor;
-import org.knime.python2.kernel.PythonKernel;
 
 /**
  * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
@@ -72,7 +72,7 @@ final class DefaultMessageReceiverLoop extends AbstractMessageLoop implements Me
         super(monitor, "python-message-receive-loop");
         m_receiver = receiver;
         m_receiveQueue = receiveQueue;
-        m_offerTimeout = PythonKernel.getConnectionTimeoutInMillis();
+        m_offerTimeout = OldPythonKernelBackend.getConnectionTimeoutInMillis();
     }
 
     @Override

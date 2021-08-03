@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.knime.python2.PythonKernelBackend">
+      <PythonKernelBackend
+            PythonKernelBackendFactory="org.knime.python3.legacy.NewPythonKernelBackendFactory">
+      </PythonKernelBackend>
+   </extension>
+   <extension
+         point="org.knime.python3.py4j.Py4jVisibleBundle">
+   </extension>
+</plugin>

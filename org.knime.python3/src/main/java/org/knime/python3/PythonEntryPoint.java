@@ -69,6 +69,17 @@ public interface PythonEntryPoint {
     int getPid();
 
     /**
+     * Equivalent to calling {@code enableDebugging(pydevdModuleDirectoryPath, true, true, false)}.
+     */
+    void enableDebugging(String pydevdModuleDirectoryPath);
+
+    /**
+     * @param pydevdModuleDirectoryPath May be {@code null} if {@code enableBreakpoints} is {@code false}.
+     */
+    void enableDebugging(String pydevdModuleDirectoryPath, boolean enableBreakpoints, boolean enableDebugLog,
+        boolean debugLogToStderr);
+
+    /**
      * Registers a list of extensions to the Python integration. Each extension is imported using
      * <code>importlib.import_module(ext)</code>. During the import extensions can register themselves at appropriate
      * endpoints.

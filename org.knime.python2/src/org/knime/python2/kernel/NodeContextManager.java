@@ -44,48 +44,35 @@
  * ---------------------------------------------------------------------
  *
  * History
- *   Apr 19, 2021 (benjamin): created
+ *   Jul 28, 2021 (marcel): created
  */
-package org.knime.python3.arrow;
+package org.knime.python2.kernel;
 
-import java.util.List;
-import java.util.Map;
+import org.knime.core.node.workflow.NodeContext;
 
-import org.knime.core.table.schema.ColumnarSchema;
-import org.knime.python3.PythonDataSink;
+public final class NodeContextManager implements AutoCloseable {
 
-/**
- * A sink for Arrow data from a Python process.
- *
- * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
- */
-public interface PythonArrowDataSink extends PythonDataSink {
+    private NodeContext m_nodeContext;
 
-    @Override
-    default String getIdentifier() {
-        return "org.knime.python3.arrow";
+    public NodeContext getNodeContext() {
+        return m_nodeContext;
     }
 
-    /**
-     * @return the path the output file should be written to.
-     */
-    String getAbsolutePath();
+    public void setNodeContext(final NodeContext nodeContext) {
+        m_nodeContext = nodeContext;
+    }
 
-    /**
-     * Report that the next batch has been written to the file. Must be called by Python each time a new batch was
-     * written. Must be called for each batch in ascending order.
-     *
-     * @param offset the offset of the batch
-     */
-    void reportBatchWritten(long offset); // TODO(dictionary) add offsets for dictionary batches
+    public NodeContextManager pushNodeContext() {
+        if (m_nodeContext != null) {
+            NodeContext.pushContext(m_nodeContext);
+        }
+        return this;
+    }
 
-    /**
-     * TODO(extensiontypes) this should be replaced with something that uses virtual types/extension types
-     *
-     * @param schema the schema of the data that is written to the file
-     */
-    void setColumnarSchema(ColumnarSchema schema);
-
-    // HACK
-    void setDomains(Map<Integer, List<Object>> minsMaxs, Map<Integer, List<Object>> nominalValues);
+    @Override
+    public void close() {
+        if (m_nodeContext != null) {
+            NodeContext.removeLastContext();
+        }
+    }
 }

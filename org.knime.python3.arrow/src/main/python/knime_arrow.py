@@ -54,8 +54,16 @@ import pyarrow as pa
 import pyarrow.compute as pc
 import knime_gateway as kg
 
+# Domain computation
+from timeit import default_timer as timer
+from typing import List, Optional
+
+
 ARROW_CHUNK_SIZE_KEY = "KNIME:basic:chunkSize"
 ARROW_FACTORY_VERSIONS_KEY = "KNIME:basic:factoryVersions"
+
+# Domain computation
+_MAX_NOMINAL_VALUES = 60  # TODO: make configurable (cf. Java side)
 
 
 def gateway():
@@ -221,6 +229,12 @@ class ArrowDataSink:
 
         # Open the file
         self._file = pa.OSFile(java_data_sink.getAbsolutePath(), mode="wb")
+        self._writer = None
+
+        # Domain computation
+        self._bounded_column_indices = []
+        self._nominal_column_indices = []
+        self._domain_calculators = {}
 
     def __enter__(self):
         return self
@@ -229,8 +243,9 @@ class ArrowDataSink:
         self.close()
         return False
 
+    # TODO: remove measurement printouts
     def write(self, b: pa.RecordBatch):
-        if not hasattr(self, "_writer"):
+        if self._writer is None:
             # Init the writer if this is the first batch
             # Also use the offset returned by the init method because the file position
             # is not updated yet
@@ -239,11 +254,40 @@ class ArrowDataSink:
             # Remember the current file location
             offset = self._file.tell()
 
+        # Domain computation
+        tic = timer()
+        for index in self._bounded_column_indices:
+            self._domain_calculators[index].update(b.column(index))
+        toc = timer()
+        print("    PYTHON: WRITE BATCH: BOUNDED DOMAIN:", toc - tic)
+        tic = timer()
+        for index in self._nominal_column_indices:
+            self._domain_calculators[index].update(b.column(index))
+        toc = timer()
+        print("    PYTHON: WRITE BATCH: NOMINAL DOMAIN:", toc - tic)
+
+        tic = timer()
         self._writer.write(b)
         self._file.flush()
         self._java_data_sink.reportBatchWritten(offset)
+        toc = timer()
+        print("    PYTHON: WRITE BATCH: WRITE BATCH:", toc - tic)
 
     def _init_writer(self, schema: pa.Schema):
+        # Domain computation
+        for index, column in enumerate(schema):
+            # Skip row key column.
+            if index == 0:
+                continue
+            column_type = schema.types[index]
+            # TODO: make extensible (logical values)
+            if pa.types.is_floating(column_type) or pa.types.is_integer(column_type):
+                self._bounded_column_indices.append(index)
+                self._domain_calculators[index] = _ColumnarBoundedDomainCalculator()
+            elif pa.types.is_boolean(column_type) or pa.types.is_string(column_type):
+                self._nominal_column_indices.append(index)
+                self._domain_calculators[index] = _ColumnarNominalDomainCalculator()
+
         # Create the writer
         self._writer = pa.ipc.new_file(self._file, schema=schema)
 
@@ -258,7 +302,16 @@ class ArrowDataSink:
         return len(schema_buf) + 8
 
     def close(self):
-        self._writer.close()
+        if self._writer is not None:
+            bounded_domains = {i: self._domain_calculators[i].domain for i in self._bounded_column_indices}
+            nominal_domains = {i: self._domain_calculators[i].domain for i in self._nominal_column_indices}
+            # TODO: make domain part of the Arrow file. This will allow us using Arrow types instead of having to
+            #  convert the domain into Python types that py4j understands (adapt calculators' domain property
+            #  accordingly then)
+            self._java_data_sink.setDomains(bounded_domains, nominal_domains)
+            self._writer.close()
+        else:
+            pass  # TODO: set empty schema
 
 
 def knime_struct_type(*args):
@@ -730,3 +783,95 @@ def _normalize_slice_idx(index, length):
     elif index >= length:
         return length
     return index
+
+
+###############################################################################
+# PRIVATE HELPER FUNCTIONS
+###############################################################################
+
+
+class _ColumnarBoundedDomainCalculator:
+
+    def __init__(self):
+        self._min = None
+        self._max = None
+
+    def update(self, chunk: pa.Array) -> None:
+        chunk_min_max = pc.min_max(chunk)
+        chunk_min = chunk_min_max["min"]
+        chunk_max = chunk_min_max["max"]
+        if self._min is not None:
+            if chunk_min < self._min:
+                self._min = chunk_min
+            if chunk_max > self._max:
+                self._max = chunk_max
+        else:
+            self._min = chunk_min
+            self._max = chunk_max
+
+    @property
+    def domain(self) -> List:
+        return [self._min.as_py(), self._max.as_py()]
+
+
+class _ColumnarNominalDomainCalculator:
+
+    def __init__(self):
+        self._nominal_values = []
+        # Setting the initial step size to something greater than the threshold allows us to stop the calculation after
+        # the first scan, in the best-case scenario.
+        self._scan_step_size = _MAX_NOMINAL_VALUES + 1  # TODO: would it prove beneficial to byte-align this number?
+
+    def update(self, chunk: pa.Array) -> None:
+        """
+        KNIME only tracks unique values up to some threshold value. pyarrow's unique function does not know such a
+        stop criterion. To avoid computing unique values on the entire chunk that then end up getting discarded anyway,
+        we compute them progressively in terms of scan steps. Heuristically, we double the step size (capped at the
+        chunk size) whenever the previous step did not exceed the maximum number of unique values to track. The
+        increased step size is maintained across chunks. The rationale is that data that is homogeneous in the sense of
+        featuring less than k unique values after step t=1,... will likely stay below k at step t+1 if the step size
+        only grows from s*t to s*(t+1) (s being the initial step size). We presume that this is less likely the case
+        when growing the step size from s*2^(t-1) to s*2^((t+1)-1). In the best case (heterogeneous data), only a single
+        step (or a few steps) should be required to exceed the threshold value. In the worst case (homogeneous data),
+        the method's behavior should quickly converge to the behavior of a naive full-chunk wise computation (step size
+        = chunk size).
+        """
+        if self._nominal_values is not None:  # Otherwise the max. number of nominal values has already been exceeded.
+            offset = 0
+            while len(self._nominal_values) <= _MAX_NOMINAL_VALUES and offset < len(chunk):
+                scan_step_size = min(self._scan_step_size, len(chunk) - offset)
+                chunk_slice = chunk.slice(offset, scan_step_size)
+                slice_nominal_values = chunk_slice.unique()
+                # TODO: it would be nice if we could somehow exploit that self._nominal_values and slice_nominal_values
+                #  each already contain only unique values, i.e. perform set union on them (given Arrow doesn't do that
+                #  for us already).
+                self._nominal_values = pa.chunked_array([self._nominal_values, slice_nominal_values],
+                                                        type=chunk.type).unique()
+                offset += scan_step_size
+                self._scan_step_size = min(self._scan_step_size * 2, len(chunk))
+            if _MAX_NOMINAL_VALUES < len(self._nominal_values):
+                self._nominal_values = None
+
+    @property
+    def domain(self) -> Optional[List]:
+        return [v.as_py() for v in self._nominal_values] if self._nominal_values is not None else None
+
+
+# TODO: just for benchmarking purposes, can be removed in production-ready code
+# class _FullPassColumnarNominalDomainCalculator:
+#
+#     def __init__(self):
+#         self._nominal_values = []
+#         print("Using full-pass nominal domain calculation")
+#
+#     def update(self, chunk: pa.Array) -> None:
+#         if self._nominal_values is not None:  # Otherwise the max. number of nominal values has already been exceeded.
+#             chunk_nominal_values = chunk.unique()
+#             self._nominal_values = pa.chunked_array([self._nominal_values, chunk_nominal_values],
+#                                                     type=chunk.type).unique()
+#             if _MAX_NOMINAL_VALUES < len(self._nominal_values):
+#                 self._nominal_values = None
+#
+#     @property
+#     def domain(self) -> Optional[List]:
+#         return [v.as_py() for v in self._nominal_values] if self._nominal_values is not None else None

@@ -44,48 +44,56 @@
  * ---------------------------------------------------------------------
  *
  * History
- *   Apr 19, 2021 (benjamin): created
+ *   Jul 22, 2021 (marcel): created
  */
-package org.knime.python3.arrow;
+package org.knime.python3.legacy;
 
 import java.util.List;
 import java.util.Map;
 
-import org.knime.core.table.schema.ColumnarSchema;
+import org.knime.python2.generic.ImageContainer;
+import org.knime.python2.kernel.PythonIOException;
+import org.knime.python2.port.PickledObject;
 import org.knime.python3.PythonDataSink;
+import org.knime.python3.PythonDataSource;
+import org.knime.python3.PythonEntryPoint;
 
 /**
- * A sink for Arrow data from a Python process.
- *
- * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
+ * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
  */
-public interface PythonArrowDataSink extends PythonDataSink {
+public interface NewPythonKernelBackendProxy extends PythonEntryPoint {
 
-    @Override
-    default String getIdentifier() {
-        return "org.knime.python3.arrow";
-    }
+    // TODO: generalize serialization of flow variables. Treat them similarly to ordinary data.
 
-    /**
-     * @return the path the output file should be written to.
-     */
-    String getAbsolutePath();
+    void putFlowVariables(String name, Map<String, Object> flowVariables);
 
-    /**
-     * Report that the next batch has been written to the file. Must be called by Python each time a new batch was
-     * written. Must be called for each batch in ascending order.
-     *
-     * @param offset the offset of the batch
-     */
-    void reportBatchWritten(long offset); // TODO(dictionary) add offsets for dictionary batches
+    Map<String, Object> getFlowVariables(String name);
 
-    /**
-     * TODO(extensiontypes) this should be replaced with something that uses virtual types/extension types
-     *
-     * @param schema the schema of the data that is written to the file
-     */
-    void setColumnarSchema(ColumnarSchema schema);
+    // --
 
-    // HACK
-    void setDomains(Map<Integer, List<Object>> minsMaxs, Map<Integer, List<Object>> nominalValues);
+    void putTableIntoWorkspace(String name, PythonDataSource dataSource, int rowLimit);
+
+    void putTableIntoWorkspace(String name, PythonDataSource dataSource);
+
+    void getTableFromWorkspace(String name, PythonDataSink dataSink);
+
+    // TODO: how to handle objects and images?
+    // - objects should directly be read from file store; take care of byte order. Reuse Arrow functionality for
+    //   reading/writing?
+
+    void putObject(String name, PickledObject object);
+
+    PickledObject getObject(String name);
+
+    ImageContainer getImage(String name);
+
+    // --
+
+    List<Map<String, String>> listVariables();
+
+    List<Map<String, String>> autoComplete(String sourceCode, int line, int column) throws PythonIOException;
+
+    List<String> executeOnMainThread(String sourceCode);
+
+    List<String> executeOnCurrentThread(String sourceCode);
 }

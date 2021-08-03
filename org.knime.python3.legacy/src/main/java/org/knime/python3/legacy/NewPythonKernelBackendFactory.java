@@ -44,48 +44,28 @@
  * ---------------------------------------------------------------------
  *
  * History
- *   Apr 19, 2021 (benjamin): created
+ *   Jul 25, 2021 (marcel): created
  */
-package org.knime.python3.arrow;
+package org.knime.python3.legacy;
 
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
-import org.knime.core.table.schema.ColumnarSchema;
-import org.knime.python3.PythonDataSink;
+import org.knime.python2.PythonCommand;
+import org.knime.python2.kernel.PythonKernelBackend;
+import org.knime.python2.kernel.PythonKernelBackendFactory;
 
 /**
- * A sink for Arrow data from a Python process.
- *
- * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
+ * @author Marcel Wiedenmann, KNIME GmbH, Konstanz, Germany
  */
-public interface PythonArrowDataSink extends PythonDataSink {
+public final class NewPythonKernelBackendFactory implements PythonKernelBackendFactory {
 
     @Override
-    default String getIdentifier() {
-        return "org.knime.python3.arrow";
+    public String getIdentifier() {
+        return "org.knime.python3.legacy.NewPythonKernelBackendFactory";
     }
 
-    /**
-     * @return the path the output file should be written to.
-     */
-    String getAbsolutePath();
-
-    /**
-     * Report that the next batch has been written to the file. Must be called by Python each time a new batch was
-     * written. Must be called for each batch in ascending order.
-     *
-     * @param offset the offset of the batch
-     */
-    void reportBatchWritten(long offset); // TODO(dictionary) add offsets for dictionary batches
-
-    /**
-     * TODO(extensiontypes) this should be replaced with something that uses virtual types/extension types
-     *
-     * @param schema the schema of the data that is written to the file
-     */
-    void setColumnarSchema(ColumnarSchema schema);
-
-    // HACK
-    void setDomains(Map<Integer, List<Object>> minsMaxs, Map<Integer, List<Object>> nominalValues);
+    @Override
+    public PythonKernelBackend createBackend(final PythonCommand command) throws IOException {
+        return new NewPythonKernelBackend(command);
+    }
 }

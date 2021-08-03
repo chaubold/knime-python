@@ -123,7 +123,7 @@ public final class TestUtils {
     /**
      * This function removes the leading '/' of a path extracted from a URL if the operating system is Windows.
      * Paths extracted from a URL typically start with a '/' which on Windows leads to paths like '/C:/...".
-     * 
+     *
      * @param path extracted from a URL
      * @return a path with the leading slash removed
      */
