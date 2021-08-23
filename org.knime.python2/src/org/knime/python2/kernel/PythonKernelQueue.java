@@ -52,6 +52,8 @@ import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.pool2.KeyedPooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
@@ -101,9 +103,12 @@ public final class PythonKernelQueue {
     private static final int CANCELLATION_CHECK_INTERVAL_IN_MILLISECONDS = 1000;
 
     /**
-     * The singleton instance.
+     * The singleton instance. Populated lazily. Reassigned upon reconfiguration. (Re)assignments are protected by a
+     * write lock while the normal use of the instance is protected by a read lock.
      */
-    private static PythonKernelQueue instance;
+    private static volatile PythonKernelQueue instance; // NOSONAR Thread-safety ensured through additional locking.
+
+    private static final ReadWriteLock INSTANCE_LOCK = new ReentrantReadWriteLock(true);
 
     /**
      * Takes the next {@link PythonKernel} from the queue that was launched using the given {@link PythonCommand} and
@@ -133,16 +138,30 @@ public final class PythonKernelQueue {
      *             the queue, if any. Such exceptions are preserved and rethrown by this method in order to make calling
      *             this method equivalent to constructing the kernel directly, from an exception-delivery point of view.
      */
-    public static synchronized PythonKernel getNextKernel(final PythonCommand command,
+    public static PythonKernel getNextKernel(final PythonCommand command,
         final Set<PythonModuleSpec> requiredAdditionalModules, final Set<PythonModuleSpec> optionalAdditionalModules,
         final PythonKernelOptions options, final PythonCancelable cancelable)
         throws PythonCanceledExecutionException, PythonIOException {
+        INSTANCE_LOCK.readLock().lock();
         if (instance == null) {
-            reconfigureKernelQueue(PythonAdvancedPreferences.getMaximumNumberOfIdlingProcesses(),
-                PythonAdvancedPreferences.getExpirationDurationInMinutes());
+            INSTANCE_LOCK.readLock().unlock();
+            INSTANCE_LOCK.writeLock().lock();
+            try {
+                if (instance == null) {
+                    reconfigureKernelQueue(PythonAdvancedPreferences.getMaximumNumberOfIdlingProcesses(),
+                        PythonAdvancedPreferences.getExpirationDurationInMinutes());
+                }
+                INSTANCE_LOCK.readLock().lock();
+            } finally {
+                INSTANCE_LOCK.writeLock().unlock();
+            }
         }
-        return instance.getNextKernelInternal(command, requiredAdditionalModules, optionalAdditionalModules, options,
-            cancelable);
+        try {
+            return instance.getNextKernelInternal(command, requiredAdditionalModules, optionalAdditionalModules,
+                options, cancelable);
+        } finally {
+            INSTANCE_LOCK.readLock().unlock();
+        }
     }
 
     /**
@@ -158,23 +177,36 @@ public final class PythonKernelQueue {
      *            because the underlying pool performs clean-ups in a timer-based manner. The clean-up interval of the
      *            timer is governed by {@code EVICTION_CHECK_INTERVAL_IN_MILLISECONDS}.
      */
-    public static synchronized void reconfigureKernelQueue(final int maxNumberOfIdlingKernels,
+    public static void reconfigureKernelQueue(final int maxNumberOfIdlingKernels,
         final int expirationDurationInMinutes) {
-        final boolean sameConfiguration = instance != null //
-            && instance.m_pool.getMaxTotal() == maxNumberOfIdlingKernels
-            && instance.m_pool.getMinEvictableIdleTimeMillis() == expirationDurationInMinutes * 60l * 1000l;
-        if (!sameConfiguration) {
-            close();
-            instance = new PythonKernelQueue(maxNumberOfIdlingKernels, expirationDurationInMinutes);
+        // Acquire write lock right away to keep logic simple. (Actually we could perform a first check holding only the
+        // read lock, which would conceptually be more performant. But this method is expected to be only called very
+        // infrequently.)
+        INSTANCE_LOCK.writeLock().lock();
+        try {
+            final boolean sameConfiguration = instance != null //
+                && instance.m_pool.getMaxTotal() == maxNumberOfIdlingKernels //
+                && instance.m_pool.getMinEvictableIdleTimeMillis() == expirationDurationInMinutes * 60l * 1000l;
+            if (!sameConfiguration) {
+                close();
+                instance = new PythonKernelQueue(maxNumberOfIdlingKernels, expirationDurationInMinutes);
+            }
+        } finally {
+            INSTANCE_LOCK.writeLock().unlock();
         }
     }
 
     /**
      * Removes all {@link PythonKernel Python kernels} from the queue and closes them.
      */
-    public static synchronized void clear() {
-        if (instance != null) {
-            instance.m_pool.clear();
+    public static void clear() {
+        INSTANCE_LOCK.readLock().lock();
+        try {
+            if (instance != null) {
+                instance.m_pool.clear();
+            }
+        } finally {
+            INSTANCE_LOCK.readLock().unlock();
         }
     }
 
@@ -183,9 +215,14 @@ public final class PythonKernelQueue {
      * {@link #getNextKernel(PythonCommand, Set, Set, PythonKernelOptions, PythonCancelable) getNextKernel} without
      * calling {@link #reconfigureKernelQueue(int, int) reconfigureKernelQueue} first is not allowed.
      */
-    public static synchronized void close() {
-        if (instance != null) {
-            instance.m_pool.close();
+    public static void close() {
+        INSTANCE_LOCK.readLock().lock();
+        try {
+            if (instance != null) {
+                instance.m_pool.close();
+            }
+        } finally {
+            INSTANCE_LOCK.readLock().unlock();
         }
     }
 
