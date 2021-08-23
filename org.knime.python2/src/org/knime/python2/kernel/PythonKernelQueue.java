@@ -52,6 +52,10 @@ import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -66,6 +70,7 @@ import org.knime.python2.prefs.advanced.PythonAdvancedPreferences;
 import org.knime.python2.util.PythonUtils;
 
 import com.google.common.collect.Iterables;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 /**
  * Creates, holds, and provides {@link PythonKernel} instances for specific combinations of {@link PythonCommand Python
@@ -219,7 +224,7 @@ public final class PythonKernelQueue {
         INSTANCE_LOCK.readLock().lock();
         try {
             if (instance != null) {
-                instance.m_pool.close();
+                instance.closeQueue();
             }
         } finally {
             INSTANCE_LOCK.readLock().unlock();
@@ -238,6 +243,11 @@ public final class PythonKernelQueue {
      */
     private final GenericKeyedObjectPool<PythonCommandAndModules, PythonKernelOrExceptionHolder> m_pool;
 
+    /**
+     * TODO
+     */
+    private final ExecutorService m_kernelCreator;
+
     private PythonKernelQueue(final int maxNumberOfIdlingKernels, final int expirationDurationInMinutes) {
         final GenericKeyedObjectPoolConfig<PythonKernelOrExceptionHolder> config = new GenericKeyedObjectPoolConfig<>();
         config.setEvictorShutdownTimeoutMillis(0);
@@ -251,7 +261,9 @@ public final class PythonKernelQueue {
         config.setMinEvictableIdleTimeMillis(expirationDurationInMinutes * 60l * 1000l);
         config.setNumTestsPerEvictionRun(-1);
         config.setTimeBetweenEvictionRunsMillis(EVICTION_CHECK_INTERVAL_IN_MILLISECONDS);
-        m_pool = new GenericKeyedObjectPool<>(new KeyedPooledPythonKernelFactory(), config);
+        m_kernelCreator =
+            Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("python-kernel-creator-%d").build());
+        m_pool = new GenericKeyedObjectPool<>(new KeyedPooledPythonKernelFactory(m_kernelCreator), config);
     }
 
     @SuppressWarnings("resource") // Kernel is closed by the client.
@@ -294,11 +306,14 @@ public final class PythonKernelQueue {
     }
 
     private PythonKernel extractKernelAndEnqueueNewOne(final PythonCommandAndModules key,
-        final PythonKernelOrExceptionHolder holder) throws PythonIOException {
+        final PythonKernelOrExceptionHolder holder) throws PythonCanceledExecutionException, PythonIOException {
         try {
             return holder.clearFieldsAndReturnKernelOrThrow();
+        } catch (final InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new PythonCanceledExecutionException(ex);
         } finally {
-            new Thread(() -> m_pool.returnObject(key, holder), "python-kernel-creator").start();
+            m_pool.returnObject(key, holder);
         }
     }
 
@@ -344,6 +359,17 @@ public final class PythonKernelQueue {
     }
 
     /**
+     * Closes this instance.
+     */
+    public void closeQueue() {
+        PythonUtils.Misc.closeSafelyThrowErrors(null, m_pool);
+        final Error error = PythonUtils.Misc.invokeSafely(null, ExecutorService::shutdownNow, m_kernelCreator);
+        if (error != null) {
+            throw error;
+        }
+    }
+
+    /**
      * Manages the life-cycle of pooled kernel holders. In particular:
      * <ul>
      * <li>creates and populates new holders when the pool contains no idling instances and
@@ -357,11 +383,17 @@ public final class PythonKernelQueue {
     private static final class KeyedPooledPythonKernelFactory
         implements KeyedPooledObjectFactory<PythonCommandAndModules, PythonKernelOrExceptionHolder> {
 
+        private final ExecutorService m_kernelCreator;
+
+        public  KeyedPooledPythonKernelFactory(final ExecutorService kernelCreator) {
+            m_kernelCreator = kernelCreator;
+        }
+
         @Override
         @SuppressWarnings("resource") // No kernel is held yet.
         public PooledObject<PythonKernelOrExceptionHolder> makeObject(final PythonCommandAndModules key) {
             final PythonKernelOrExceptionHolder holder = new PythonKernelOrExceptionHolder();
-            populateHolder(key, holder);
+            holder.submitKernelCreation(key, m_kernelCreator);
             return new DefaultPooledObject<>(holder);
         }
 
@@ -370,17 +402,8 @@ public final class PythonKernelQueue {
             final PooledObject<PythonKernelOrExceptionHolder> p) {
             @SuppressWarnings("resource") // No kernel is held yet or any more.
             final PythonKernelOrExceptionHolder holder = p.getObject();
-            if (holder.m_kernel == null && holder.m_exception == null) {
-                populateHolder(key, holder);
-            }
-        }
-
-        private static void populateHolder(final PythonCommandAndModules key,
-            final PythonKernelOrExceptionHolder holder) {
-            try {
-                holder.m_kernel = createKernel(key);
-            } catch (final PythonIOException ex) {
-                holder.m_exception = ex;
+            if (holder.m_kernelInCreation == null) {
+                holder.submitKernelCreation(key, m_kernelCreator);
             }
         }
 
@@ -482,26 +505,39 @@ public final class PythonKernelQueue {
 
     private static final class PythonKernelOrExceptionHolder implements AutoCloseable {
 
-        private PythonKernel m_kernel;
+        private Future<PythonKernel> m_kernelInCreation;
 
-        private PythonIOException m_exception;
+        public void submitKernelCreation(final PythonCommandAndModules key, final ExecutorService executor) {
+            m_kernelInCreation = executor.submit(() -> KeyedPooledPythonKernelFactory.createKernel(key));
+        }
 
-        public PythonKernel clearFieldsAndReturnKernelOrThrow() throws PythonIOException {
-            final PythonKernel kernel = m_kernel;
-            m_kernel = null;
-            final PythonIOException exception = m_exception;
-            m_exception = null;
-            if (exception != null) {
-                throw exception;
-            } else {
-                return kernel;
+        public PythonKernel clearFieldsAndReturnKernelOrThrow() throws PythonIOException, InterruptedException {
+            final Future<PythonKernel> kernelInCreation = m_kernelInCreation;
+            m_kernelInCreation = null;
+            try {
+                return kernelInCreation.get();
+            } catch (final ExecutionException ex) { // NOSONAR We are only interested in the wrapped exception.
+                final Throwable cause = ex.getCause();
+                if (cause instanceof PythonIOException) {
+                    throw (PythonIOException)cause;
+                } else {
+                    throw (Error)cause; // Guaranteed by KeyedPooledPythonKernelFactory.createKernel
+                }
             }
         }
 
         @Override
         public void close() throws PythonKernelCleanupException {
-            if (m_kernel != null) {
-                m_kernel.close();
+            if (m_kernelInCreation != null) {
+                try {
+                    m_kernelInCreation.get().close();
+                } catch (final InterruptedException ex) {
+                    // TODO: attempt to close a second time?
+                    Thread.currentThread().interrupt();
+                } catch (final ExecutionException ex) {
+                    // Can be ignored. Kernel was closed in the case of an exception (guaranteed by
+                    // KeyedPooledPythonKernelFactory.createKernel).
+                }
             }
         }
     }
