@@ -106,8 +106,8 @@ public class KnimeTableTest {
 
         final var schema = ColumnarSchema.of(LONG, DOUBLE, STRING);
 
-        final var numBatches = 50;
-        final var numRowsPerBatch = 200_000;
+        final var numBatches = 5; // 50
+        final var numRowsPerBatch = 200; // 200_000
         final var modes = new String[] {"arrow-sentinel", "arrow", "pandas", "dict"};
 
         for (final var mode : modes) {
@@ -152,7 +152,7 @@ public class KnimeTableTest {
                         assertEquals(schema, readable.getSchema());
 
                         for (int b = 0; b < numBatches; b++) { // NOSONAR
-                            checkBatch(schema, b, numRowsPerBatch, reader, mode.equals("arrow-sentinel"));
+                            checkBatch(schema, b, numRowsPerBatch, reader, mode.equals("arrow-sentinel"), !mode.equals("pandas"));
                         }
                     }
                 }
@@ -208,14 +208,14 @@ public class KnimeTableTest {
     }
 
     private static void checkBatch(final ColumnarSchema schema, final int batchIdx, final int numRows,
-        final RandomAccessBatchReader reader, final boolean missingLongs) throws IOException {
+        final RandomAccessBatchReader reader, final boolean missingLongs, final boolean multiplyFirstColumn) throws IOException {
         final var batch = reader.readRetained(batchIdx);
 
         for (int col = 0; col < schema.numColumns(); col++) { // NOSONAR
             final var data = batch.get(col);
 
             if (schema.getSpec(col) == LongDataSpec.INSTANCE) {
-                checkLongData((LongReadData)data, batchIdx, numRows, missingLongs);
+                checkLongData((LongReadData)data, batchIdx, numRows, missingLongs, multiplyFirstColumn);
             } else if (schema.getSpec(col) == DoubleDataSpec.INSTANCE) {
                 checkDoubleData((DoubleReadData)data, batchIdx, numRows);
             } else if (schema.getSpec(col) == StringDataSpec.INSTANCE) {
@@ -226,12 +226,13 @@ public class KnimeTableTest {
         batch.release();
     }
 
-    private static void checkLongData(final LongReadData data, final int batchIdx, final int numRows, final boolean missingLongs) {
+    private static void checkLongData(final LongReadData data, final int batchIdx, final int numRows, final boolean missingLongs, final boolean multiply) {
+        final long factor = multiply ? 2 : 1;
         for (int r = 0; r < numRows; r++) { // NOSONAR
             if (missingLongs && (batchIdx * numRows + r) % 13 == 0) {
                 assertTrue(data.isMissing(r));
             } else {
-                assertEquals(2 * (batchIdx * numRows + r), data.getLong(r));
+                assertEquals(factor * (batchIdx * numRows + r), data.getLong(r));
             }
 
         }

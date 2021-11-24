@@ -313,14 +313,14 @@ class EntryPoint(kg.EntryPoint):
             array = batch.column(0)
 
             # TODO(typeextensions) this should happen automatically
-            if data_type == "dictstring":
-                array = pa.ExtensionArray.from_storage(
-                    kas.StructDictEncodedType(pa.string()), array
-                )
-            elif data_type == "dictvarbinary":
-                array = pa.ExtensionArray.from_storage(
-                    kas.StructDictEncodedType(pa.large_binary()), array
-                )
+            # if data_type == "dictstring":
+            #     array = pa.ExtensionArray.from_storage(
+            #         kas.StructDictEncodedType(pa.string()), array
+            #     )
+            # elif data_type == "dictvarbinary":
+            #     array = pa.ExtensionArray.from_storage(
+            #         kas.StructDictEncodedType(pa.large_binary()), array
+            #     )
 
             # Check length
             assert (
@@ -595,7 +595,7 @@ class EntryPoint(kg.EntryPoint):
                     write_batch = kta.batch(new_batch, sentinel=0)
                 elif mode == "pandas":
                     pandas_df = read_batch.to_pandas()
-                    pandas_df["0"] = pandas_df["0"] * 2
+                    # to_pandas uses the first column as row key and removes it from the table
                     pandas_df["1"] = pandas_df["1"] * 2
                     write_batch = kta.batch(pandas_df)
                 elif mode == "dict":
