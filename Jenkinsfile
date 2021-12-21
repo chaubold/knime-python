@@ -19,7 +19,7 @@ properties([
 ])
 
 try {
-    knimetools.defaultTychoBuild('org.knime.update.python', 'maven && python2 && python3 && java11')
+    /* knimetools.defaultTychoBuild('org.knime.update.python', 'maven && python2 && python3 && java11') */
 
     def parallelConfigs = [:]
     for (py in PYTHON_VERSIONS) {
@@ -34,9 +34,9 @@ try {
     }
 
     // legacy tests
-    parallelConfigs["Python 2.7"] = {
-        runPython27WorkflowTests()
-    }
+    /* parallelConfigs["Python 2.7"] = { */
+    /*     runPython27WorkflowTests() */
+    /* } */
 
     parallel(parallelConfigs)
 
