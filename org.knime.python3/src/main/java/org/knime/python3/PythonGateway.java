@@ -135,6 +135,7 @@ public final class PythonGateway<T extends PythonEntryPoint> implements AutoClos
             final var pb = pythonProcessBuilder;
             Collections.addAll(pb.command(), "-u", launcherPath, Integer.toString(javaPort));
             pb.environment().put("PYTHONPATH", pythonPath.getPythonPath());
+            pb.inheritIO();
             m_process = pb.start();
 
             @SuppressWarnings("unchecked")

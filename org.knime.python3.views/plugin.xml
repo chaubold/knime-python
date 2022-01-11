@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.knime.workbench.repository.nodes">
+      <node
+            deprecated="false"
+            factory-class="org.knime.python3.views.node.streamlit.StreamlitViewNodeFactory"
+            hidden="false">
+      </node>
+      <node
+            deprecated="false"
+            factory-class="org.knime.python3.views.node.example.PythonViewNodeFactory"
+            hidden="false">
+      </node>
+   </extension>
+</plugin>
