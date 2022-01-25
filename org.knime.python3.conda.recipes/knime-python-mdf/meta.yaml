@@ -1,0 +1,15 @@
+# build with 
+# conda build . --python 3.9 -c conda-forge -c local --override-channels --prefix-length 150
+package:
+  name: knime-python-mdf
+  version: "4.6"
+
+requirements:
+  run:
+    - knime-python-base
+    - libiconv
+    - asammdf=5.19.14
+
+about:
+  home: https://knime.com
+  license: GPL-3.0
