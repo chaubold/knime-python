@@ -1,6 +1,6 @@
 # create environments for base and mdf, searching for the knime-python metapackages in conda-bld
-micromamba env create -n basedepsmamba knime-python-base -c /home/chaubold/miniconda3/conda-bld -c conda-forge --override-channels
-micromamba env create -n mdfdepsmamba knime-python-mdf -c /home/chaubold/miniconda3/conda-bld -c conda-forge --override-channels
+micromamba env create -n basedepsmamba knime-python-base python=3.9 -c /home/chaubold/miniconda3/conda-bld -c conda-forge --override-channels
+micromamba env create -n mdfdepsmamba knime-python-mdf python=3.9 -c /home/chaubold/miniconda3/conda-bld -c conda-forge --override-channels
 
 # get list of all required packages in those environments
 micromamba activate basedepsmamba
@@ -23,3 +23,8 @@ micromamba create -n mdfchanneltest -c ./base_channel -c ./mdf_channel --overrid
 # these also work
 # conda create -n basechanneltest -c ./base_channel --override-channels knime-python-base
 # conda create -n mdfchanneltest -c ./base_channel -c ./mdf_channel --override-channels knime-python-mdf
+
+# cleaning up
+micromamba remove -n basedepsmamba -a -y
+micromamba remove -n mdfdepsmamba -a -y
+micromamba clean -a -y # -y always answers yes
