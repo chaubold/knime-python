@@ -65,7 +65,6 @@ import org.knime.core.node.port.PortObject;
 import org.knime.core.node.port.PortObjectSpec;
 import org.knime.core.node.workflow.FlowVariable;
 import org.knime.python2.config.PythonExecutableSelectionPanel;
-import org.knime.python2.config.PythonFixedVersionExecutableSelectionPanel;
 import org.knime.python2.config.PythonSourceCodeConfig;
 import org.knime.python2.config.PythonSourceCodeOptionsPanel;
 import org.knime.python2.config.PythonSourceCodePanel;
@@ -87,12 +86,12 @@ public class AbstractPythonScriptingNodeDialog extends DataAwareNodeDialogPane {
 
     private final PythonSourceCodePanel m_scriptPanel;
 
-    private final PythonFixedVersionExecutableSelectionPanel m_executablePanel;
+    private final PythonFixedVersionOrBundledExecutableSelectionPanel m_executablePanel;
 
     public AbstractPythonScriptingNodeDialog(final InputPort[] inPorts, final VariableNames variableNames,
         final String templateRepositoryId) {
         m_inPorts = inPorts;
-        m_executablePanel = new PythonFixedVersionExecutableSelectionPanel(this,
+        m_executablePanel = new PythonFixedVersionOrBundledExecutableSelectionPanel(this,
             AbstractPythonScriptingNodeModel.createCommandConfig());
         m_scriptPanel = new PythonSourceCodePanel(this, PythonKernelBackendType.PYTHON3, variableNames,
             new PythonSourceCodeOptionsPanel(), m_executablePanel);
