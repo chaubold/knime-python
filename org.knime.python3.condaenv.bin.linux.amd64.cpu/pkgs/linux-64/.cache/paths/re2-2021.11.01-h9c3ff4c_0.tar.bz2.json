@@ -1,0 +1,67 @@
+{
+  "paths": [
+    {
+      "_path": "include/re2/filtered_re2.h",
+      "path_type": "hardlink",
+      "sha256": "ffd01873f4e412adc1d638088f545f11a0a954d96e773ebfe5fb1fc49db29491",
+      "size_in_bytes": 4247
+    },
+    {
+      "_path": "include/re2/re2.h",
+      "path_type": "hardlink",
+      "sha256": "d8a32f6a9a2e3f1777237fda4e3c677886cbdc8a955171d99099c806a8fecc41",
+      "size_in_bytes": 39740
+    },
+    {
+      "_path": "include/re2/set.h",
+      "path_type": "hardlink",
+      "sha256": "7439551c49fb2c6d97f4779c988404aceaee0cac3a1f10f32af54d59a8360767",
+      "size_in_bytes": 2483
+    },
+    {
+      "_path": "include/re2/stringpiece.h",
+      "path_type": "hardlink",
+      "sha256": "12e966d14179b6093ef44d84a962deaebd9d71bdd2fdae204d18936327ac0da2",
+      "size_in_bytes": 6336
+    },
+    {
+      "_path": "lib/cmake/re2/re2Config-release.cmake",
+      "path_type": "hardlink",
+      "sha256": "7b8c55c8913891de8b7e38f5ba85ad22a4207aa25c1fc36b5f0e19e94d397f43",
+      "size_in_bytes": 799
+    },
+    {
+      "_path": "lib/cmake/re2/re2Config.cmake",
+      "path_type": "hardlink",
+      "sha256": "718c390e6cd7344bff800e4cbbe69c2fabc55fb0ce4ea9a8d67d42874cce0b0b",
+      "size_in_bytes": 3409
+    },
+    {
+      "_path": "lib/libre2.so",
+      "path_type": "softlink",
+      "sha256": "42bde6bd6743974fe0b969c42b3bb1b209ad586152807c099f816be77a246779",
+      "size_in_bytes": 523168
+    },
+    {
+      "_path": "lib/libre2.so.9",
+      "path_type": "softlink",
+      "sha256": "42bde6bd6743974fe0b969c42b3bb1b209ad586152807c099f816be77a246779",
+      "size_in_bytes": 523168
+    },
+    {
+      "_path": "lib/libre2.so.9.0.0",
+      "path_type": "hardlink",
+      "sha256": "42bde6bd6743974fe0b969c42b3bb1b209ad586152807c099f816be77a246779",
+      "size_in_bytes": 523168
+    },
+    {
+      "_path": "lib/pkgconfig/re2.pc",
+      "file_mode": "text",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/home/conda/feedstock_root/build_artifacts/re2_1635752908033/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho",
+      "sha256": "fb5b15dc9b5f1890153c2f05314307f6adea1865fd2e263f8ccd71cc08aa803f",
+      "size_in_bytes": 722
+    }
+  ],
+  "paths_version": 1
+}

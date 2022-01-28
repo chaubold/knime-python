@@ -1,0 +1,1 @@
+{"build": "h7f98852_0", "build_number": 0, "depends": ["libgcc-ng >=9.4.0"], "license": "MIT", "license_family": "MIT", "name": "c-ares", "subdir": "linux-64", "timestamp": 1635352743755, "version": "1.18.1", "size": 115391, "md5": "f26ef8098fab1f719c91eb760d63381a", "sha256": "ee735e60d2cf68e5635df17847e97b505a752985d10581d2438203e7c0f44c15"}

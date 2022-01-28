@@ -1,0 +1,1 @@
+{"build": "h7f98852_5", "build_number": 5, "depends": ["libgcc-ng >=9.4.0"], "license": "MIT", "name": "libffi", "subdir": "linux-64", "timestamp": 1636488182923, "version": "3.4.2", "size": 58292, "md5": "d645c6d2ac96843a2bfaccd2d62b3ac3", "sha256": "ab6e9856c21709b7b517e940ae7028ae0737546122f83c2aa5d692860c3b149e"}

@@ -1,0 +1,1 @@
+{"build": "h7f98852_0", "build_number": 0, "depends": ["libgcc-ng >=9.4.0"], "license": "GPL-2.0-only", "license_family": "GPL", "name": "libnsl", "subdir": "linux-64", "timestamp": 1633040059627, "version": "2.0.0", "size": 31236, "md5": "39b1328babf85c7c3a61636d9cd50206", "sha256": "32f4fb94d99946b0dabfbbfd442b25852baf909637f2eed1ffe3baea15d02aad"}

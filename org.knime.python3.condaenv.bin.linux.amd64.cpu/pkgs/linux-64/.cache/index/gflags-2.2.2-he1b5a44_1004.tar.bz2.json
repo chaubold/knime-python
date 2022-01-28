@@ -1,0 +1,1 @@
+{"build": "he1b5a44_1004", "build_number": 1004, "depends": ["libgcc-ng >=7.5.0", "libstdcxx-ng >=7.5.0"], "license": "BSD-3-Clause", "name": "gflags", "subdir": "linux-64", "timestamp": 1594303828933, "version": "2.2.2", "size": 116549, "md5": "cddaf2c63ea4a5901cf09524c490ecdc", "sha256": "a853c0cacf53cfc59e1bca8d6e5cdfe9f38fce836f08c2a69e35429c2a492e77"}

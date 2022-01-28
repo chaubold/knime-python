@@ -1,0 +1,1 @@
+{"build": "h27826a3_1", "build_number": 1, "depends": ["libgcc-ng >=9.4.0", "zlib >=1.2.11,<1.3.0a0"], "license": "TCL", "license_family": "BSD", "name": "tk", "subdir": "linux-64", "timestamp": 1630563954269, "version": "8.6.11", "size": 3441085, "md5": "84e76fb280e735fec1efd2d21fd9cb27", "sha256": "f6dd33923f48f15d47e1890fa135745a8d9f4d72cfb93915514d675b0a5fff71"}

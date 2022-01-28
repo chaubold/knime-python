@@ -1,0 +1,1 @@
+{"build": "0", "build_number": 0, "depends": ["jedi", "numpy", "pandas", "py4j", "pyarrow 6.0.*", "python"], "license": "GPL-3.0", "name": "knime-python-base", "subdir": "linux-64", "timestamp": 1643096492888, "version": "4.6", "size": 2209, "md5": "9dbb0e5cb898342cd2af344d7447baee", "sha256": "46d5552841db3877c664d5a467d7757138dc6444983dc28c2a90b9a80b553ad9"}

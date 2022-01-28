@@ -1,0 +1,1 @@
+{"build": "h58526e2_4", "build_number": 4, "depends": ["libgcc-ng >=7.5.0"], "license": "X11 AND BSD-3-Clause", "name": "ncurses", "subdir": "linux-64", "timestamp": 1605391670194, "version": "6.2", "size": 1009027, "md5": "509f2a21c4a09214cd737a480dfd80c9", "sha256": "e88a81d9e27eabe306ab9cfbf708b9895a0df46445c1ae67b0f845b9ec599664"}

@@ -1,0 +1,37 @@
+{
+  "paths": [
+    {
+      "_path": "include/utf8proc.h",
+      "path_type": "hardlink",
+      "sha256": "c44e100dc7955a6112dbc32443213a0d63ed1f0442eabb475b59f57cf26174f5",
+      "size_in_bytes": 31001
+    },
+    {
+      "_path": "lib/libutf8proc.so",
+      "path_type": "softlink",
+      "sha256": "53acc4306f28be2385fb93591d6c4d1e9ababcb8ece8dfbe2e2bd6a378c2e907",
+      "size_in_bytes": 353008
+    },
+    {
+      "_path": "lib/libutf8proc.so.2",
+      "path_type": "softlink",
+      "sha256": "53acc4306f28be2385fb93591d6c4d1e9ababcb8ece8dfbe2e2bd6a378c2e907",
+      "size_in_bytes": 353008
+    },
+    {
+      "_path": "lib/libutf8proc.so.2.5.0",
+      "path_type": "hardlink",
+      "sha256": "53acc4306f28be2385fb93591d6c4d1e9ababcb8ece8dfbe2e2bd6a378c2e907",
+      "size_in_bytes": 353008
+    },
+    {
+      "_path": "lib/pkgconfig/libutf8proc.pc",
+      "file_mode": "text",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/home/conda/feedstock_root/build_artifacts/libutf8proc_1639720330701/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold",
+      "sha256": "4fc46dc68c813aa41091b538044739c4c3539ebdcefa959850a44864bd8f3036",
+      "size_in_bytes": 1212
+    }
+  ],
+  "paths_version": 1
+}

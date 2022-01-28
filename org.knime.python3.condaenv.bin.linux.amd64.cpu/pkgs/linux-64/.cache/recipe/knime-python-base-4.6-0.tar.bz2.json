@@ -1,0 +1,1 @@
+{"package": {"name": "knime-python-base", "version": "4.6"}, "build": {"string": "0"}, "requirements": {"build": [], "run": ["jedi", "numpy", "pandas", "py4j", "pyarrow=6.0", "python"]}, "about": {"home": "https://knime.com", "license": "GPL-3.0"}, "extra": {"copy_test_source_files": true, "final": true}}

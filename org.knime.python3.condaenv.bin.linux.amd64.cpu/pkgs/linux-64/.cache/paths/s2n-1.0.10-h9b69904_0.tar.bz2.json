@@ -1,0 +1,41 @@
+{
+  "paths": [
+    {
+      "_path": "include/s2n.h",
+      "path_type": "hardlink",
+      "sha256": "f8f922ea8fc3f974142e98f5edf5d5d0966b593ce12b4da7205c912cb5245baf",
+      "size_in_bytes": 59184
+    },
+    {
+      "_path": "lib/libs2n.so",
+      "path_type": "hardlink",
+      "sha256": "9a55cf4d9da29870cc0f09ac1a73283108d941b9456db1f632b600729e819d8f",
+      "size_in_bytes": 1391448
+    },
+    {
+      "_path": "lib/s2n/cmake/modules/FindLibCrypto.cmake",
+      "path_type": "hardlink",
+      "sha256": "d41478017dca708a8c57b4e0874012e5d3b96ad9241c9ebd0e13df1b58a8c19a",
+      "size_in_bytes": 3717
+    },
+    {
+      "_path": "lib/s2n/cmake/s2n-config.cmake",
+      "path_type": "hardlink",
+      "sha256": "874a50d2cfa45fa3c2a9b4f3ef156aa3e3fa28cb174bfa96cdb4a9203b0f5a54",
+      "size_in_bytes": 395
+    },
+    {
+      "_path": "lib/s2n/cmake/shared/s2n-targets-release.cmake",
+      "path_type": "hardlink",
+      "sha256": "7c2010a0bbdfad6d5c4b90165db6be588922ab9dae83f828db1e3608b58fe042",
+      "size_in_bytes": 785
+    },
+    {
+      "_path": "lib/s2n/cmake/shared/s2n-targets.cmake",
+      "path_type": "hardlink",
+      "sha256": "18c275cc6f47a07bed832892aacbf8cd716737be5394cfc848ca7b099cfb0d3d",
+      "size_in_bytes": 3762
+    }
+  ],
+  "paths_version": 1
+}

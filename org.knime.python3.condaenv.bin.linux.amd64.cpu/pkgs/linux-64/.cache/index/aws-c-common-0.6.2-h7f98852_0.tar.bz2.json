@@ -1,0 +1,1 @@
+{"build": "h7f98852_0", "build_number": 0, "depends": ["libgcc-ng >=9.3.0"], "license": "Apache-2.0", "license_family": "Apache", "name": "aws-c-common", "subdir": "linux-64", "timestamp": 1623316664770, "version": "0.6.2", "size": 171606, "md5": "ce69a062b3080485b760378841240634", "sha256": "8c8e79eb74c3b4574322ea89363fb9c7c72127e8952fa913d3651166f8498c5f"}

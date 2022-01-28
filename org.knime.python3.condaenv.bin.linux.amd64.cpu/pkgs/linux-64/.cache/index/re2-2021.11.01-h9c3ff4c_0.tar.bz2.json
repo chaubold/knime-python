@@ -1,0 +1,1 @@
+{"build": "h9c3ff4c_0", "build_number": 0, "depends": ["libgcc-ng >=9.4.0", "libstdcxx-ng >=9.4.0"], "license": "BSD-3-Clause", "name": "re2", "subdir": "linux-64", "timestamp": 1635753066140, "version": "2021.11.01", "size": 227121, "md5": "b79291df47b58c73621442a90a0fc10b", "sha256": "c95acfe42342f0f294b048832b706de92fe65b439fed62ccb951792d49256170"}

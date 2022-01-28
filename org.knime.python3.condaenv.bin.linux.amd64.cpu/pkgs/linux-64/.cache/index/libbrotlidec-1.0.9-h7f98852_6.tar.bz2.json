@@ -1,0 +1,1 @@
+{"build": "h7f98852_6", "build_number": 6, "depends": ["libbrotlicommon 1.0.9 h7f98852_6", "libgcc-ng >=9.4.0"], "license": "MIT", "name": "libbrotlidec", "subdir": "linux-64", "timestamp": 1635846072534, "version": "1.0.9", "size": 33612, "md5": "c7c03a2592cac92246a13a0732bd1573", "sha256": "129814eb6be0ebac41d620af9ab4df0797d644218a7d8c915753235ad3888dd1"}

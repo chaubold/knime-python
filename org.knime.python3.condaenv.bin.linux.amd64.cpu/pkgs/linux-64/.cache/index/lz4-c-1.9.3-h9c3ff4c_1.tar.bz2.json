@@ -1,0 +1,1 @@
+{"build": "h9c3ff4c_1", "build_number": 1, "depends": ["libgcc-ng >=9.3.0", "libstdcxx-ng >=9.3.0"], "license": "BSD-2-Clause", "name": "lz4-c", "subdir": "linux-64", "timestamp": 1627669079456, "version": "1.9.3", "size": 183677, "md5": "fbe97e8fa6f275d7c76a09e795adc3e6", "sha256": "56313fe4e602319682d4ea05c0ed3c5c45fc79884a5896f2cb7436b15d6987f9"}

@@ -1,0 +1,1 @@
+{"build": "pyhd8ed1ab_0", "build_number": 0, "depends": ["python >=3.6", "setuptools", "wheel"], "license": "MIT", "license_family": "MIT", "name": "pip", "noarch": "python", "subdir": "noarch", "timestamp": 1634925746569, "version": "21.3.1", "size": 1259053, "md5": "e4fe2a9af78ff11f1aced7e62128c6a8", "sha256": "5491649d26dbfe0b28adbf916226e15fb4bd76b650bc5363ad566c4dee9906e1"}

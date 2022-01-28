@@ -1,0 +1,1 @@
+{"build": "pyhd8ed1ab_0", "build_number": 0, "depends": ["python >=3"], "license": "MIT", "name": "pytz", "noarch": "python", "subdir": "noarch", "timestamp": 1633452206554, "version": "2021.3", "size": 248127, "md5": "7e4f811bff46a5a6a7e0094921389395", "sha256": "3202ebd55b901bc3e77316304007d85194d27987bfafbf53cba4f40b5ee890b0"}

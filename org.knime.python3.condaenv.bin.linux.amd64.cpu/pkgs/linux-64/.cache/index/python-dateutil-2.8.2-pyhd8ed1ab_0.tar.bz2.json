@@ -1,0 +1,1 @@
+{"build": "pyhd8ed1ab_0", "build_number": 0, "depends": ["python >=3.6", "six >=1.5"], "license": "Apache-2.0", "name": "python-dateutil", "noarch": "python", "subdir": "noarch", "timestamp": 1626286448716, "version": "2.8.2", "size": 245987, "md5": "dd999d1cc9f79e67dbb855c8924c7984", "sha256": "54d7785c7678166aa45adeaccfc1d2b8c3c799ca2dc05d4a82bb39b1968bd7da"}

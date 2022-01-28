@@ -1,0 +1,1 @@
+{"build": "hea4e1c9_2", "build_number": 2, "constrains": ["binutils_impl_linux-64 2.36.1"], "depends": [], "license": "GPL-3.0-only", "name": "ld_impl_linux-64", "subdir": "linux-64", "timestamp": 1627433673670, "version": "2.36.1", "size": 683488, "md5": "bd4f2e711b39af170e7ff15163fe87ee", "sha256": "ad7985a9ff622880cf87c42db1ffe2dfb040d8175c1bb352fc8f3705c7e0962f"}

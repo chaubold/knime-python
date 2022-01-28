@@ -1,0 +1,1 @@
+{"build": "h516909a_1", "build_number": 1, "depends": ["libgcc-ng >=7.5.0"], "license": "BSD-2-Clause", "license_family": "BSD", "name": "libev", "subdir": "linux-64", "timestamp": 1598867915000, "version": "4.33", "size": 106190, "md5": "6f8720dff19e17ce5d48cfe7f3d2f0a3", "sha256": "8c9635aa0ea28922877dc96358f9547f6a55fc7e2eb75a556b05f1725496baf9"}

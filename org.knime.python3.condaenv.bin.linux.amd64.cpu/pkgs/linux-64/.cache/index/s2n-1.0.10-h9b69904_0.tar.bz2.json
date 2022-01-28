@@ -1,0 +1,1 @@
+{"build": "h9b69904_0", "build_number": 0, "depends": ["libgcc-ng >=9.3.0", "openssl >=1.1.1k,<1.1.2a"], "license": "Apache-2.0", "license_family": "Apache", "name": "s2n", "subdir": "linux-64", "timestamp": 1623272440611, "version": "1.0.10", "size": 452368, "md5": "9708c3ac26c20b4c4549cbe8fef937eb", "sha256": "75eba1f7873a734985b14b94db81dc75d1e618ab6f6938106374f314057d91fb"}

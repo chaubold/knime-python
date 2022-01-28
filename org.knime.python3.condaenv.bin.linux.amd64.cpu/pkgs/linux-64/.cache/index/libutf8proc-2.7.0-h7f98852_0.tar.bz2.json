@@ -1,0 +1,1 @@
+{"build": "h7f98852_0", "build_number": 0, "depends": ["libgcc-ng >=9.4.0"], "license": "MIT", "license_family": "MIT", "name": "libutf8proc", "subdir": "linux-64", "timestamp": 1639720429197, "version": "2.7.0", "size": 99885, "md5": "913570ed14b42cf48ccbba364af20302", "sha256": "9e818fc2842d6084e7115f6c21260a080954d974f53fdd75bbae4a3e82495d6d"}

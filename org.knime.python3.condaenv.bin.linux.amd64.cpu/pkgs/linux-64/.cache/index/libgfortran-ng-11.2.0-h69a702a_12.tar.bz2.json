@@ -1,0 +1,1 @@
+{"build": "h69a702a_12", "build_number": 12, "depends": ["libgfortran5 11.2.0 h5c6108e_12"], "license": "GPL-3.0-only WITH GCC-exception-3.1", "name": "libgfortran-ng", "subdir": "linux-64", "timestamp": 1643065683836, "version": "11.2.0", "size": 19765, "md5": "33c165be455015cc74e8d857182f3f58", "sha256": "ac5662a3ca5a43b1e8ab2ee4575e4d8e3d9b58cd555e67cd0d82c443e1a6092b"}

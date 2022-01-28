@@ -1,0 +1,575 @@
+{
+  "paths": [
+    {
+      "_path": "include/aws/common/allocator.h",
+      "path_type": "hardlink",
+      "sha256": "1ab896eb65a3e1947e1e5f6f7df4885b6ab35df6d357563c201c440fe6c1c7ea",
+      "size_in_bytes": 6355
+    },
+    {
+      "_path": "include/aws/common/array_list.h",
+      "path_type": "hardlink",
+      "sha256": "28edebf17eac7c03f80884aba482ebc5ca0601c3685fa7891784826dd4bb4f2d",
+      "size_in_bytes": 7615
+    },
+    {
+      "_path": "include/aws/common/array_list.inl",
+      "path_type": "hardlink",
+      "sha256": "13e00d1a19693e58ff989cb1a4c1d24f0282e2a58c4273da39e5f58f4cdeee52",
+      "size_in_bytes": 13470
+    },
+    {
+      "_path": "include/aws/common/assert.h",
+      "path_type": "hardlink",
+      "sha256": "8ef4edfa432dce1b8c64119b5fff3f9d8e3c1d8a150e750f06edf34ca9e586fc",
+      "size_in_bytes": 9301
+    },
+    {
+      "_path": "include/aws/common/atomics.h",
+      "path_type": "hardlink",
+      "sha256": "8b8d995d6c87e59f70952844b45ca96a1a26793d118863a2bf0f62c60990a01a",
+      "size_in_bytes": 12646
+    },
+    {
+      "_path": "include/aws/common/atomics.inl",
+      "path_type": "hardlink",
+      "sha256": "1deb7249fe1fd37bff368a72cbaf094d290bede971e58c63564f02988c3e93fc",
+      "size_in_bytes": 5193
+    },
+    {
+      "_path": "include/aws/common/atomics_fallback.inl",
+      "path_type": "hardlink",
+      "sha256": "40f3467f32334827d130001d0e5039cc5b5eae405c1a4f68827e4ce956135efd",
+      "size_in_bytes": 653
+    },
+    {
+      "_path": "include/aws/common/atomics_gnu.inl",
+      "path_type": "hardlink",
+      "sha256": "ca2cd7761688b066df3b9bd6c2325565fb9689c65b0e21e64729fa050076da83",
+      "size_in_bytes": 7625
+    },
+    {
+      "_path": "include/aws/common/atomics_gnu_old.inl",
+      "path_type": "hardlink",
+      "sha256": "473b7084526e696664c82a701ad822deedc2fa227be9c4b42a7295b7e1c7a02e",
+      "size_in_bytes": 9447
+    },
+    {
+      "_path": "include/aws/common/atomics_msvc.inl",
+      "path_type": "hardlink",
+      "sha256": "ac97624cc9b392573cec44d6576a844a4bd8bded6311ce0a12e5768433d99ff4",
+      "size_in_bytes": 12661
+    },
+    {
+      "_path": "include/aws/common/byte_buf.h",
+      "path_type": "hardlink",
+      "sha256": "e762bd4a1cdbac7c9295a69572cd4ee0048548298fd1346ca6281c2e84babd5a",
+      "size_in_bytes": 34058
+    },
+    {
+      "_path": "include/aws/common/byte_order.h",
+      "path_type": "hardlink",
+      "sha256": "825d8069184d00edd4737d3892cf4a6db835d62544d3d4f26f1a0b543593a710",
+      "size_in_bytes": 1847
+    },
+    {
+      "_path": "include/aws/common/byte_order.inl",
+      "path_type": "hardlink",
+      "sha256": "e0e86c54aea9e77f5c48405d16ce04cae6502d034bd20c419c8b8a3fb10a9760",
+      "size_in_bytes": 3705
+    },
+    {
+      "_path": "include/aws/common/cache.h",
+      "path_type": "hardlink",
+      "sha256": "695b49ae85e495eaedbb92b18c7d87f157bf9bbc0dcdefed57fdbfe2c3f1c11d",
+      "size_in_bytes": 2541
+    },
+    {
+      "_path": "include/aws/common/clock.h",
+      "path_type": "hardlink",
+      "sha256": "337b5ece392d462414918e8933ef3d73cc38c045699d727dc89bad7b314de0f7",
+      "size_in_bytes": 2181
+    },
+    {
+      "_path": "include/aws/common/clock.inl",
+      "path_type": "hardlink",
+      "sha256": "36fafd278fde4c835e4d3368ec1f2be9fd0ebcb69696ac64e1d522d891d229d1",
+      "size_in_bytes": 4007
+    },
+    {
+      "_path": "include/aws/common/command_line_parser.h",
+      "path_type": "hardlink",
+      "sha256": "8b037dada6c177113e0e7d7aa01fbfa8cc6a81e249d21a6c6c6f8fd0ac7a34d4",
+      "size_in_bytes": 2212
+    },
+    {
+      "_path": "include/aws/common/common.h",
+      "path_type": "hardlink",
+      "sha256": "85d780257fc066cba4190d204f7ac29e94a6729b1b5a695f05cf6e574b9c3cdc",
+      "size_in_bytes": 1109
+    },
+    {
+      "_path": "include/aws/common/condition_variable.h",
+      "path_type": "hardlink",
+      "sha256": "c96fb994b4784f2fa9c6490e3d27e59600e2a5b56cb1999e17e18d0df9f076fc",
+      "size_in_bytes": 3249
+    },
+    {
+      "_path": "include/aws/common/config.h",
+      "path_type": "hardlink",
+      "sha256": "9a728988f9a18751963045279116352657da9f0b921b0c46e5b1bfbcafc088f9",
+      "size_in_bytes": 648
+    },
+    {
+      "_path": "include/aws/common/cpuid.h",
+      "path_type": "hardlink",
+      "sha256": "9e677af92a9a03a8a961d0e6c67d8e6c8cd103fac2eeac4eaf5a8adb39afb570",
+      "size_in_bytes": 628
+    },
+    {
+      "_path": "include/aws/common/date_time.h",
+      "path_type": "hardlink",
+      "sha256": "6525efd3aa0945eba3f95b038bdc421ee837ba40d7a018e56bf1332061e17e0c",
+      "size_in_bytes": 5677
+    },
+    {
+      "_path": "include/aws/common/device_random.h",
+      "path_type": "hardlink",
+      "sha256": "f77d1b4a7640c736b1a07950d3af42d505803d4902399417251960e79710cad9",
+      "size_in_bytes": 1066
+    },
+    {
+      "_path": "include/aws/common/encoding.h",
+      "path_type": "hardlink",
+      "sha256": "306d480972ad53a4af6d5ff64e7aa0e7df35705fd9df698c390243c96bdc7005",
+      "size_in_bytes": 5436
+    },
+    {
+      "_path": "include/aws/common/encoding.inl",
+      "path_type": "hardlink",
+      "sha256": "167b3f7eeefd1c886aa1e732798e55ab49e868863aae666ade920cb8a167f27a",
+      "size_in_bytes": 4546
+    },
+    {
+      "_path": "include/aws/common/environment.h",
+      "path_type": "hardlink",
+      "sha256": "0fe681f2995cb41066b10f40f9791bc37b42047161e1b7ef08b8881c647d0573",
+      "size_in_bytes": 1222
+    },
+    {
+      "_path": "include/aws/common/error.h",
+      "path_type": "hardlink",
+      "sha256": "5cd2888f25274a2e09e882aed557cc420803ab077071c04b6f91fb197b124fab",
+      "size_in_bytes": 5979
+    },
+    {
+      "_path": "include/aws/common/error.inl",
+      "path_type": "hardlink",
+      "sha256": "8f0fdec8fcb0b9ab1aa2ac618938664cacaaa974c5b4c225de89d16da3b3c2a9",
+      "size_in_bytes": 705
+    },
+    {
+      "_path": "include/aws/common/exports.h",
+      "path_type": "hardlink",
+      "sha256": "88f34ab5a196704704b747a5bf2adaf70154aee552f87912828e2258ce7ba42c",
+      "size_in_bytes": 1378
+    },
+    {
+      "_path": "include/aws/common/fifo_cache.h",
+      "path_type": "hardlink",
+      "sha256": "8a6c2f34dffbeb5e38d625d0a0cafa645a2c734f382b82363feab25036010ba7",
+      "size_in_bytes": 871
+    },
+    {
+      "_path": "include/aws/common/file.h",
+      "path_type": "hardlink",
+      "sha256": "a3c14e7adc52d68390ae076ab150cdf6285090902de71580ef5b7022a0a49ec4",
+      "size_in_bytes": 616
+    },
+    {
+      "_path": "include/aws/common/hash_table.h",
+      "path_type": "hardlink",
+      "sha256": "f2e23c2b67c4e2c9333c4c6a9f85de69eed238b02e892f4f77a661d708028f2b",
+      "size_in_bytes": 15099
+    },
+    {
+      "_path": "include/aws/common/lifo_cache.h",
+      "path_type": "hardlink",
+      "sha256": "bbdbbf425475bf44655c3ff61c7c12d16304685825a8fed0b27e8fef99dc1fd9",
+      "size_in_bytes": 869
+    },
+    {
+      "_path": "include/aws/common/linked_hash_table.h",
+      "path_type": "hardlink",
+      "sha256": "0738ae9852d20511affbc0c0eda233d4c619f730b38679ec5d4a103536953f1d",
+      "size_in_bytes": 3774
+    },
+    {
+      "_path": "include/aws/common/linked_list.h",
+      "path_type": "hardlink",
+      "sha256": "9aa81f5100764f23f0f134686e3dab78911b014bac5b34bc6fd24a68a5076b25",
+      "size_in_bytes": 6181
+    },
+    {
+      "_path": "include/aws/common/linked_list.inl",
+      "path_type": "hardlink",
+      "sha256": "323bbe2d14b24c2817d1a9166b2b37fe64888d01dbcedc366cb1d3b398e25018",
+      "size_in_bytes": 15326
+    },
+    {
+      "_path": "include/aws/common/log_channel.h",
+      "path_type": "hardlink",
+      "sha256": "955748900fb6c07a028340172dcf3b2dbbe71b0bbcf7d174291d8ca1ca7bce05",
+      "size_in_bytes": 1870
+    },
+    {
+      "_path": "include/aws/common/log_formatter.h",
+      "path_type": "hardlink",
+      "sha256": "15d9d3bbf9f99f4bbb023269b72d09c5545fbabab307ba08ed54523d196ebcc4",
+      "size_in_bytes": 2521
+    },
+    {
+      "_path": "include/aws/common/log_writer.h",
+      "path_type": "hardlink",
+      "sha256": "af020ce0fc29f6b03e44c05e0f8675a770d081ed1ac75deaea3e17716b6f19a6",
+      "size_in_bytes": 1892
+    },
+    {
+      "_path": "include/aws/common/logging.h",
+      "path_type": "hardlink",
+      "sha256": "6b10a97a9c84c28d76d36a95115ac979202b12efa668bff33c3ea01d7661caa9",
+      "size_in_bytes": 11564
+    },
+    {
+      "_path": "include/aws/common/lru_cache.h",
+      "path_type": "hardlink",
+      "sha256": "1aeeff7d438bf4e7c948f715145a0d8400b6f322adad63926240f97ef99fe03b",
+      "size_in_bytes": 1300
+    },
+    {
+      "_path": "include/aws/common/macros.h",
+      "path_type": "hardlink",
+      "sha256": "257b99172457d2831c0f7d000b49fa7c1bede97649188a53c956a8452201e21b",
+      "size_in_bytes": 4766
+    },
+    {
+      "_path": "include/aws/common/math.cbmc.inl",
+      "path_type": "hardlink",
+      "sha256": "85b526ea9e03db868785a4d093bd18a206572a69e43a10848269f7fa39e52c56",
+      "size_in_bytes": 2978
+    },
+    {
+      "_path": "include/aws/common/math.fallback.inl",
+      "path_type": "hardlink",
+      "sha256": "09da690dd7963598616db5f358a998417f8b03afb1356d0c6f1771f9ab423caa",
+      "size_in_bytes": 5082
+    },
+    {
+      "_path": "include/aws/common/math.gcc_arm64_asm.inl",
+      "path_type": "hardlink",
+      "sha256": "6bb924717480421a1961107ab98bd7677c4431920e89e8aaf6d9ea0f5063601e",
+      "size_in_bytes": 6365
+    },
+    {
+      "_path": "include/aws/common/math.gcc_builtin.inl",
+      "path_type": "hardlink",
+      "sha256": "9b87d48ad3790b2c891e004a66dc12ccb36516fcee25b768845fee27627a2d52",
+      "size_in_bytes": 1535
+    },
+    {
+      "_path": "include/aws/common/math.gcc_overflow.inl",
+      "path_type": "hardlink",
+      "sha256": "b1772f75998a0b0c8bc91fc32ee16049ecfbdd46d0f4350d24925d77507229a9",
+      "size_in_bytes": 2898
+    },
+    {
+      "_path": "include/aws/common/math.gcc_x64_asm.inl",
+      "path_type": "hardlink",
+      "sha256": "02caf05893752207e36dd64bdbaff342b0a9598de7e11413cee7fe001de038df",
+      "size_in_bytes": 6686
+    },
+    {
+      "_path": "include/aws/common/math.h",
+      "path_type": "hardlink",
+      "sha256": "ba7fd1fdc3b4e34125149d2faa82d12410644e2629796d4afcefbae5bf38efa1",
+      "size_in_bytes": 7277
+    },
+    {
+      "_path": "include/aws/common/math.inl",
+      "path_type": "hardlink",
+      "sha256": "46becc868bc562dfe5b8a7732ddefaae05226520acc0de2e98f11231fed861b7",
+      "size_in_bytes": 7621
+    },
+    {
+      "_path": "include/aws/common/math.msvc.inl",
+      "path_type": "hardlink",
+      "sha256": "8355bff343722088afb33ae5d6a68f299b6a9c95fef83a615800044fe246fc5c",
+      "size_in_bytes": 4325
+    },
+    {
+      "_path": "include/aws/common/mutex.h",
+      "path_type": "hardlink",
+      "sha256": "2a7d1936846a19af191b7eb5840b361466aaac702c4b125f5894eb1ba3942083",
+      "size_in_bytes": 1937
+    },
+    {
+      "_path": "include/aws/common/package.h",
+      "path_type": "hardlink",
+      "sha256": "9339a0a98ac1b5009925c4c1346fd3bbb23162c0496e115cefbca46cfbd0f329",
+      "size_in_bytes": 640
+    },
+    {
+      "_path": "include/aws/common/platform.h",
+      "path_type": "hardlink",
+      "sha256": "cd3bd23a7ef942924d482fb4cb41604c7412558ad39988d1b1483be60974aa7e",
+      "size_in_bytes": 801
+    },
+    {
+      "_path": "include/aws/common/posix/common.inl",
+      "path_type": "hardlink",
+      "sha256": "5baa4b13798beb3142a5467f24d31f5789a6be0ea20f303102d142a9d5e778ab",
+      "size_in_bytes": 983
+    },
+    {
+      "_path": "include/aws/common/predicates.h",
+      "path_type": "hardlink",
+      "sha256": "e0d171699511d2f78c370d5b2b050855e06c1d1d436ab5b837062b4b60485d8c",
+      "size_in_bytes": 1087
+    },
+    {
+      "_path": "include/aws/common/priority_queue.h",
+      "path_type": "hardlink",
+      "sha256": "fb17a9ad02ac76436cbaa29055c9786d0769f67bc1e75f2fb23a313653eab672",
+      "size_in_bytes": 6800
+    },
+    {
+      "_path": "include/aws/common/process.h",
+      "path_type": "hardlink",
+      "sha256": "4d4355b55bd03856bb5e66f158eeaa4ce67440a6ccf80094f8226a71c8222656",
+      "size_in_bytes": 2599
+    },
+    {
+      "_path": "include/aws/common/promise.h",
+      "path_type": "hardlink",
+      "sha256": "e809bb92c8e0d5e1604489821c4eb7e77096bd2955ac17ca7d3f189fe7392bcc",
+      "size_in_bytes": 3160
+    },
+    {
+      "_path": "include/aws/common/ref_count.h",
+      "path_type": "hardlink",
+      "sha256": "4c9cf88ab91a7e3d507a890243b0a7679ace1aebd40d5f79e4205b65ef57c66b",
+      "size_in_bytes": 1668
+    },
+    {
+      "_path": "include/aws/common/resource_name.h",
+      "path_type": "hardlink",
+      "sha256": "0cbff2afe7ee2b55014d2f0e6e9404420c88ee275c387b2bf89b93ccb18d8a0c",
+      "size_in_bytes": 1153
+    },
+    {
+      "_path": "include/aws/common/ring_buffer.h",
+      "path_type": "hardlink",
+      "sha256": "c655de3d4b210f907d0e6da484917f2734b4f860fa0ead908ef7e078438dd8a6",
+      "size_in_bytes": 4338
+    },
+    {
+      "_path": "include/aws/common/ring_buffer.inl",
+      "path_type": "hardlink",
+      "sha256": "6cb5b2f2df3cc4b986778d84fbd47696f725e85b88d5e10948312511378fdf13",
+      "size_in_bytes": 1879
+    },
+    {
+      "_path": "include/aws/common/rw_lock.h",
+      "path_type": "hardlink",
+      "sha256": "b2c09d4934b05167d820b0ee03bc21fdcba97df64f5f52064b97d7690e24331e",
+      "size_in_bytes": 2069
+    },
+    {
+      "_path": "include/aws/common/statistics.h",
+      "path_type": "hardlink",
+      "sha256": "55ae3cc8a4a0ebb5d1f0f662557acc7092e92dea1ed89586cd619750516b4640",
+      "size_in_bytes": 5372
+    },
+    {
+      "_path": "include/aws/common/stdbool.h",
+      "path_type": "hardlink",
+      "sha256": "100c2f23fa44a966de55b25ca906ad4dc63e882f7e4b7808b3e16e37f89df5b5",
+      "size_in_bytes": 918
+    },
+    {
+      "_path": "include/aws/common/stdint.h",
+      "path_type": "hardlink",
+      "sha256": "4170b29fff5508a4d66803b67084176f8663c742a7cdd4928c161bbdb2ce79bf",
+      "size_in_bytes": 2571
+    },
+    {
+      "_path": "include/aws/common/string.h",
+      "path_type": "hardlink",
+      "sha256": "61c65dfbc3fdc05a9f5a3aac0be6e0e29e4d58b3ead3a985a33fd58187624a80",
+      "size_in_bytes": 10023
+    },
+    {
+      "_path": "include/aws/common/string.inl",
+      "path_type": "hardlink",
+      "sha256": "574b7b175e52871a8e505ccdb45883b23fc8e5ff7aec2f937f8c96ca32843ed0",
+      "size_in_bytes": 1724
+    },
+    {
+      "_path": "include/aws/common/system_info.h",
+      "path_type": "hardlink",
+      "sha256": "03398c7b25572e4f406b3376be9b215ef50905fe3ace4b5d97fa77a3992a2c1d",
+      "size_in_bytes": 3289
+    },
+    {
+      "_path": "include/aws/common/task_scheduler.h",
+      "path_type": "hardlink",
+      "sha256": "72b92c32819ceb6ad766c5db252ff1624f660d645d5903365c7c360402eb3d55",
+      "size_in_bytes": 3922
+    },
+    {
+      "_path": "include/aws/common/thread.h",
+      "path_type": "hardlink",
+      "sha256": "10155e2f81694404e69d16ee05ab7cbd436ea583f14400906143c9b31836f3db",
+      "size_in_bytes": 8015
+    },
+    {
+      "_path": "include/aws/common/thread_scheduler.h",
+      "path_type": "hardlink",
+      "sha256": "d4b7ef0938441da21331dd44e9a841b03681724ec327fbb3fd71274f92aeb862",
+      "size_in_bytes": 1947
+    },
+    {
+      "_path": "include/aws/common/time.h",
+      "path_type": "hardlink",
+      "sha256": "2c5ca84f4f508ba0911f886b1f4aa58caaf3f7e8edb49e29d699092e38e66d45",
+      "size_in_bytes": 634
+    },
+    {
+      "_path": "include/aws/common/uuid.h",
+      "path_type": "hardlink",
+      "sha256": "cfd5fc736dea58b14c4dcb7f3f6e53651cbc3a90e33d39132d7431b0f4f2baa8",
+      "size_in_bytes": 810
+    },
+    {
+      "_path": "include/aws/common/xml_parser.h",
+      "path_type": "hardlink",
+      "sha256": "0e2d4507cfc5d7213e6b4e98adc58820a184fc3968e367cbc69eb3daae6df1f6",
+      "size_in_bytes": 2990
+    },
+    {
+      "_path": "include/aws/common/zero.h",
+      "path_type": "hardlink",
+      "sha256": "3bff724636bd134130f577a959cbe8acccf3716c658e69fe2270d8fb37596012",
+      "size_in_bytes": 2055
+    },
+    {
+      "_path": "include/aws/common/zero.inl",
+      "path_type": "hardlink",
+      "sha256": "665d329264ae63463a1f8aa2e0776068508bbb637e251503ccff1cca8a74c3ae",
+      "size_in_bytes": 1152
+    },
+    {
+      "_path": "include/aws/testing/aws_test_allocators.h",
+      "path_type": "hardlink",
+      "sha256": "8e7244689285a6f456cf61dbbc44883ac9dbad49815986b16759a75a8d736337",
+      "size_in_bytes": 3348
+    },
+    {
+      "_path": "include/aws/testing/aws_test_harness.h",
+      "path_type": "hardlink",
+      "sha256": "2c7a79ea67b4b92ec3b7559a00d0107b06092f7029403a113107f501d465f2a7",
+      "size_in_bytes": 38985
+    },
+    {
+      "_path": "lib/aws-c-common/cmake/aws-c-common-config.cmake",
+      "path_type": "hardlink",
+      "sha256": "265c8a3817c601eed90a6f4e7cdbb4b5eb84f663f3c48893f6afd196708d80d4",
+      "size_in_bytes": 293
+    },
+    {
+      "_path": "lib/aws-c-common/cmake/shared/aws-c-common-targets-release.cmake",
+      "path_type": "hardlink",
+      "sha256": "dfc098797dae93216b83b67b0e8cfa0b1007c35f6e02d854c188b16c545b4fca",
+      "size_in_bytes": 871
+    },
+    {
+      "_path": "lib/aws-c-common/cmake/shared/aws-c-common-targets.cmake",
+      "path_type": "hardlink",
+      "sha256": "88f79f9e226a25183cc5e6d1a7d8214391dc2ea3f2dd50ce396ba75cad16fbcd",
+      "size_in_bytes": 3594
+    },
+    {
+      "_path": "lib/cmake/AwsCFlags.cmake",
+      "path_type": "hardlink",
+      "sha256": "7706ab174de866377984be6b33ca695c72c6fb7f7ff332ea0f658a511bb53f92",
+      "size_in_bytes": 8891
+    },
+    {
+      "_path": "lib/cmake/AwsCheckHeaders.cmake",
+      "path_type": "hardlink",
+      "sha256": "fa0f1d9f2ff1febf8ae54ce2d51a7cd6dc76942d5344b1b4b179defff72d60b1",
+      "size_in_bytes": 2621
+    },
+    {
+      "_path": "lib/cmake/AwsFeatureTests.cmake",
+      "path_type": "hardlink",
+      "sha256": "0765479c3519df34139548f0563886bb44b5aefbda35018e54dcadac4e3a7060",
+      "size_in_bytes": 2201
+    },
+    {
+      "_path": "lib/cmake/AwsFindPackage.cmake",
+      "path_type": "hardlink",
+      "sha256": "3f1f545d3a3f20f5b26a8c74702cad0894528e5a9555feac0bdb9ef246796e6c",
+      "size_in_bytes": 1278
+    },
+    {
+      "_path": "lib/cmake/AwsLibFuzzer.cmake",
+      "path_type": "hardlink",
+      "sha256": "86fe8d23a432a9aab282159199d0de7fcca2cdaca6c5f620370744f1256258d3",
+      "size_in_bytes": 2185
+    },
+    {
+      "_path": "lib/cmake/AwsSIMD.cmake",
+      "path_type": "hardlink",
+      "sha256": "60c88027951dffad5c9da08dddbbc3979674e9b3bf2182f49ff88ffb59e25d5a",
+      "size_in_bytes": 2062
+    },
+    {
+      "_path": "lib/cmake/AwsSanitizers.cmake",
+      "path_type": "hardlink",
+      "sha256": "ce8137d4654860b6a3819b79d26ad452bdc35c16cb74125a41c19a30c1d2513c",
+      "size_in_bytes": 3111
+    },
+    {
+      "_path": "lib/cmake/AwsSharedLibSetup.cmake",
+      "path_type": "hardlink",
+      "sha256": "80867c83d8c63747b0495432ef0f4b1535d32bc2f5f8c901026e83cde81752ce",
+      "size_in_bytes": 1911
+    },
+    {
+      "_path": "lib/cmake/AwsTestHarness.cmake",
+      "path_type": "hardlink",
+      "sha256": "c7e3f17526d0b3934e97b075560f37c80c6e9ee47267f4f61a25f4eb2be9edf3",
+      "size_in_bytes": 3654
+    },
+    {
+      "_path": "lib/libaws-c-common.so",
+      "path_type": "softlink",
+      "sha256": "52cdb8140f3589dccf3f3181996352b04fdd32b8b98e5655e5bd699f72549a96",
+      "size_in_bytes": 256688
+    },
+    {
+      "_path": "lib/libaws-c-common.so.1",
+      "path_type": "softlink",
+      "sha256": "52cdb8140f3589dccf3f3181996352b04fdd32b8b98e5655e5bd699f72549a96",
+      "size_in_bytes": 256688
+    },
+    {
+      "_path": "lib/libaws-c-common.so.1.0.0",
+      "path_type": "hardlink",
+      "sha256": "52cdb8140f3589dccf3f3181996352b04fdd32b8b98e5655e5bd699f72549a96",
+      "size_in_bytes": 256688
+    }
+  ],
+  "paths_version": 1
+}
