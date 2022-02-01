@@ -91,7 +91,7 @@ public class CreateCondaEnv extends ProvisioningAction {
             }
 
             if (parameters.containsKey("channels")) {
-                channels = (String[])parameters.get("channels");
+                channels = ((String)parameters.get("channels")).split("#");
                 logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv channels: " + channels));
                 
                 for (var c : channels) {
@@ -105,7 +105,7 @@ public class CreateCondaEnv extends ProvisioningAction {
             }
 
             if (parameters.containsKey("packages")) {
-                packages = (String[])parameters.get("packages");
+                packages = ((String)parameters.get("packages")).split("#");
                 logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv packages: " + packages));
             }
             
@@ -136,7 +136,12 @@ public class CreateCondaEnv extends ProvisioningAction {
 
     private static Path getCondaExePath() throws IllegalStateException {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        IExtensionPoint point = registry.getExtensionPoint("BundledCondaExecutable");
+        IExtensionPoint point = registry.getExtensionPoint("org.knime.python3.BundledCondaExecutable");
+        
+        if (point == null) {
+        	throw new IllegalStateException("Could not find required extension point 'BundledCondaExecutable'");
+        }
+        
         if (point.getConfigurationElements().length != 1) {
             throw new IllegalStateException("No bundled conda executable available");
         }
@@ -159,7 +164,11 @@ public class CreateCondaEnv extends ProvisioningAction {
 
     private static Path getCondaChannelPath(final String condaChannelName) throws IllegalStateException {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        IExtensionPoint point = registry.getExtensionPoint("BundledCondaChannel");
+        IExtensionPoint point = registry.getExtensionPoint("org.knime.python3.BundledCondaChannel");
+        
+        if (point == null) {
+        	throw new IllegalStateException("Could not find required extension point 'BundledCondaChannel'");
+        }
 
         final var optionalExt = Arrays.stream(point.getConfigurationElements())
             .filter(e -> e.getAttribute("name").equals(condaChannelName)).findAny();

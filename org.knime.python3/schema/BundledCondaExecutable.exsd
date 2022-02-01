@@ -3,7 +3,7 @@
 <schema targetNamespace="org.knime.python3" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.knime.python3" id="BundledCondaExecutable" name="BundledCondaExecutable"/>
+         <meta.schema plugin="org.knime.python3" id="org.knime.python3.BundledCondaExecutable" name="BundledCondaExecutable"/>
       </appinfo>
       <documentation>
          Contains the path to a bundled conda executable used to construct environments for use with Python, R, etc.

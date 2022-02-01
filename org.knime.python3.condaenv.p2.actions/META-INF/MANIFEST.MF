@@ -1,10 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: KNIME Python - Bundled Conda Environment
-Bundle-SymbolicName: org.knime.python3.condaenv.bin;singleton:=true
+Bundle-Name: KNIME Python - Bundled Conda Environment - P2 Actions
+Bundle-SymbolicName: org.knime.python3.condaenv.p2.actions;singleton:=true
 Bundle-Version: 4.6.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.knime.python3.condaenv.CondaEnvPluginActivator
 Bundle-Vendor: KNIME AG, Zurich, Switzerland
 Require-Bundle: org.eclipse.ui;bundle-version="[3.108.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.12.0,4.0.0)",
@@ -12,6 +11,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.108.0,4.0.0)",
  org.knime.python3;bundle-version="[4.6.0,5.0.0)",
  org.eclipse.equinox.p2.engine
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.knime.python3.condaenv.bin
 Export-Package: org.knime.python3.condaenv.p2.actions

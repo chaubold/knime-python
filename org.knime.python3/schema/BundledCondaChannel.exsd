@@ -3,7 +3,7 @@
 <schema targetNamespace="org.knime.python3" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.knime.python3" id="BundledCondaChannel" name="BundledCondaChannel"/>
+         <meta.schema plugin="org.knime.python3" id="org.knime.python3.BundledCondaChannel" name="BundledCondaChannel"/>
       </appinfo>
       <documentation>
          Bundled Conda Channel exposed from the file system

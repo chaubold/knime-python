@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.knime.features.python3.condaenv"
-      label="KNIME Python (Labs) - Bundled Conda Environment"
+      id="org.knime.features.python3.condaenv.utils"
+      label="KNIME Python (Labs) - Bundled Conda Environment Utils"
       version="4.6.0.qualifier"
       provider-name="KNIME AG, Zurich, Switzerland">
 
    <description url="http://tech.knime.org/knime-labs">
-      This feature contains nodes of the TensorFlow integration of KNIME Deep Learning.
+      This feature contains the P2 action needed to create bundled conda environments
    </description>
 
    <copyright>
@@ -728,38 +728,10 @@ propagated with or for interoperation with KNIME.
    </license>
 
    <plugin
-         id="org.knime.python3.condaenv.bin"
-         arch="x86_64"
+         id="org.knime.python3.condaenv.p2.actions"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="org.knime.python3.condaenv.bin.macosx.amd64.cpu"
-         os="macosx"
-         arch="x86_64"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"/>
-
-   <plugin
-         id="org.knime.python3.condaenv.bin.linux.amd64.cpu"
-         os="linux"
-         arch="x86_64"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"/>
-
-   <plugin
-         id="org.knime.python3.condaenv.bin.windows.amd64.cpu"
-         os="win32"
-         arch="x86_64"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"/>
 
 </feature>
