@@ -27,6 +27,7 @@
 		<module>org.knime.features.python</module>
 		<module>org.knime.features.python2</module>
 		<module>org.knime.features.python3.scripting</module>
+		<module>org.knime.features.python3.condaenv</module>
 		<module>org.knime.python</module>
 		<module>org.knime.python.nodes</module>
 		<module>org.knime.python.typeextensions</module>
@@ -50,6 +51,10 @@
 		<module>org.knime.python3.py4j.dependencies</module>
 		<module>org.knime.python3.scripting</module>
 		<module>org.knime.python3.scripting.nodes</module>
+		<module>org.knime.python3.condaenv.bin</module>
+		<module>org.knime.python3.condaenv.bin.linux.amd64.cpu</module>
+		<module>org.knime.python3.condaenv.bin.macosx.amd64.cpu</module>
+		<module>org.knime.python3.condaenv.bin.windows.amd64.cpu</module>
 		<module>org.knime.update.python</module>
 	</modules>
 

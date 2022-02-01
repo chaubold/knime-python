@@ -138,7 +138,7 @@ public final class PythonFixedVersionOrBundledExecutableSelectionPanel extends P
         gbc.gridwidth = 2;
         add(m_usePreferencesButton, gbc);
         gbc.gridy++;
-        m_useBundledEnvButton = new JRadioButton("Use Bundled KNIME Python Environment (ignore Conda flow variables)");
+        m_useBundledEnvButton = new JRadioButton("Use Bundled KNIME Python Environment (ignore Conda and Python settings)");
         flowVarButtonGroup.add(m_useBundledEnvButton);
         add(m_useBundledEnvButton, gbc);
         gbc.gridy++;

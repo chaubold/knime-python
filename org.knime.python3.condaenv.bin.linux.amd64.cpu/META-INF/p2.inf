@@ -1,0 +1,4 @@
+instructions.install=\
+    org.knime.python3.condaenv.bin.createcondaenv(envName:knime-python-base,\
+                                     channels:knime-python-base,\
+                                     packages:knime-python-base);
