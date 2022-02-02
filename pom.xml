@@ -56,6 +56,7 @@
 		<module>org.knime.python3.condaenv.bin.linux.amd64.cpu</module>
 		<module>org.knime.python3.condaenv.bin.macosx.amd64.cpu</module>
 		<module>org.knime.python3.condaenv.bin.windows.amd64.cpu</module>
+		<module>org.knime.python3.condaenv.baseenv</module>
 		<module>org.knime.python3.condaenv.p2.actions</module>
 		<module>org.knime.update.python</module>
 	</modules>
