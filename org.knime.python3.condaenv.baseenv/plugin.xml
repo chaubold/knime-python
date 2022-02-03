@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension
+         point="org.knime.python3.CondaEnvironment">
+      <condaEnv
+            env="org.knime.python3.condaenv.baseenv.PythonBaseCondaEnv"
+            name="knime-python-base">
+      </condaEnv>
+   </extension>
 </plugin>

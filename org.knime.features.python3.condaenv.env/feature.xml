@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.knime.features.python3.condaenv.env"
-      label="KNIME Python (Labs) - Bundled Conda Environment"
+      id="org.knime.features.python3.condaenv.utils"
+      label="KNIME Python (Labs) - Bundled Conda Environment Utils"
       version="4.6.0.qualifier"
       provider-name="KNIME AG, Zurich, Switzerland">
 
@@ -728,7 +728,7 @@ propagated with or for interoperation with KNIME.
    </license>
 
    <plugin
-         id="org.knime.python3.condaenv.baseenv"
+         id="org.knime.python3.condaenv.p2.actions"
          download-size="0"
          install-size="0"
          version="0.0.0"

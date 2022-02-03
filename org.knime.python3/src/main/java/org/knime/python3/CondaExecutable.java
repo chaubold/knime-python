@@ -43,22 +43,17 @@
  *  when such Node is propagated with or for interoperation with KNIME.
  * ---------------------------------------------------------------------
  *
+ * History
+ *   Feb 3, 2022 (Carsten Haubold, KNIME GmbH, Konstanz, Germany): created
  */
-package org.knime.python3.condaenv.baseenv;
+package org.knime.python3;
 
 import java.nio.file.Path;
 
-import org.knime.python3.CondaEnv;
-import org.knime.python3.PythonSourceDirectoryLocator;
-
 /**
- * @author Carsten Haubold, KNIME GmbH, Konstanz, Germany, KNIME GmbH, Konstanz, Germany
+ *
+ * @author Carsten Haubold, KNIME GmbH, Konstanz, Germany
  */
-public final class PythonBaseCondaEnv implements CondaEnv {
-	public static final String NAME = "knime-python-base";
-
-	@Override
-	public Path getPythonExecutablePath() throws IllegalStateException {
-		return PythonSourceDirectoryLocator.getPathFor(PythonBaseCondaEnv.class, "env/bin/python");
-	}
+public interface CondaExecutable {
+    Path getPath();
 }

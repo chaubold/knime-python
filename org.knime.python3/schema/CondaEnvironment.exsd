@@ -3,10 +3,10 @@
 <schema targetNamespace="org.knime.python3" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.knime.python3" id="BundledCondaExecutable" name="BundledCondaExecutable"/>
+         <meta.schema plugin="org.knime.python3" id="CondaEnvironment" name="CondaEnvironment"/>
       </appinfo>
       <documentation>
-         Contains the path to a bundled conda executable used to construct environments for use with Python, R, etc.
+         [Enter description of this extension point.]
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="condaExecutable"/>
+            <element ref="condaEnv"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,15 +47,22 @@
       </complexType>
    </element>
 
-   <element name="condaExecutable">
+   <element name="condaEnv">
       <complexType>
-         <attribute name="executable" type="string">
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  Name used to identify this bundled conda environment
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="env" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.knime.python3.CondaExecutable"/>
+                  <meta.attribute kind="java" basedOn=":org.knime.python3.CondaEnv"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -67,7 +74,7 @@
          <meta.section type="since"/>
       </appinfo>
       <documentation>
-         4.6
+         [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 

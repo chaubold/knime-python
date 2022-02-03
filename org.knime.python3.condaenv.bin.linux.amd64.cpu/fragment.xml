@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <fragment>
-   <extension
-         point="org.knime.python3.BundledCondaExecutable">
-      <condaExecutable
-            executablePath="bin/micromamba">
-      </condaExecutable>
-   </extension>
-   <extension
-         point="org.knime.python3.BundledCondaChannel">
-      <condaChannel
-            folderPath="pkgs"
-            name="knime-python-base"
-            version="4.6.0">
-      </condaChannel>
-   </extension>
+
 </fragment>

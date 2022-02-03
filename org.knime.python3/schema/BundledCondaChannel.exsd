@@ -3,7 +3,7 @@
 <schema targetNamespace="org.knime.python3" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.knime.python3" id="org.knime.python3.BundledCondaChannel" name="BundledCondaChannel"/>
+         <meta.schema plugin="org.knime.python3" id="BundledCondaChannel" name="BundledCondaChannel"/>
       </appinfo>
       <documentation>
          Bundled Conda Channel exposed from the file system
@@ -49,13 +49,6 @@
 
    <element name="condaChannel">
       <complexType>
-         <attribute name="folderPath" type="string" use="required">
-            <annotation>
-               <documentation>
-                  Path to the folder containing the conda channel
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="version" type="string" use="required">
             <annotation>
                <documentation>
@@ -63,11 +56,14 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="name" type="string" use="required">
+         <attribute name="channel" type="string">
             <annotation>
                <documentation>
-                  The name of the conda channel. Should match the respective conda metapackage such that metapackages can reference each other.
+                  
                </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.knime.python3.CondaChannel"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>

@@ -50,6 +50,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.ILog;
@@ -57,6 +58,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.p2.engine.spi.ProvisioningAction;
+import org.knime.python3.CondaExecutable;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
@@ -111,21 +113,6 @@ public class CreateCondaEnv extends ProvisioningAction {
             
             final var condaExePath = getCondaExePath();
             logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv command: " + condaExePath));
-
-
-//            File dirFile = new File(directory);
-//            try {
-//                Process p = Runtime.getRuntime().exec(envName, null, dirFile);
-//                int exitVal = p.waitFor();
-//                if (exitVal != 0) {
-//                    logger.log(new Status(IStatus.ERROR, bundle.getSymbolicName(),
-//                        "ShellExec command exited non-zero exit value"));
-//                    return Status.CANCEL_STATUS;
-//                }
-//            } catch (Exception e) {
-//                logger.log(new Status(IStatus.ERROR, bundle.getSymbolicName(), "Exception occured", e));
-//                return Status.CANCEL_STATUS;
-//            }
         }
         return Status.OK_STATUS;
     }
@@ -147,13 +134,19 @@ public class CreateCondaEnv extends ProvisioningAction {
         }
 
         final var ext = point.getConfigurationElements()[0];
-        final var condaExe = ext.getAttribute("condaExecutable");
+        CondaExecutable condaExe = null;
+        try {
+        	condaExe = (CondaExecutable)ext.createExecutableExtension("executable");
+        } catch (CoreException e) {
+        	throw new IllegalStateException("Found extension point with conda executable, but could not instantiate it", e);
+        }
+        
         if (condaExe == null) {
             throw new IllegalStateException(
                 "Found extension point with conda executable, but it did not contain an executable path");
         }
 
-        final var condaPath = Paths.get(condaExe);
+        final var condaPath = condaExe.getPath();
         if (Files.exists(condaPath)) {
             throw new IllegalStateException(
                 "Found extension point with conda executable, but there is no file at the specified path " + condaExe);

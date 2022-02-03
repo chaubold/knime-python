@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+  <extension point="org.knime.python3.BundledCondaExecutable">
+  	<condaExecutable executable="org.knime.python3.condaenv.bin.MicromambaExecutable"></condaExecutable>
+  </extension>
+ 
+  <extension point="org.knime.python3.BundledCondaChannel">
+  	<condaChannel version="4.6.0" channel="org.knime.python3.condaenv.bin.PythonBaseCondaChannel"></condaChannel>
+  </extension>
 </plugin>

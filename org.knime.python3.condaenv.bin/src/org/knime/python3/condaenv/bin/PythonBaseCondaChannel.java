@@ -44,21 +44,29 @@
  * ---------------------------------------------------------------------
  *
  */
-package org.knime.python3.condaenv.baseenv;
+package org.knime.python3.condaenv.bin;
 
 import java.nio.file.Path;
 
-import org.knime.python3.CondaEnv;
+import org.knime.python3.CondaChannel;
 import org.knime.python3.PythonSourceDirectoryLocator;
 
 /**
  * @author Carsten Haubold, KNIME GmbH, Konstanz, Germany, KNIME GmbH, Konstanz, Germany
  */
-public final class PythonBaseCondaEnv implements CondaEnv {
+public class PythonBaseCondaChannel implements CondaChannel {
+
 	public static final String NAME = "knime-python-base";
+	
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
 
 	@Override
-	public Path getPythonExecutablePath() throws IllegalStateException {
-		return PythonSourceDirectoryLocator.getPathFor(PythonBaseCondaEnv.class, "env/bin/python");
+	public Path getPath() {
+		return PythonSourceDirectoryLocator.getPathFor(MicromambaExecutable.class, "bin/micromamba");
 	}
+
 }

@@ -7,6 +7,7 @@
    <feature id="org.knime.features.python2" version="0.0.0"/>
    <feature id="org.knime.features.python2.source" version="0.0.0"/>
    <feature id="org.knime.features.python3.condaenv" version="0.0.0"/>
+   <feature id="org.knime.features.python3.condaenv.env" version="0.0.0"/>
    <feature id="org.knime.features.python3.condaenv.utils" version="0.0.0"/>
    <feature id="org.knime.features.python3.scripting" version="0.0.0"/>
    <feature id="org.knime.features.python3.scripting.source" version="0.0.0"/>
