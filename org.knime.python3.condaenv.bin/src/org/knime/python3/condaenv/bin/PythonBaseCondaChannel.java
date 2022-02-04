@@ -66,7 +66,7 @@ public class PythonBaseCondaChannel implements CondaChannel {
 
 	@Override
 	public Path getPath() {
-		return PythonSourceDirectoryLocator.getPathFor(MicromambaExecutable.class, "bin/micromamba");
+		return PythonSourceDirectoryLocator.getPathFor(PythonBaseCondaChannel.class, "pkgs");
 	}
 
 }

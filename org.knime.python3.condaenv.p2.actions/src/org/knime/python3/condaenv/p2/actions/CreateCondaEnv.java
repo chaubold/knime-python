@@ -44,6 +44,7 @@
  */
 package org.knime.python3.condaenv.p2.actions;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,6 +59,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.p2.engine.spi.ProvisioningAction;
+import org.knime.python3.CondaChannel;
 import org.knime.python3.CondaExecutable;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
@@ -83,23 +85,27 @@ public class CreateCondaEnv extends ProvisioningAction {
         }
 
         if (verifyOS(os)) {
-            String envName = null;
-            String[] channels = null;
-            String[] packages = null;
+            String envPath = null;
+            StringBuilder channelPaths = new StringBuilder();
+            String packages = "";
 
-            if (parameters.containsKey("envName")) {
-                envName = (String)parameters.get("envName");
-                logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv envName: " + envName));
+            if (parameters.containsKey("envPath")) {
+                envPath = (String)parameters.get("envPath");
+                logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv envPath: " + envPath));
+            } else {
+            	logger.log(new Status(IStatus.ERROR, bundle.getSymbolicName(), "No Conda environment path specified"));
+            	return Status.CANCEL_STATUS;
             }
 
             if (parameters.containsKey("channels")) {
-                channels = ((String)parameters.get("channels")).split("#");
+                String[] channels = ((String)parameters.get("channels")).split("#");
                 logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv channels: " + channels));
                 
                 for (var c : channels) {
                 	try {
 	                	final var channelPath = getCondaChannelPath(c);
 	                	logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "\tChannel: " + c + " at " + channelPath));
+	                	channelPaths.append("-c " + channelPath + " ");
                 	} catch(IllegalStateException e) {
                 		logger.log(new Status(IStatus.ERROR, bundle.getSymbolicName(), "\tChannel: " + c + " not found!"));
                 	}
@@ -107,12 +113,41 @@ public class CreateCondaEnv extends ProvisioningAction {
             }
 
             if (parameters.containsKey("packages")) {
-                packages = ((String)parameters.get("packages")).split("#");
+            	String[] ps = ((String)parameters.get("packages")).split("#");
+            	for (var p : ps) {
+            		packages = packages + " " + p;
+            	}
                 logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv packages: " + packages));
-            }
+	        } else {
+	        	logger.log(new Status(IStatus.ERROR, bundle.getSymbolicName(), "No Conda packages specified"));
+	        	return Status.CANCEL_STATUS;
+	        }
             
             final var condaExePath = getCondaExePath();
             logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv command: " + condaExePath));
+            File condaExeFile = condaExePath.toFile();
+            if (!condaExeFile.canExecute()) {
+            	logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CondaExe was not executable, fixing that...."));
+            	condaExeFile.setExecutable(true);
+            }
+            
+            String command = condaExePath + " create -p " + envPath + " -y --override-channels " +  channelPaths.toString() + " " + packages;
+            
+            logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "Running post-install: " + command));
+            try {
+                Process p = Runtime.getRuntime().exec(command, null, null);
+                int exitVal = p.waitFor();
+                if (exitVal != 0) {
+                    logger.log(new Status(IStatus.ERROR, bundle
+                            .getSymbolicName(),
+                            "ShellExec command exited non-zero exit value"));
+                    return Status.CANCEL_STATUS;
+                }
+            } catch (Exception e) {
+                logger.log(new Status(IStatus.ERROR, bundle.getSymbolicName(),
+                        "Exception occured", e));
+                return Status.CANCEL_STATUS;
+            }
         }
         return Status.OK_STATUS;
     }
@@ -147,7 +182,7 @@ public class CreateCondaEnv extends ProvisioningAction {
         }
 
         final var condaPath = condaExe.getPath();
-        if (Files.exists(condaPath)) {
+        if (!Files.exists(condaPath)) {
             throw new IllegalStateException(
                 "Found extension point with conda executable, but there is no file at the specified path " + condaExe);
         }
@@ -163,23 +198,28 @@ public class CreateCondaEnv extends ProvisioningAction {
         	throw new IllegalStateException("Could not find required extension point 'BundledCondaChannel'");
         }
 
-        final var optionalExt = Arrays.stream(point.getConfigurationElements())
-            .filter(e -> e.getAttribute("name").equals(condaChannelName)).findAny();
-        if (!optionalExt.isPresent()) {
-            throw new IllegalStateException("No bundled conda channel available with name " + condaChannelName);
+        CondaChannel channel = null;
+        
+        for (var ext: point.getConfigurationElements()) {
+            try {
+            	CondaChannel c = (CondaChannel)ext.createExecutableExtension("channel");
+            	if (c.getName().equals(condaChannelName))
+            	{
+            		channel = c;
+            	}
+            } catch (CoreException e) {
+            	throw new IllegalStateException("Ignoring extension because it could not be instantiated", e);
+            }
+        }
+        
+        if (channel == null) {
+            throw new IllegalStateException("Did not find extension point for conda channel " + condaChannelName);
         }
 
-        final var ext = optionalExt.get();
-        final var condaChannel = ext.getAttribute("folderPath");
-        if (condaChannel == null) {
+        final var condaChannelPath = channel.getPath();
+        if (!Files.exists(condaChannelPath)) {
             throw new IllegalStateException("Found extension point for conda channel " + condaChannelName
-                + ", but it contained an empty path");
-        }
-
-        final var condaChannelPath = Paths.get(condaChannel);
-        if (Files.exists(condaChannelPath)) {
-            throw new IllegalStateException("Found extension point for conda channel " + condaChannelName
-                + ", but it did not contain a valid path " + condaChannel);
+                + ", but it did not contain a valid path " + condaChannelPath);
         }
 
         return condaChannelPath;
