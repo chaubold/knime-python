@@ -64,6 +64,11 @@ import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.knime.core.node.FlowVariableModel;
 import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeDialogPane;
@@ -80,6 +85,7 @@ import org.knime.python2.PythonCommand;
 import org.knime.python2.PythonVersion;
 import org.knime.python2.config.PythonCommandConfig;
 import org.knime.python2.config.PythonExecutableSelectionPanel;
+import org.knime.python3.CondaEnv;
 
 /**
  * Copy of PythonFixedVersionExecutableSelectionPanel.
@@ -94,8 +100,6 @@ public final class PythonFixedVersionOrBundledExecutableSelectionPanel extends P
 
     private static final String UNKNOWN_FLOW_VARIABLE_COMMAND_STRING = "unknown_flow_variable_selected";
 
-    public static final String BUNDLED_ENV_COMMAND_STRING = "bundled_env_selected";
-
     private final NodeDialogPane m_dialog; // NOSONAR Not intended for serialization.
 
     private final PythonCommandConfig m_config; // NOSONAR Not intended for serialization.
@@ -107,6 +111,8 @@ public final class PythonFixedVersionOrBundledExecutableSelectionPanel extends P
     private final JRadioButton m_useVariableButton;
 
     private final JRadioButton m_useBundledEnvButton;
+
+    private CondaEnv m_bundledCondaEnv;
 
     // Sonar: Not intended for serialization.
     private final PythonEnvironmentVariableSelectionBox m_variableSelectionBox; // NOSONAR
@@ -124,6 +130,7 @@ public final class PythonFixedVersionOrBundledExecutableSelectionPanel extends P
         m_dialog = dialog;
         m_config = config;
         m_flowVariableModel = dialog.createFlowVariableModel(m_config.getConfigKey(), StringType.INSTANCE);
+        m_bundledCondaEnv = findBundledCondaEnv("knime-python-base");
 
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -138,10 +145,14 @@ public final class PythonFixedVersionOrBundledExecutableSelectionPanel extends P
         gbc.gridwidth = 2;
         add(m_usePreferencesButton, gbc);
         gbc.gridy++;
+
         m_useBundledEnvButton = new JRadioButton("Use Bundled KNIME Python Environment (ignore Conda and Python settings)");
-        flowVarButtonGroup.add(m_useBundledEnvButton);
-        add(m_useBundledEnvButton, gbc);
-        gbc.gridy++;
+        if (m_bundledCondaEnv != null) {
+            flowVarButtonGroup.add(m_useBundledEnvButton);
+            add(m_useBundledEnvButton, gbc);
+            gbc.gridy++;
+        }
+
         m_useVariableButton = new JRadioButton("Use Conda flow variable");
         flowVarButtonGroup.add(m_useVariableButton);
         gbc.gridwidth = 1;
@@ -154,6 +165,33 @@ public final class PythonFixedVersionOrBundledExecutableSelectionPanel extends P
         m_useBundledEnvButton.addActionListener(e -> updateModel(null, true));
         m_useVariableButton.addActionListener(e -> updateModel(m_variableSelectionBox.getSelectedVariableName(), false));
         m_flowVariableModel.addChangeListener(e -> updateConfigAndView());
+    }
+
+    private CondaEnv findBundledCondaEnv(final String envName) {
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+        IExtensionPoint point = registry.getExtensionPoint("org.knime.python3.CondaEnvironment");
+
+        if (point == null) {
+            throw new IllegalStateException("Could not find required extension point 'CondaEnvironment'");
+        }
+
+        IConfigurationElement condaEnvExt = null;
+        for (var ext : point.getConfigurationElements()) {
+            if (ext.getAttribute("name").equals(envName)) {
+                condaEnvExt = ext;
+                break;
+            }
+        }
+
+        if (null == condaEnvExt) {
+            throw new IllegalStateException("Could not find conda environment extension with name " + envName);
+        }
+
+        try {
+            return (CondaEnv)condaEnvExt.createExecutableExtension("env");
+        } catch (CoreException e) {
+            throw new IllegalStateException("Found extension point with conda environment, but could not instantiate it", e);
+        }
     }
 
     @Override
@@ -209,7 +247,7 @@ public final class PythonFixedVersionOrBundledExecutableSelectionPanel extends P
     private void updateConfigAndView() {
         final String commandString;
         if (m_useBundledEnvButton.isSelected()) {
-            commandString = BUNDLED_ENV_COMMAND_STRING;
+            commandString = m_bundledCondaEnv.getPythonExecutablePath().toString();
         } else if (!m_flowVariableModel.isVariableReplacementEnabled()) {
             // States 1 & 5
             commandString = null;
