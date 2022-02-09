@@ -1,6 +1,6 @@
 # create environments for base and mdf, searching for the knime-python metapackages in conda-bld
-micromamba env create -n basedepsmamba knime-python-base python=3.9 -c /home/chaubold/miniconda3/conda-bld -c conda-forge --override-channels
-micromamba env create -n mdfdepsmamba knime-python-mdf python=3.9 -c /home/chaubold/miniconda3/conda-bld -c conda-forge --override-channels
+micromamba create -n basedepsmamba knime-python-base python=3.9 -c /home/chaubold/src/knime-python/testenv/conda-bld -c conda-forge --override-channels
+micromamba create -n mdfdepsmamba knime-python-mdf python=3.9 -c /home/chaubold/src/knime-python/testenv/conda-bld -c conda-forge --override-channels
 
 # get list of all required packages in those environments
 micromamba activate basedepsmamba
@@ -9,7 +9,8 @@ micromamba activate mdfdepsmamba
 conda list --explicit > mdfdepsmamba.txt
 
 # Download all required packages to our own local "channel".
-# A "linux-64" subfolder is needed because conda sorts packages by architecture like this
+# A "linux-64" subfolder is needed because conda sorts packages by architecture like this.
+# On M1 Mac, use osx-arm64.
 # (needs python and requests in the active env)
 python /home/chaubold/src/knime-python/org.knime.python3.conda.recipes/get_packages.py basedepsmamba.txt --dest base_channel/linux-64
 python /home/chaubold/src/knime-python/org.knime.python3.conda.recipes/get_packages.py mdfdepsmamba.txt --base basedepsmamba.txt --dest mdf_channel/linux-64

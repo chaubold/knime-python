@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.knime.features.python3.condaenv.utils"
-      label="KNIME Python (Labs) - Bundled Conda Environment Utils"
+      id="org.knime.features.python3.condaenv.env"
+      label="KNIME Python (Labs) - Bundled Conda Environment Creator"
       version="4.6.0.qualifier"
       provider-name="KNIME AG, Zurich, Switzerland">
 
    <description url="http://tech.knime.org/knime-labs">
-      This feature contains the P2 action needed to create bundled conda environments
+      This feature creates the conda env for python
    </description>
 
    <copyright>
@@ -727,11 +727,15 @@ license terms applicable to such Node, including when such Node is
 propagated with or for interoperation with KNIME.
    </license>
 
+   <requires>
+      <import plugin="org.knime.python3.condaenv.p2.actions"/>
+      <import feature="org.knime.features.python3.condaenv" version="4.6.0.qualifier"/>
+   </requires>
+
    <plugin
-         id="org.knime.python3.condaenv.p2.actions"
+         id="org.knime.python3.condaenv.baseenv"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

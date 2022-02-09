@@ -6,7 +6,7 @@
       provider-name="KNIME AG, Zurich, Switzerland">
 
    <description url="http://tech.knime.org/knime-labs">
-      This feature contains nodes of the TensorFlow integration of KNIME Deep Learning.
+      This feature contains the binary files of KNIME&apos;s bundled Python environment
    </description>
 
    <copyright>
