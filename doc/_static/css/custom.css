@@ -1,9 +1,15 @@
-
-
 .wy-nav-content{
-    max-width: 100%;
+    max-width: 100% !important;
+
+}
+.rst-content{
+    max-width: 1000px !important;
 }
 
+
+dl, ol, ul {
+    width: 100% !important;
+}
 
 dt {    
     border-top: 3px solid #ffd800 !important;
@@ -19,5 +25,5 @@ html.writer-html4 .rst-content dl:not(.docutils) > dt, html.writer-html5 .rst-co
 }
 
 .a.reference{
-    color: :black !important;
-}
+    color: black !important;
+
