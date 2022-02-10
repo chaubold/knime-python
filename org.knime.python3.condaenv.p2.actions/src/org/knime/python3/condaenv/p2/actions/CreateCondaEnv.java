@@ -89,31 +89,14 @@ public class CreateCondaEnv extends ProvisioningAction {
 		if (verifyOS(os)) {
 			String envPath = null;
 			List<String> channelPaths = new ArrayList<>();
-			String[] packages;
+			String packageListFile = null;
 
 			logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "Running on OS: " + os));
 			logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(),
 					"Running from Bundle: " + bundle.getSymbolicName()));
 
-			// // can we find the path _before_ installing and restarting the platform?
-			// var channelBundle = Platform.getBundle("org.knime.python3.condaenv.bin");
-			// if (channelBundle == null)
-			// {
-			// throw new IllegalStateException("Did not find channel bundle");
-			// }
-			// var entries = bundle.findEntries("", null, false);
-			// if (entries == null || !entries.hasMoreElements())
-			// {
-			// throw new IllegalStateException("Did not find packages inside bundle");
-			// }
-			//
-			// while (entries.hasMoreElements()) {
-			// logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "Found path to packages: " +
-			// entries.nextElement()));
-			// }
-
 			var condaEnvLocation = Platform.getConfigurationLocation();
-			logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "Config Location: " + condaEnvLocation));
+			logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "Config Location: " + condaEnvLocation.getURL().getPath()));
 
 			if (parameters.containsKey("envPath")) {
 				envPath = (String) parameters.get("envPath");
@@ -141,8 +124,8 @@ public class CreateCondaEnv extends ProvisioningAction {
 			}
 
 			if (parameters.containsKey("packages")) {
-				packages = ((String) parameters.get("packages")).split("#");
-				logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv packages: " + packages));
+				packageListFile = (String)parameters.get("packages"); 
+				logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "CreateCondaEnv package list: " + packageListFile));
 			} else {
 				logger.log(new Status(IStatus.ERROR, bundle.getSymbolicName(), "No Conda packages specified"));
 				return Status.CANCEL_STATUS;
@@ -168,9 +151,8 @@ public class CreateCondaEnv extends ProvisioningAction {
 				command.add("-c");
 				command.add(c);
 			}
-			for (var p : packages) {
-				command.add(p);
-			}
+			command.add("-f");
+			command.add(packageListFile);
 
 			logger.log(new Status(IStatus.INFO, bundle.getSymbolicName(), "Running post-install: " + command));
 			try {
