@@ -1,0 +1,1 @@
+{"build": "h815e4d9_4", "build_number": 4, "depends": ["openssl >=1.1.1l,<1.1.2a"], "license": "BSD-3-Clause", "license_family": "BSD", "name": "libevent", "subdir": "osx-64", "timestamp": 1633489506111, "version": "2.1.10", "size": 1150901, "md5": "adc6c89498c5f6fe5ba874d8259e7eeb", "sha256": "8d2f1f172ba56d531428b71b7b163714393bce557f7ff83f7d9a7324b57f2164"}

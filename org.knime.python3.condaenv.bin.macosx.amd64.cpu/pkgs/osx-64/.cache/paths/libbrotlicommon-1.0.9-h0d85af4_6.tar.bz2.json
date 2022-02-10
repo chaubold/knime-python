@@ -1,0 +1,31 @@
+{
+  "paths": [
+    {
+      "_path": "lib/libbrotlicommon.1.0.9.dylib",
+      "path_type": "hardlink",
+      "sha256": "f411aa6826de0ef6e3f6ddad423733d4e7399659266a192c7767885cfa1f5253",
+      "size_in_bytes": 140248
+    },
+    {
+      "_path": "lib/libbrotlicommon.1.dylib",
+      "path_type": "softlink",
+      "sha256": "f411aa6826de0ef6e3f6ddad423733d4e7399659266a192c7767885cfa1f5253",
+      "size_in_bytes": 140248
+    },
+    {
+      "_path": "lib/libbrotlicommon.dylib",
+      "path_type": "softlink",
+      "sha256": "f411aa6826de0ef6e3f6ddad423733d4e7399659266a192c7767885cfa1f5253",
+      "size_in_bytes": 140248
+    },
+    {
+      "_path": "lib/pkgconfig/libbrotlicommon.pc",
+      "file_mode": "text",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/brotli-split_1635845996591/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeh",
+      "sha256": "31b11b040f552666b0f50d17275ec66e4d3848198e9b0002d3025de3462f65f8",
+      "size_in_bytes": 760
+    }
+  ],
+  "paths_version": 1
+}

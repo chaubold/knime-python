@@ -1,0 +1,1 @@
+{"build": "habf9029_1", "build_number": 1, "depends": [], "license": "Apache-2.0 WITH LLVM-exception", "license_family": "Apache", "name": "libcxx", "subdir": "osx-64", "timestamp": 1640852344389, "version": "12.0.1", "size": 1102586, "md5": "444dfb8ed0bf2a8864f73eb6436b29e0", "sha256": "a5d781ed2480d50c274af256d6e7ccfc9a64b65375959be946110ec7e46efd7e"}

@@ -1,0 +1,1 @@
+{"build": "he49afe7_0", "build_number": 0, "depends": ["libcxx >=11.1.0"], "license": "BSD-3-Clause", "name": "re2", "subdir": "osx-64", "timestamp": 1635753210344, "version": "2021.11.01", "size": 199423, "md5": "0fdbc27fc0cfe4873554514762905562", "sha256": "733205004ba8ac47ab7c208e7cf8a38f704b820ea86c9a472d43048d69f3d150"}

@@ -1,0 +1,1 @@
+{"build": "pyhd8ed1ab_1", "build_number": 1, "depends": ["python >=3.6"], "license": "BSD-3-Clause", "license_family": "BSD", "name": "py4j", "noarch": "python", "subdir": "noarch", "timestamp": 1639545886682, "version": "0.10.9.3", "size": 184458, "md5": "be4e187a895d2ae834e050a14b025888", "sha256": "af4fa4d4eabf2d04c4a8c3d3caf09c50606bf9c7f9799f60d5271509d3f6a5ee"}

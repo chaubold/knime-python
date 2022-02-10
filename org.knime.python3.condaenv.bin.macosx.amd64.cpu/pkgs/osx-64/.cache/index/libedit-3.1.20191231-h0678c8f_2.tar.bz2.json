@@ -1,0 +1,1 @@
+{"build": "h0678c8f_2", "build_number": 2, "depends": ["ncurses >=6.2,<6.3.0a0"], "license": "BSD-2-Clause", "license_family": "BSD", "name": "libedit", "subdir": "osx-64", "timestamp": 1597616576726, "version": "3.1.20191231", "size": 105382, "md5": "6016a8a1d0e63cac3de2c352cd40208b", "sha256": "dbd3c3f2eca1d21c52e4c03b21930bbce414c4592f8ce805801575b9e9256095"}

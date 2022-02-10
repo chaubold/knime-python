@@ -1,0 +1,1 @@
+{"build": "h0010a65_7", "build_number": 7, "depends": ["aws-c-common >=0.6.2,<0.6.3.0a0"], "license": "Apache-2.0", "license_family": "Apache", "name": "aws-checksums", "subdir": "osx-64", "timestamp": 1623336674465, "version": "0.1.11", "size": 49001, "md5": "c86bc781dc7b3ba4e6130ffb14da0d6b", "sha256": "d1d92d3fdb2967903d19379349fabd788825d6f623ed1456cb467a96749dca3a"}

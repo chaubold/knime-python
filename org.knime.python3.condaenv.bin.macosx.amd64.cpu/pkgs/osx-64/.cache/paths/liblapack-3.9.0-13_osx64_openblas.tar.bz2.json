@@ -1,0 +1,17 @@
+{
+  "paths": [
+    {
+      "_path": "lib/liblapack.3.dylib",
+      "path_type": "softlink",
+      "sha256": "8be96cd2b4117ef9085dcc5a204f5168ec51b32b5f247efc931f210ca544f13b",
+      "size_in_bytes": 65618692
+    },
+    {
+      "_path": "lib/liblapack.dylib",
+      "path_type": "softlink",
+      "sha256": "8be96cd2b4117ef9085dcc5a204f5168ec51b32b5f247efc931f210ca544f13b",
+      "size_in_bytes": 65618692
+    }
+  ],
+  "paths_version": 1
+}

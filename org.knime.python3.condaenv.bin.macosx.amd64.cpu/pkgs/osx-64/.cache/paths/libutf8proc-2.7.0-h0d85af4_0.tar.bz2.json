@@ -1,0 +1,37 @@
+{
+  "paths": [
+    {
+      "_path": "include/utf8proc.h",
+      "path_type": "hardlink",
+      "sha256": "c44e100dc7955a6112dbc32443213a0d63ed1f0442eabb475b59f57cf26174f5",
+      "size_in_bytes": 31001
+    },
+    {
+      "_path": "lib/libutf8proc.2.5.0.dylib",
+      "path_type": "hardlink",
+      "sha256": "85e68df38c50efa8ec35a70f393f7b579a3f324e5a6050c2cba8c5c9ec07b4b1",
+      "size_in_bytes": 346340
+    },
+    {
+      "_path": "lib/libutf8proc.2.dylib",
+      "path_type": "softlink",
+      "sha256": "85e68df38c50efa8ec35a70f393f7b579a3f324e5a6050c2cba8c5c9ec07b4b1",
+      "size_in_bytes": 346340
+    },
+    {
+      "_path": "lib/libutf8proc.dylib",
+      "path_type": "softlink",
+      "sha256": "85e68df38c50efa8ec35a70f393f7b579a3f324e5a6050c2cba8c5c9ec07b4b1",
+      "size_in_bytes": 346340
+    },
+    {
+      "_path": "lib/pkgconfig/libutf8proc.pc",
+      "file_mode": "text",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/libutf8proc_1639720382425/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho",
+      "sha256": "8321face677138a6f1079331fd6383556df244404826e119dd89f64ef60e2736",
+      "size_in_bytes": 1212
+    }
+  ],
+  "paths_version": 1
+}

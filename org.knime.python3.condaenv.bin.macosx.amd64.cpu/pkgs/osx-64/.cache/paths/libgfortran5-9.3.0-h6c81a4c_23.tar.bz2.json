@@ -1,0 +1,65 @@
+{
+  "paths": [
+    {
+      "_path": "lib/libgcc_s.1.dylib",
+      "file_mode": "binary",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/gfortran_impl_osx-64_1627437346774/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol",
+      "sha256": "624792f873a15f4975412d442ee92849c88eac7bac9349b2c1b191a1f28c43ce",
+      "size_in_bytes": 148336
+    },
+    {
+      "_path": "lib/libgcc_s_ppc64.1.dylib",
+      "path_type": "softlink",
+      "sha256": "624792f873a15f4975412d442ee92849c88eac7bac9349b2c1b191a1f28c43ce",
+      "size_in_bytes": 148336
+    },
+    {
+      "_path": "lib/libgcc_s_x86_64.1.dylib",
+      "path_type": "softlink",
+      "sha256": "624792f873a15f4975412d442ee92849c88eac7bac9349b2c1b191a1f28c43ce",
+      "size_in_bytes": 148336
+    },
+    {
+      "_path": "lib/libgfortran.5.dylib",
+      "file_mode": "binary",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/gfortran_impl_osx-64_1627437346774/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol",
+      "sha256": "2da0a73429f6dffb3831924017456842f9cd08c9823b98acb913c1e48d6dadef",
+      "size_in_bytes": 6443468
+    },
+    {
+      "_path": "lib/libgfortran.dylib",
+      "path_type": "softlink",
+      "sha256": "2da0a73429f6dffb3831924017456842f9cd08c9823b98acb913c1e48d6dadef",
+      "size_in_bytes": 6443468
+    },
+    {
+      "_path": "lib/libgomp.1.dylib",
+      "path_type": "softlink",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_in_bytes": 0
+    },
+    {
+      "_path": "lib/libgomp.dylib",
+      "path_type": "softlink",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_in_bytes": 0
+    },
+    {
+      "_path": "lib/libquadmath.0.dylib",
+      "file_mode": "binary",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/gfortran_impl_osx-64_1627437346774/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol",
+      "sha256": "ff515902d571ac533ca6d5f9e1d24cbbd7950fdcf7c5ff84ef271db9a71612d2",
+      "size_in_bytes": 302524
+    },
+    {
+      "_path": "lib/libquadmath.dylib",
+      "path_type": "softlink",
+      "sha256": "ff515902d571ac533ca6d5f9e1d24cbbd7950fdcf7c5ff84ef271db9a71612d2",
+      "size_in_bytes": 302524
+    }
+  ],
+  "paths_version": 1
+}

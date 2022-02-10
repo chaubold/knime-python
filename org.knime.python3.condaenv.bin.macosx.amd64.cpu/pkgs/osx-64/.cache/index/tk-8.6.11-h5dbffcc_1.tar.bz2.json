@@ -1,0 +1,1 @@
+{"build": "h5dbffcc_1", "build_number": 1, "depends": ["zlib >=1.2.11,<1.3.0a0"], "license": "TCL", "license_family": "BSD", "name": "tk", "subdir": "osx-64", "timestamp": 1630564082305, "version": "8.6.11", "size": 3472552, "md5": "e35b11155bd70facee39dfdec7368ad0", "sha256": "271dd232cd8192b84010f3736604e33ea4905bb0e6512199d92334af1cb90310"}

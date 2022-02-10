@@ -1,0 +1,257 @@
+{
+  "paths": [
+    {
+      "_path": "share/py4j/py4j0.10.9.3.jar",
+      "path_type": "hardlink",
+      "sha256": "926e5a0b7d53e4edf8196379499ea610a3564b4b356ec6b6044b59e66a7a07e3",
+      "size_in_bytes": 121370
+    },
+    {
+      "_path": "site-packages/py4j-0.10.9.3.dist-info/INSTALLER",
+      "path_type": "hardlink",
+      "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+      "size_in_bytes": 5
+    },
+    {
+      "_path": "site-packages/py4j-0.10.9.3.dist-info/LICENSE.txt",
+      "path_type": "hardlink",
+      "sha256": "d998e68845ef0fdf5434de8ab51843d8a5461c9fab88b5ebb801e84b6b4b4824",
+      "size_in_bytes": 1481
+    },
+    {
+      "_path": "site-packages/py4j-0.10.9.3.dist-info/METADATA",
+      "path_type": "hardlink",
+      "sha256": "1af2cc9c543f377cc4d4cb45af08a466d3c36bf5c9a9a877edd8dcc76e772b78",
+      "size_in_bytes": 1468
+    },
+    {
+      "_path": "site-packages/py4j-0.10.9.3.dist-info/RECORD",
+      "path_type": "hardlink",
+      "sha256": "fbfe6ff0eb8b8da3ff0c920ba783a0b756558dc3b8d65f01e0c67ebd93ef1d32",
+      "size_in_bytes": 5388
+    },
+    {
+      "_path": "site-packages/py4j-0.10.9.3.dist-info/REQUESTED",
+      "path_type": "hardlink",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_in_bytes": 0
+    },
+    {
+      "_path": "site-packages/py4j-0.10.9.3.dist-info/WHEEL",
+      "path_type": "hardlink",
+      "sha256": "5b367c7308e1f25d23b542cd8d8ab51e9afe582a824603ebfbe4d7e0fe48d56a",
+      "size_in_bytes": 110
+    },
+    {
+      "_path": "site-packages/py4j-0.10.9.3.dist-info/direct_url.json",
+      "path_type": "hardlink",
+      "sha256": "57f01e72a58f96cf6df69366aa184673c2c850bca42cb7a334df21a226e6c92f",
+      "size_in_bytes": 100
+    },
+    {
+      "_path": "site-packages/py4j-0.10.9.3.dist-info/top_level.txt",
+      "path_type": "hardlink",
+      "sha256": "3a27edd0380730450ee253aff8b1dd82443ca43e0afa879c52780a078c31efc2",
+      "size_in_bytes": 5
+    },
+    {
+      "_path": "site-packages/py4j/__init__.py",
+      "path_type": "hardlink",
+      "sha256": "310e023bede5377c068b2257df325cca4218aa205b604ccfacb9860f27172eef",
+      "size_in_bytes": 111
+    },
+    {
+      "_path": "site-packages/py4j/clientserver.py",
+      "path_type": "hardlink",
+      "sha256": "950f88b9fd6d4a74f8f3283fe6bd323de0c854289f37bef5b9ea4c30a24762e1",
+      "size_in_bytes": 26941
+    },
+    {
+      "_path": "site-packages/py4j/compat.py",
+      "path_type": "hardlink",
+      "sha256": "db545e72eb4758295fc96984c46ce112964843350ee4b206523d9de697bce9a9",
+      "size_in_bytes": 2329
+    },
+    {
+      "_path": "site-packages/py4j/finalizer.py",
+      "path_type": "hardlink",
+      "sha256": "f25aca1810174eae9f8c0d36cc6667f2e3afe12050c16c94ac0e330e57ec384c",
+      "size_in_bytes": 4306
+    },
+    {
+      "_path": "site-packages/py4j/java_collections.py",
+      "path_type": "hardlink",
+      "sha256": "023cc500df69270ef14b3c636350056977117da65da4901397c81d040810b83f",
+      "size_in_bytes": 18289
+    },
+    {
+      "_path": "site-packages/py4j/java_gateway.py",
+      "path_type": "hardlink",
+      "sha256": "d0e4ae6cc0d4f28fc62ab423ba8ee95bac3b2b4605aaf19e8627935e66a1f532",
+      "size_in_bytes": 97455
+    },
+    {
+      "_path": "site-packages/py4j/protocol.py",
+      "path_type": "hardlink",
+      "sha256": "5132648e9cda3387e118ac89dd176857b24d027a8dd94aa7572ca198755a3148",
+      "size_in_bytes": 14805
+    },
+    {
+      "_path": "site-packages/py4j/signals.py",
+      "path_type": "hardlink",
+      "sha256": "22d8d9381d1ac88a2e1007275d1e41ef48d21149fae019582707b2d34e78732d",
+      "size_in_bytes": 4361
+    },
+    {
+      "_path": "site-packages/py4j/tests/__init__.py",
+      "path_type": "hardlink",
+      "sha256": "74a086514ccd48ff6023a9e822975fd4dcd7549ec215e465993c26b426d5e84e",
+      "size_in_bytes": 20
+    },
+    {
+      "_path": "site-packages/py4j/tests/benchmark1.py",
+      "path_type": "hardlink",
+      "sha256": "dde2a449aa93d360500c45736bae8e2bce28575bc0f7c7677afaa819c949d993",
+      "size_in_bytes": 3946
+    },
+    {
+      "_path": "site-packages/py4j/tests/byte_string_test.py",
+      "path_type": "hardlink",
+      "sha256": "bdf58753e82a7f09599911172a253267a8465f79a85f141905d3df5febc7934b",
+      "size_in_bytes": 1109
+    },
+    {
+      "_path": "site-packages/py4j/tests/client_server_test.py",
+      "path_type": "hardlink",
+      "sha256": "26c85d687e6bc29a95450c25eb516f575a753076505181d25b2ca3dba1f0fcc8",
+      "size_in_bytes": 26770
+    },
+    {
+      "_path": "site-packages/py4j/tests/finalizer_test.py",
+      "path_type": "hardlink",
+      "sha256": "706a5ca11a1ede4f08ced5b55fa502f355f4a1fec02573be4137dc1e5c590efe",
+      "size_in_bytes": 4440
+    },
+    {
+      "_path": "site-packages/py4j/tests/instrumented.py",
+      "path_type": "hardlink",
+      "sha256": "1505e6fdf4b463e07ef5e3d5eec92849ef96fe9cb338cbcd12898285af596c26",
+      "size_in_bytes": 5570
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_array_test.py",
+      "path_type": "hardlink",
+      "sha256": "0c7f16a5865666db49c076fc28fa92c951339df8926e88c8cd8dfc7a5908d52d",
+      "size_in_bytes": 2785
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_callback_test.py",
+      "path_type": "hardlink",
+      "sha256": "08d6ca44a71e7979306d34962250242b4149291cde1673e4a2b5dfc81c0de6b4",
+      "size_in_bytes": 17003
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_dir_test.py",
+      "path_type": "hardlink",
+      "sha256": "676325468c5bd077fe9a06aed40eab701d93da9bf72852fa5875993a1592de8e",
+      "size_in_bytes": 4659
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_gateway_test.py",
+      "path_type": "hardlink",
+      "sha256": "490acd5cfe8353e0bd99469618215f622fb7e3be09e088563af55ea5e2018a00",
+      "size_in_bytes": 48133
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_help_test.py",
+      "path_type": "hardlink",
+      "sha256": "400a0f3c64ff5cf8d6dc4b0293b65c2ab2e1375778799403d4a433a956b644eb",
+      "size_in_bytes": 3182
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_list_test.py",
+      "path_type": "hardlink",
+      "sha256": "3332dc4bf38b8c9b1ca3d74a8d6590589c978521a267f107e0c1b534a9cebb29",
+      "size_in_bytes": 10462
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_map_test.py",
+      "path_type": "hardlink",
+      "sha256": "8f2e705ccde95ae32ebb06f60afa8e638ab2a28df0b392140a2595d60406e664",
+      "size_in_bytes": 2329
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_set_test.py",
+      "path_type": "hardlink",
+      "sha256": "7d95576d66399c6d52bc5928eddb92ae907db484a37134efed91cf4db82b603a",
+      "size_in_bytes": 3056
+    },
+    {
+      "_path": "site-packages/py4j/tests/java_tls_test.py",
+      "path_type": "hardlink",
+      "sha256": "15232312da867b84535ea720fb2664aaf87bb0fa8258c2282756b6c55935fbbe",
+      "size_in_bytes": 2847
+    },
+    {
+      "_path": "site-packages/py4j/tests/memory_leak_test.py",
+      "path_type": "hardlink",
+      "sha256": "da59f513877ae870136bd9e42ff02e20f355019962f533597774a16084811786",
+      "size_in_bytes": 31029
+    },
+    {
+      "_path": "site-packages/py4j/tests/multithreadtest.py",
+      "path_type": "hardlink",
+      "sha256": "be06714b3f93b15a931a169419338d9de1c4dd19227639fd53261783cb2a96df",
+      "size_in_bytes": 2686
+    },
+    {
+      "_path": "site-packages/py4j/tests/py4j_callback_example.py",
+      "path_type": "hardlink",
+      "sha256": "74958b78bb7b5c477c5e3b2c2b101c1c734e0437f6940fbe35766458fd690a03",
+      "size_in_bytes": 681
+    },
+    {
+      "_path": "site-packages/py4j/tests/py4j_callback_example2.py",
+      "path_type": "hardlink",
+      "sha256": "1fc8ed00809acc037d6df5b6727815b2aad5e0599b25b3ef12fe5dd73f3908e1",
+      "size_in_bytes": 400
+    },
+    {
+      "_path": "site-packages/py4j/tests/py4j_callback_listener_example.py",
+      "path_type": "hardlink",
+      "sha256": "21d1c89e9f6e065918e0a758d101060788104802a0884cedd2df841005e1ad42",
+      "size_in_bytes": 689
+    },
+    {
+      "_path": "site-packages/py4j/tests/py4j_callback_recursive_example.py",
+      "path_type": "hardlink",
+      "sha256": "4e25736f5a3f3f52026ecc692da70fdccd536b8ecaa86fe74b4e8a1fec1f575c",
+      "size_in_bytes": 2024
+    },
+    {
+      "_path": "site-packages/py4j/tests/py4j_example.py",
+      "path_type": "hardlink",
+      "sha256": "9e3ec6c4ce1825bac0495ccc5dd9d662f2ecaf8d96674adf82468bfa1fc3027e",
+      "size_in_bytes": 325
+    },
+    {
+      "_path": "site-packages/py4j/tests/py4j_signals_test.py",
+      "path_type": "hardlink",
+      "sha256": "ff10f6fd937ec4833bf213742373d78e6d6fdc2abb40a9e9502fee33db40925a",
+      "size_in_bytes": 6428
+    },
+    {
+      "_path": "site-packages/py4j/tests/signals_test.py",
+      "path_type": "hardlink",
+      "sha256": "f63b33b41e0cc3f90cdbc38cece5a55cce3a5ad5d8a93f3b47303dbff8a89d56",
+      "size_in_bytes": 3192
+    },
+    {
+      "_path": "site-packages/py4j/version.py",
+      "path_type": "hardlink",
+      "sha256": "ff8301cc68ab176f5cc505af006e28c1b1288948c41b5fa85cdda9fe3e948be9",
+      "size_in_bytes": 25
+    }
+  ],
+  "paths_version": 1
+}

@@ -1,0 +1,1 @@
+{"build": "hb1e8313_1004", "build_number": 1004, "depends": ["libcxx >=10.0.1"], "license": "BSD-3-Clause", "name": "gflags", "subdir": "osx-64", "timestamp": 1599590973213, "version": "2.2.2", "size": 94612, "md5": "3f59cc77a929537e42120faf104e0d16", "sha256": "39540f879057ae529cad131644af111a8c3c48b384ec6212de6a5381e0863948"}

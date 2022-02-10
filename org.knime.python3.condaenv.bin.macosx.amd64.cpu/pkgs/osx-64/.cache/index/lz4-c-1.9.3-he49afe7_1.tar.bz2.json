@@ -1,0 +1,1 @@
+{"build": "he49afe7_1", "build_number": 1, "depends": ["libcxx >=11.1.0"], "license": "BSD-2-Clause", "name": "lz4-c", "subdir": "osx-64", "timestamp": 1627669260107, "version": "1.9.3", "size": 159106, "md5": "05c08241b66631c00ca4f9e0b75320bc", "sha256": "627c435c511e789ed04e0e2077fdfc645117474c4d1c4a7c0d31241936632cd4"}

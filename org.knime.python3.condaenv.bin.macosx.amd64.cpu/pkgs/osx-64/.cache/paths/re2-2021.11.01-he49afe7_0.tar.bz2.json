@@ -1,0 +1,67 @@
+{
+  "paths": [
+    {
+      "_path": "include/re2/filtered_re2.h",
+      "path_type": "hardlink",
+      "sha256": "ffd01873f4e412adc1d638088f545f11a0a954d96e773ebfe5fb1fc49db29491",
+      "size_in_bytes": 4247
+    },
+    {
+      "_path": "include/re2/re2.h",
+      "path_type": "hardlink",
+      "sha256": "d8a32f6a9a2e3f1777237fda4e3c677886cbdc8a955171d99099c806a8fecc41",
+      "size_in_bytes": 39740
+    },
+    {
+      "_path": "include/re2/set.h",
+      "path_type": "hardlink",
+      "sha256": "7439551c49fb2c6d97f4779c988404aceaee0cac3a1f10f32af54d59a8360767",
+      "size_in_bytes": 2483
+    },
+    {
+      "_path": "include/re2/stringpiece.h",
+      "path_type": "hardlink",
+      "sha256": "12e966d14179b6093ef44d84a962deaebd9d71bdd2fdae204d18936327ac0da2",
+      "size_in_bytes": 6336
+    },
+    {
+      "_path": "lib/cmake/re2/re2Config-release.cmake",
+      "path_type": "hardlink",
+      "sha256": "af3eef479e1e041f19c906dd29eac491482ae6ce83525d0ad207209af2efdb5b",
+      "size_in_bytes": 815
+    },
+    {
+      "_path": "lib/cmake/re2/re2Config.cmake",
+      "path_type": "hardlink",
+      "sha256": "718c390e6cd7344bff800e4cbbe69c2fabc55fb0ce4ea9a8d67d42874cce0b0b",
+      "size_in_bytes": 3409
+    },
+    {
+      "_path": "lib/libre2.9.0.0.dylib",
+      "path_type": "hardlink",
+      "sha256": "d00c3eef3479642ed97680cc16ab70e2d71526b3f07365ce51c859f0315f4fe8",
+      "size_in_bytes": 426192
+    },
+    {
+      "_path": "lib/libre2.9.dylib",
+      "path_type": "softlink",
+      "sha256": "d00c3eef3479642ed97680cc16ab70e2d71526b3f07365ce51c859f0315f4fe8",
+      "size_in_bytes": 426192
+    },
+    {
+      "_path": "lib/libre2.dylib",
+      "path_type": "softlink",
+      "sha256": "d00c3eef3479642ed97680cc16ab70e2d71526b3f07365ce51c859f0315f4fe8",
+      "size_in_bytes": 426192
+    },
+    {
+      "_path": "lib/pkgconfig/re2.pc",
+      "file_mode": "text",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/re2_1635753000869/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place",
+      "sha256": "30e506020a032bb77e37eaa7e7dfc43f6a75979e2e3ce5e78cc936303ff3a44f",
+      "size_in_bytes": 722
+    }
+  ],
+  "paths_version": 1
+}

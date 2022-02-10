@@ -1,0 +1,73 @@
+{
+  "paths": [
+    {
+      "_path": "include/snappy-c.h",
+      "path_type": "hardlink",
+      "sha256": "205e85257ab386f547b024bfec7ab57fcdac95c34874c787c72b50a3d95debf4",
+      "size_in_bytes": 5414
+    },
+    {
+      "_path": "include/snappy-sinksource.h",
+      "path_type": "hardlink",
+      "sha256": "ef5a86dc634380e4d36bc45c9ecfb3c36df246d2cf3343b8d5d6e49cba713735",
+      "size_in_bytes": 7256
+    },
+    {
+      "_path": "include/snappy-stubs-public.h",
+      "path_type": "hardlink",
+      "sha256": "15aa01ce8cc89e3d7952d69d4ffae6c44fe2eb7bd745a3a63b574c4b2d64ab08",
+      "size_in_bytes": 2845
+    },
+    {
+      "_path": "include/snappy.h",
+      "path_type": "hardlink",
+      "sha256": "f589ca2d1b39c0deee50ca48de596994f2f5d8e0433227576502e8fc79d536e3",
+      "size_in_bytes": 9885
+    },
+    {
+      "_path": "lib/cmake/Snappy/SnappyConfig.cmake",
+      "path_type": "hardlink",
+      "sha256": "c73d514a6f54da127837673c546cf19de0562dab3d146ac8e3836d8b663f9a92",
+      "size_in_bytes": 2498
+    },
+    {
+      "_path": "lib/cmake/Snappy/SnappyConfigVersion.cmake",
+      "path_type": "hardlink",
+      "sha256": "ba02ea4c5cff19fe4a12a03861d4da3aef837dd9a8d22b215d795572b92d4701",
+      "size_in_bytes": 1722
+    },
+    {
+      "_path": "lib/cmake/Snappy/SnappyTargets-release.cmake",
+      "path_type": "hardlink",
+      "sha256": "3bc224a2758d7c3430b58d9273b277ab6bbf24f528acb487c853e813936c2be4",
+      "size_in_bytes": 854
+    },
+    {
+      "_path": "lib/cmake/Snappy/SnappyTargets.cmake",
+      "path_type": "hardlink",
+      "sha256": "ea3755790f2ef6ae4940828026d0028ab0606678c9531af593da64dec07e0b01",
+      "size_in_bytes": 3258
+    },
+    {
+      "_path": "lib/libsnappy.1.1.8.dylib",
+      "file_mode": "binary",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/snappy_1599658962119/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+      "sha256": "97a14825a1db88cafae7724c4582897f1b6c246461426191933973be1caabe73",
+      "size_in_bytes": 38132
+    },
+    {
+      "_path": "lib/libsnappy.1.dylib",
+      "path_type": "softlink",
+      "sha256": "97a14825a1db88cafae7724c4582897f1b6c246461426191933973be1caabe73",
+      "size_in_bytes": 38132
+    },
+    {
+      "_path": "lib/libsnappy.dylib",
+      "path_type": "softlink",
+      "sha256": "97a14825a1db88cafae7724c4582897f1b6c246461426191933973be1caabe73",
+      "size_in_bytes": 38132
+    }
+  ],
+  "paths_version": 1
+}

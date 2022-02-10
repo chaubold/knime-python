@@ -1,0 +1,1168 @@
+{
+  "info": {
+    "subdir": "osx-64"
+  },
+  "packages": {
+    "abseil-cpp-20210324.2-he49afe7_0.tar.bz2": {
+      "build": "he49afe7_0",
+      "build_number": 0,
+      "depends": [
+        "libcxx >=11.1.0"
+      ],
+      "license": "Apache-2.0",
+      "license_family": "Apache",
+      "md5": "7ada5c1455955c8fee7c8ee3beace5f4",
+      "name": "abseil-cpp",
+      "sha256": "37d40240ed811415e352dd576cc37e8fc428c8e35486fab8afef37e1b6f5e68c",
+      "size": 959335,
+      "subdir": "osx-64",
+      "timestamp": 1622836332927,
+      "version": "20210324.2"
+    },
+    "arrow-cpp-6.0.1-py39hf938c1e_8_cpu.tar.bz2": {
+      "build": "py39hf938c1e_8_cpu",
+      "build_number": 8,
+      "constrains": [
+        "arrow-cpp-proc * cpu"
+      ],
+      "depends": [
+        "aws-sdk-cpp >=1.8.186,<1.8.187.0a0",
+        "bzip2 >=1.0.8,<2.0a0",
+        "c-ares >=1.18.1,<2.0a0",
+        "gflags >=2.2.2,<2.3.0a0",
+        "glog >=0.5.0,<0.6.0a0",
+        "grpc-cpp >=1.42.0,<1.43.0a0",
+        "libbrotlicommon >=1.0.9,<1.1.0a0",
+        "libbrotlidec >=1.0.9,<1.1.0a0",
+        "libbrotlienc >=1.0.9,<1.1.0a0",
+        "libcxx >=11.1.0",
+        "libprotobuf >=3.19.3,<3.20.0a0",
+        "libthrift >=0.15.0,<0.15.1.0a0",
+        "libutf8proc >=2.7.0,<3.0a0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "lz4-c >=1.9.3,<1.9.4.0a0",
+        "numpy >=1.16,<2.0a0",
+        "orc >=1.7.2,<1.7.3.0a0",
+        "python >=3.9,<3.10.0a0",
+        "python_abi 3.9.* *_cp39",
+        "re2 >=2021.11.1,<2021.11.2.0a0",
+        "snappy >=1.1.8,<2.0a0",
+        "zstd >=1.5.2,<1.6.0a0"
+      ],
+      "license": "Apache-2.0",
+      "md5": "122faa4a8b85d5a5a9925831c448f18b",
+      "name": "arrow-cpp",
+      "sha256": "54b0175f1c861b449914a44ffcf73a41b056d158ada0850779564b7429a13bf8",
+      "size": 20022690,
+      "subdir": "osx-64",
+      "timestamp": 1642966678113,
+      "version": "6.0.1"
+    },
+    "aws-c-cal-0.5.11-hd2e2f4b_0.tar.bz2": {
+      "build": "hd2e2f4b_0",
+      "build_number": 0,
+      "depends": [
+        "aws-c-common >=0.6.2,<0.6.3.0a0",
+        "openssl >=1.1.1k,<1.1.2a"
+      ],
+      "license": "Apache-2.0",
+      "license_family": "Apache",
+      "md5": "09bd616bd04399d208dc06b909a5e1c0",
+      "name": "aws-c-cal",
+      "sha256": "f96ec7dcf7bc986df747560d4b415c52ef06dad5e18c5063c2ba61e65f7b24ca",
+      "size": 30423,
+      "subdir": "osx-64",
+      "timestamp": 1623801177512,
+      "version": "0.5.11"
+    },
+    "aws-c-common-0.6.2-h0d85af4_0.tar.bz2": {
+      "build": "h0d85af4_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "Apache-2.0",
+      "license_family": "Apache",
+      "md5": "0f72a3415c40ead80c978fec230f49ee",
+      "name": "aws-c-common",
+      "sha256": "f992c11a0ea2bbae1320f2e1862f92ab1b1d1ad0bcec16c85fb49398a207a1ce",
+      "size": 153218,
+      "subdir": "osx-64",
+      "timestamp": 1623316723002,
+      "version": "0.6.2"
+    },
+    "aws-c-event-stream-0.2.7-hb9330a7_13.tar.bz2": {
+      "build": "hb9330a7_13",
+      "build_number": 13,
+      "depends": [
+        "aws-c-common >=0.6.2,<0.6.3.0a0",
+        "aws-c-io >=0.10.5,<0.10.6.0a0",
+        "aws-checksums >=0.1.11,<0.1.12.0a0",
+        "libcxx >=11.1.0"
+      ],
+      "license": "Apache-2.0",
+      "license_family": "Apache",
+      "md5": "d7319f5973bc93e63eb1b32dbb4d03b8",
+      "name": "aws-c-event-stream",
+      "sha256": "e91d7616ca91ff290531207d10f93af7f75d2e8e8711362b88a5120036a6b478",
+      "size": 41376,
+      "subdir": "osx-64",
+      "timestamp": 1624281721985,
+      "version": "0.2.7"
+    },
+    "aws-c-io-0.10.5-h35aa462_0.tar.bz2": {
+      "build": "h35aa462_0",
+      "build_number": 0,
+      "depends": [
+        "aws-c-cal >=0.5.11,<0.5.12.0a0",
+        "aws-c-common >=0.6.2,<0.6.3.0a0"
+      ],
+      "license": "Apache-2.0",
+      "license_family": "Apache",
+      "md5": "2647690fb7719e72da8a547c2c845708",
+      "name": "aws-c-io",
+      "sha256": "be9803d50c58d426480940302794a0424361332ecd9a8b8ef5070f48fed818d6",
+      "size": 111230,
+      "subdir": "osx-64",
+      "timestamp": 1623957743515,
+      "version": "0.10.5"
+    },
+    "aws-checksums-0.1.11-h0010a65_7.tar.bz2": {
+      "build": "h0010a65_7",
+      "build_number": 7,
+      "depends": [
+        "aws-c-common >=0.6.2,<0.6.3.0a0"
+      ],
+      "license": "Apache-2.0",
+      "license_family": "Apache",
+      "md5": "c86bc781dc7b3ba4e6130ffb14da0d6b",
+      "name": "aws-checksums",
+      "sha256": "d1d92d3fdb2967903d19379349fabd788825d6f623ed1456cb467a96749dca3a",
+      "size": 49001,
+      "subdir": "osx-64",
+      "timestamp": 1623336674465,
+      "version": "0.1.11"
+    },
+    "aws-sdk-cpp-1.8.186-h766a74d_3.tar.bz2": {
+      "build": "h766a74d_3",
+      "build_number": 3,
+      "depends": [
+        "aws-c-common >=0.6.2,<0.6.3.0a0",
+        "aws-c-event-stream >=0.2.7,<0.2.8.0a0",
+        "libcurl >=7.77.0,<8.0a0",
+        "libcxx >=11.1.0",
+        "openssl >=1.1.1k,<1.1.2a"
+      ],
+      "license": "Apache-2.0",
+      "license_family": "Apache",
+      "md5": "0dc120b4121d7aafc66a7ddcdd23bfd9",
+      "name": "aws-sdk-cpp",
+      "sha256": "23996087b0113ac879419b7635df1534826d0dfb66079f7178d128deb48d5683",
+      "size": 3831530,
+      "subdir": "osx-64",
+      "timestamp": 1623390510393,
+      "version": "1.8.186"
+    },
+    "bzip2-1.0.8-h0d85af4_4.tar.bz2": {
+      "build": "h0d85af4_4",
+      "build_number": 4,
+      "depends": [],
+      "license": "bzip2-1.0.6",
+      "license_family": "BSD",
+      "md5": "37edc4e6304ca87316e160f5ca0bd1b5",
+      "name": "bzip2",
+      "sha256": "60ba4c64f5d0afca0d283c7addba577d3e2efc0db86002808dadb0498661b2f2",
+      "size": 158829,
+      "subdir": "osx-64",
+      "timestamp": 1618862580095,
+      "version": "1.0.8"
+    },
+    "c-ares-1.18.1-h0d85af4_0.tar.bz2": {
+      "build": "h0d85af4_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "MIT",
+      "license_family": "MIT",
+      "md5": "00b3e98a61e6430808fe7a2534681f28",
+      "name": "c-ares",
+      "sha256": "1cb663c9916aab52a90a80505fec8c1a89fab21f58f3c5a949a2f286e92cb16c",
+      "size": 102364,
+      "subdir": "osx-64",
+      "timestamp": 1635352918230,
+      "version": "1.18.1"
+    },
+    "ca-certificates-2021.10.8-h033912b_0.tar.bz2": {
+      "build": "h033912b_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "ISC",
+      "md5": "bb82d0243db9882b509702ecb69e38f0",
+      "name": "ca-certificates",
+      "sha256": "ff652243cd03ec6ef3b3d6ea058f9ebfe38dbef8ade82b1ee47009e5e8f4ae62",
+      "size": 142316,
+      "subdir": "osx-64",
+      "timestamp": 1633733356799,
+      "version": "2021.10.8"
+    },
+    "gflags-2.2.2-hb1e8313_1004.tar.bz2": {
+      "build": "hb1e8313_1004",
+      "build_number": 1004,
+      "depends": [
+        "libcxx >=10.0.1"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "3f59cc77a929537e42120faf104e0d16",
+      "name": "gflags",
+      "sha256": "39540f879057ae529cad131644af111a8c3c48b384ec6212de6a5381e0863948",
+      "size": 94612,
+      "subdir": "osx-64",
+      "timestamp": 1599590973213,
+      "version": "2.2.2"
+    },
+    "glog-0.5.0-h25b26a9_0.tar.bz2": {
+      "build": "h25b26a9_0",
+      "build_number": 0,
+      "depends": [
+        "gflags >=2.2.2,<2.3.0a0",
+        "libcxx >=11.1.0"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "b2553b0a3fa0b47e8f8c4095be26fdc5",
+      "name": "glog",
+      "sha256": "b4a5c089432e4e50351db6ec67187aecafc360ed75a1b6768e87fda4453785ad",
+      "size": 96465,
+      "subdir": "osx-64",
+      "timestamp": 1620639048992,
+      "version": "0.5.0"
+    },
+    "grpc-cpp-1.42.0-h6da9ac5_1.tar.bz2": {
+      "build": "h6da9ac5_1",
+      "build_number": 1,
+      "depends": [
+        "abseil-cpp >=20210324.2,<20210324.3.0a0",
+        "c-ares >=1.18.1,<2.0a0",
+        "libcxx >=11.1.0",
+        "libprotobuf >=3.19.1,<3.20.0a0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "openssl >=1.1.1l,<1.1.2a",
+        "re2 >=2021.11.1,<2021.11.2.0a0",
+        "zlib >=1.2.11,<1.3.0a0"
+      ],
+      "license": "Apache-2.0",
+      "license_family": "APACHE",
+      "md5": "0cb9c968db1941b83044a101b5e47865",
+      "name": "grpc-cpp",
+      "sha256": "30274c4c543bd9b8c2ffa509b34a15c9ee451b56fd59a2a9b7c633a53bbc7abe",
+      "size": 3224194,
+      "subdir": "osx-64",
+      "timestamp": 1639068638325,
+      "version": "1.42.0"
+    },
+    "jedi-0.18.1-py39h6e9494a_0.tar.bz2": {
+      "build": "py39h6e9494a_0",
+      "build_number": 0,
+      "depends": [
+        "parso >=0.8.0,<0.9.0",
+        "python >=3.9,<3.10.0a0",
+        "python_abi 3.9.* *_cp39"
+      ],
+      "license": "MIT",
+      "license_family": "MIT",
+      "md5": "e25ec40a35eb99b121e5a728a827cff0",
+      "name": "jedi",
+      "sha256": "cad0ae5ab2f69f3a7977385401bb7ac11e2b4ed268dfdc730c3ae5a47b338a13",
+      "size": 1035071,
+      "subdir": "osx-64",
+      "timestamp": 1637175545273,
+      "version": "0.18.1"
+    },
+    "knime-python-base-4.6-0.tar.bz2": {
+      "build": "0",
+      "build_number": 0,
+      "depends": [
+        "jedi",
+        "numpy",
+        "pandas",
+        "py4j",
+        "pyarrow 6.0.*",
+        "python"
+      ],
+      "license": "GPL-3.0",
+      "md5": "460e47f3dda869d8695a868b602f9ba5",
+      "name": "knime-python-base",
+      "sha256": "c56ac411b1cebce2f23ea09a31e51ea1108b9a3f40124f41b5200a73057576d8",
+      "size": 2096,
+      "subdir": "osx-64",
+      "timestamp": 1644440550883,
+      "version": "4.6"
+    },
+    "krb5-1.19.2-hcfbf3a7_3.tar.bz2": {
+      "build": "hcfbf3a7_3",
+      "build_number": 3,
+      "depends": [
+        "libcxx >=11.1.0",
+        "libedit >=3.1.20191231,<3.2.0a0",
+        "libedit >=3.1.20191231,<4.0a0",
+        "openssl >=1.1.1l,<1.1.2a",
+        "tk >=8.6.11,<8.7.0a0"
+      ],
+      "license": "MIT",
+      "md5": "22a613e8000ad9c0d8a14c5ca1e8e40b",
+      "name": "krb5",
+      "sha256": "ef716d77abcff11235cdd3a93072bc847139cfb34c52a555a12dfa07d12fd07b",
+      "size": 1292742,
+      "subdir": "osx-64",
+      "timestamp": 1635889854712,
+      "version": "1.19.2"
+    },
+    "libblas-3.9.0-13_osx64_openblas.tar.bz2": {
+      "build": "13_osx64_openblas",
+      "build_number": 13,
+      "constrains": [
+        "blas * openblas",
+        "liblapack 3.9.0 13_osx64_openblas",
+        "libcblas 3.9.0 13_osx64_openblas",
+        "liblapacke 3.9.0 13_osx64_openblas"
+      ],
+      "depends": [
+        "libopenblas >=0.3.18,<0.3.19.0a0",
+        "libopenblas >=0.3.18,<1.0a0"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "43e49180e01ca49b1988bc46fec6e375",
+      "name": "libblas",
+      "sha256": "d2b55763a021b8d59c1dae917261e1729b96410a4233ae48b724310623f1737b",
+      "size": 12738,
+      "subdir": "osx-64",
+      "timestamp": 1642633381100,
+      "version": "3.9.0"
+    },
+    "libbrotlicommon-1.0.9-h0d85af4_6.tar.bz2": {
+      "build": "h0d85af4_6",
+      "build_number": 6,
+      "depends": [],
+      "license": "MIT",
+      "md5": "bb40dfcead1d3522ed7e58159080f735",
+      "name": "libbrotlicommon",
+      "sha256": "a54796ce79a695682c4e09fd7056e573799426b1508e049c32249eb6d17b07ec",
+      "size": 64669,
+      "subdir": "osx-64",
+      "timestamp": 1635846242524,
+      "version": "1.0.9"
+    },
+    "libbrotlidec-1.0.9-h0d85af4_6.tar.bz2": {
+      "build": "h0d85af4_6",
+      "build_number": 6,
+      "depends": [
+        "libbrotlicommon 1.0.9 h0d85af4_6"
+      ],
+      "license": "MIT",
+      "md5": "8c6e36e5df668a3d44193837319b3444",
+      "name": "libbrotlidec",
+      "sha256": "25184fa0dbdf971476e3bd82c498e613db5ef3adfe162c93270928431330af37",
+      "size": 33490,
+      "subdir": "osx-64",
+      "timestamp": 1635846265713,
+      "version": "1.0.9"
+    },
+    "libbrotlienc-1.0.9-h0d85af4_6.tar.bz2": {
+      "build": "h0d85af4_6",
+      "build_number": 6,
+      "depends": [
+        "libbrotlicommon 1.0.9 h0d85af4_6"
+      ],
+      "license": "MIT",
+      "md5": "6718e3c3b3cc237695b3a6bc5a1b2ccb",
+      "name": "libbrotlienc",
+      "sha256": "cae4ebf859c72065702bbdb3f03b70ab8dbd1ebcf47238b48c67d11627c4459d",
+      "size": 331776,
+      "subdir": "osx-64",
+      "timestamp": 1635846286249,
+      "version": "1.0.9"
+    },
+    "libcblas-3.9.0-13_osx64_openblas.tar.bz2": {
+      "build": "13_osx64_openblas",
+      "build_number": 13,
+      "constrains": [
+        "blas * openblas",
+        "liblapack 3.9.0 13_osx64_openblas",
+        "liblapacke 3.9.0 13_osx64_openblas"
+      ],
+      "depends": [
+        "libblas 3.9.0 13_osx64_openblas"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "eecf22499103fbbed8a24efdcadd3074",
+      "name": "libcblas",
+      "sha256": "9d4b3a54f3f9e5d23ecabc7fecf4496fb3d9fe6e5e6ca569a0382616ed303643",
+      "size": 12677,
+      "subdir": "osx-64",
+      "timestamp": 1642633390168,
+      "version": "3.9.0"
+    },
+    "libcurl-7.81.0-hf45b732_0.tar.bz2": {
+      "build": "hf45b732_0",
+      "build_number": 0,
+      "depends": [
+        "krb5 >=1.19.2,<1.20.0a0",
+        "libnghttp2 >=1.43.0,<2.0a0",
+        "libssh2 >=1.10.0,<2.0a0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "openssl >=1.1.1l,<1.1.2a"
+      ],
+      "license": "curl",
+      "license_family": "MIT",
+      "md5": "d0396298c85013ee3b186cb982f9f0dd",
+      "name": "libcurl",
+      "sha256": "331ddcedd8c5cc0ecaa51f6aeaa11cb65181ba9150da55c464a5dc6e9a938a89",
+      "size": 326568,
+      "subdir": "osx-64",
+      "timestamp": 1641516803091,
+      "version": "7.81.0"
+    },
+    "libcxx-12.0.1-habf9029_1.tar.bz2": {
+      "build": "habf9029_1",
+      "build_number": 1,
+      "depends": [],
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "license_family": "Apache",
+      "md5": "444dfb8ed0bf2a8864f73eb6436b29e0",
+      "name": "libcxx",
+      "sha256": "a5d781ed2480d50c274af256d6e7ccfc9a64b65375959be946110ec7e46efd7e",
+      "size": 1102586,
+      "subdir": "osx-64",
+      "timestamp": 1640852344389,
+      "version": "12.0.1"
+    },
+    "libedit-3.1.20191231-h0678c8f_2.tar.bz2": {
+      "build": "h0678c8f_2",
+      "build_number": 2,
+      "depends": [
+        "ncurses >=6.2,<6.3.0a0"
+      ],
+      "license": "BSD-2-Clause",
+      "license_family": "BSD",
+      "md5": "6016a8a1d0e63cac3de2c352cd40208b",
+      "name": "libedit",
+      "sha256": "dbd3c3f2eca1d21c52e4c03b21930bbce414c4592f8ce805801575b9e9256095",
+      "size": 105382,
+      "subdir": "osx-64",
+      "timestamp": 1597616576726,
+      "version": "3.1.20191231"
+    },
+    "libev-4.33-haf1e3a3_1.tar.bz2": {
+      "build": "haf1e3a3_1",
+      "build_number": 1,
+      "depends": [],
+      "license": "BSD-2-Clause",
+      "license_family": "BSD",
+      "md5": "79dc2be110b2a3d1e97ec21f691c50ad",
+      "name": "libev",
+      "sha256": "c4154d424431898d84d6afb8b32e3ba749fe5d270d322bb0af74571a3cb09c6b",
+      "size": 101424,
+      "subdir": "osx-64",
+      "timestamp": 1598868359024,
+      "version": "4.33"
+    },
+    "libevent-2.1.10-h815e4d9_4.tar.bz2": {
+      "build": "h815e4d9_4",
+      "build_number": 4,
+      "depends": [
+        "openssl >=1.1.1l,<1.1.2a"
+      ],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "adc6c89498c5f6fe5ba874d8259e7eeb",
+      "name": "libevent",
+      "sha256": "8d2f1f172ba56d531428b71b7b163714393bce557f7ff83f7d9a7324b57f2164",
+      "size": 1150901,
+      "subdir": "osx-64",
+      "timestamp": 1633489506111,
+      "version": "2.1.10"
+    },
+    "libffi-3.4.2-h0d85af4_5.tar.bz2": {
+      "build": "h0d85af4_5",
+      "build_number": 5,
+      "depends": [],
+      "license": "MIT",
+      "md5": "ccb34fb14960ad8b125962d3d79b31a9",
+      "name": "libffi",
+      "sha256": "7a2d27a936ceee6942ea4d397f9c7d136f12549d86f7617e8b6bad51e01a941f",
+      "size": 51348,
+      "subdir": "osx-64",
+      "timestamp": 1636488394370,
+      "version": "3.4.2"
+    },
+    "libgfortran-5.0.0-9_3_0_h6c81a4c_23.tar.bz2": {
+      "build": "9_3_0_h6c81a4c_23",
+      "build_number": 23,
+      "depends": [
+        "libgfortran5"
+      ],
+      "license": "GPL-3.0-only WITH GCC-exception-3.1",
+      "license_family": "GPL",
+      "md5": "60f48cef2d50674e0428c5579b6c3f66",
+      "name": "libgfortran",
+      "sha256": "bea6b12682bace803e55533856033d7cc628e43b5e7f5d04bd251618a426e145",
+      "size": 19697,
+      "subdir": "osx-64",
+      "timestamp": 1627439591339,
+      "version": "5.0.0"
+    },
+    "libgfortran5-9.3.0-h6c81a4c_23.tar.bz2": {
+      "build": "h6c81a4c_23",
+      "build_number": 23,
+      "constrains": [
+        "libgfortran 5.0.0 *_23"
+      ],
+      "depends": [
+        "llvm-openmp >=8.0.0"
+      ],
+      "license": "GPL-3.0-only WITH GCC-exception-3.1",
+      "license_family": "GPL",
+      "md5": "a6956ceb628b14594613cefee5127a7a",
+      "name": "libgfortran5",
+      "sha256": "5abf434e0089183ad4d36af1d442a246a31123257f505b21dfa07b3475cb5c09",
+      "size": 1794414,
+      "subdir": "osx-64",
+      "timestamp": 1627439523390,
+      "version": "9.3.0"
+    },
+    "liblapack-3.9.0-13_osx64_openblas.tar.bz2": {
+      "build": "13_osx64_openblas",
+      "build_number": 13,
+      "constrains": [
+        "blas * openblas",
+        "libcblas 3.9.0 13_osx64_openblas",
+        "liblapacke 3.9.0 13_osx64_openblas"
+      ],
+      "depends": [
+        "libblas 3.9.0 13_osx64_openblas"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "78be50c9400059ee11ebde2e0257d693",
+      "name": "liblapack",
+      "sha256": "c03414bd1cf1f4999081c30cb13423c8a7dfa5942332487efc3013a9bd7cf265",
+      "size": 12670,
+      "subdir": "osx-64",
+      "timestamp": 1642633399106,
+      "version": "3.9.0"
+    },
+    "libnghttp2-1.46.0-h6f36284_0.tar.bz2": {
+      "build": "h6f36284_0",
+      "build_number": 0,
+      "depends": [
+        "c-ares >=1.18.1,<2.0a0",
+        "c-ares >=1.7.5",
+        "libcxx >=11.1.0",
+        "libev >=4.11",
+        "libev >=4.33,<4.34.0a0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "openssl >=1.1.1l,<1.1.2a",
+        "zlib >=1.2.11,<1.3.0a0"
+      ],
+      "license": "MIT",
+      "license_family": "MIT",
+      "md5": "4a3025e50e0a3bc33034b798c6846927",
+      "name": "libnghttp2",
+      "sha256": "10e48c42d18b339d9a64384347b9a625e8a5a85e7cce26569d5b98d67b7525d4",
+      "size": 878025,
+      "subdir": "osx-64",
+      "timestamp": 1643220802472,
+      "version": "1.46.0"
+    },
+    "libopenblas-0.3.18-openmp_h3351f45_0.tar.bz2": {
+      "build": "openmp_h3351f45_0",
+      "build_number": 0,
+      "constrains": [
+        "openblas >=0.3.18,<0.3.19.0a0"
+      ],
+      "depends": [
+        "libgfortran 5.*",
+        "libgfortran5 >=9.3.0",
+        "llvm-openmp >=11.1.0"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "a0636ed965924977a848fd0d0258cf17",
+      "name": "libopenblas",
+      "sha256": "8107351eec7cde490a1da18cac4a46c6d6f5c90f13dac4843de9a2f1f007dbf2",
+      "size": 9437279,
+      "subdir": "osx-64",
+      "timestamp": 1633298353113,
+      "version": "0.3.18"
+    },
+    "libprotobuf-3.19.4-hcf210ce_0.tar.bz2": {
+      "build": "hcf210ce_0",
+      "build_number": 0,
+      "depends": [
+        "libcxx >=11.1.0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "zlib >=1.2.11,<1.3.0a0"
+      ],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "00feb1836b9b452beb42a9cc4e6c45f4",
+      "name": "libprotobuf",
+      "sha256": "eec5ad0f5baa6de29b9169874b13c9298c0577af394c1c0037c53ee5f246a9d3",
+      "size": 2343382,
+      "subdir": "osx-64",
+      "timestamp": 1643409318239,
+      "version": "3.19.4"
+    },
+    "libssh2-1.10.0-h52ee1ee_2.tar.bz2": {
+      "build": "h52ee1ee_2",
+      "build_number": 2,
+      "depends": [
+        "openssl >=1.1.1l,<1.1.2a",
+        "zlib >=1.2.11,<1.3.0a0"
+      ],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "8c8f3804e8e252b47443cfe8e40eddf9",
+      "name": "libssh2",
+      "sha256": "dd7e6a7ad5231a186a5009606cb69e99b4db74b8ec1b5745d5667e71eb6f0693",
+      "size": 226761,
+      "subdir": "osx-64",
+      "timestamp": 1632680759251,
+      "version": "1.10.0"
+    },
+    "libthrift-0.15.0-hab56fdc_1.tar.bz2": {
+      "build": "hab56fdc_1",
+      "build_number": 1,
+      "depends": [
+        "libcxx >=11.1.0",
+        "libevent >=2.1.10,<2.1.11.0a0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "openssl >=1.1.1l,<1.1.2a"
+      ],
+      "license": "Apache-2.0",
+      "md5": "eb324eaedfe67a037fab3eaf352a5175",
+      "name": "libthrift",
+      "sha256": "76fe0bfe8b029cdbe2f7c2ae72d28b0923706688abdd64dfafb0f6f298185266",
+      "size": 355935,
+      "subdir": "osx-64",
+      "timestamp": 1633614588084,
+      "version": "0.15.0"
+    },
+    "libutf8proc-2.7.0-h0d85af4_0.tar.bz2": {
+      "build": "h0d85af4_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "MIT",
+      "license_family": "MIT",
+      "md5": "d11cd97b8c35f9c803a1f45491d373a5",
+      "name": "libutf8proc",
+      "sha256": "a71b2a66daaddcd94127e01d38913e0428bfe5c10c2578ea8f61070a315cdd26",
+      "size": 97501,
+      "subdir": "osx-64",
+      "timestamp": 1639720508768,
+      "version": "2.7.0"
+    },
+    "libzlib-1.2.11-h9173be1_1013.tar.bz2": {
+      "build": "h9173be1_1013",
+      "build_number": 1013,
+      "constrains": [
+        "zlib 1.2.11 *_1013"
+      ],
+      "depends": [],
+      "license": "Zlib",
+      "license_family": "Other",
+      "md5": "a3a6a53beaa92c5cfe52ee3a198e78cc",
+      "name": "libzlib",
+      "sha256": "2421046db13b5f161a4330ff4f0e536999bce1ea3b8db5eb0d78e045146707ca",
+      "size": 59020,
+      "subdir": "osx-64",
+      "timestamp": 1633226899788,
+      "version": "1.2.11"
+    },
+    "llvm-openmp-12.0.1-hda6cdc1_1.tar.bz2": {
+      "build": "hda6cdc1_1",
+      "build_number": 1,
+      "constrains": [
+        "openmp 12.0.1|12.0.1.*",
+        "clangdev 12.0.1|12.0.1.*",
+        "llvmdev 12.0.1|12.0.1.*"
+      ],
+      "depends": [],
+      "license": "NCSA",
+      "md5": "35b1fd6ed9f0f1c68583dc9c9f672513",
+      "name": "llvm-openmp",
+      "sha256": "1af9b5cdb59be95f0777ba9278592a7a920e05c2dbbf095e58f0e8bcadcba8c3",
+      "size": 293837,
+      "subdir": "osx-64",
+      "timestamp": 1627389206911,
+      "version": "12.0.1"
+    },
+    "lz4-c-1.9.3-he49afe7_1.tar.bz2": {
+      "build": "he49afe7_1",
+      "build_number": 1,
+      "depends": [
+        "libcxx >=11.1.0"
+      ],
+      "license": "BSD-2-Clause",
+      "md5": "05c08241b66631c00ca4f9e0b75320bc",
+      "name": "lz4-c",
+      "sha256": "627c435c511e789ed04e0e2077fdfc645117474c4d1c4a7c0d31241936632cd4",
+      "size": 159106,
+      "subdir": "osx-64",
+      "timestamp": 1627669260107,
+      "version": "1.9.3"
+    },
+    "ncurses-6.3-he49afe7_0.tar.bz2": {
+      "build": "he49afe7_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "X11 AND BSD-3-Clause",
+      "md5": "2b8a6df0c28a466781832cbd036a73b7",
+      "name": "ncurses",
+      "sha256": "5cac3124aaaf6f15f86b914bf593b357a62f61cb529ef1840c0947937605001a",
+      "size": 947976,
+      "subdir": "osx-64",
+      "timestamp": 1641758334644,
+      "version": "6.3"
+    },
+    "numpy-1.22.2-py39h9d9ce41_0.tar.bz2": {
+      "build": "py39h9d9ce41_0",
+      "build_number": 0,
+      "constrains": [
+        "numpy-base <0a0"
+      ],
+      "depends": [
+        "libblas >=3.8.0,<4.0a0",
+        "libcblas >=3.8.0,<4.0a0",
+        "libcxx >=11.1.0",
+        "liblapack >=3.8.0,<4.0a0",
+        "python >=3.9,<3.10.0a0",
+        "python_abi 3.9.* *_cp39"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "a95251be24a5b08b5e33ae9229bad81c",
+      "name": "numpy",
+      "sha256": "6e5433c28aaed3a44bc5bb33d2b456e222ad05e293d8cd813a6946f7eec398da",
+      "size": 6560173,
+      "subdir": "osx-64",
+      "timestamp": 1643959267229,
+      "version": "1.22.2"
+    },
+    "openssl-1.1.1l-h0d85af4_0.tar.bz2": {
+      "build": "h0d85af4_0",
+      "build_number": 0,
+      "depends": [
+        "ca-certificates"
+      ],
+      "license": "OpenSSL",
+      "license_family": "Apache",
+      "md5": "f7bcdbb7a5dae97030eee20b884b1f8a",
+      "name": "openssl",
+      "sha256": "cd2e39b522f944907b465c29b1d038ebf941aaf94ed57d119df9cba8140296f3",
+      "size": 1984978,
+      "subdir": "osx-64",
+      "timestamp": 1630664741490,
+      "version": "1.1.1l"
+    },
+    "orc-1.7.2-h84518c8_0.tar.bz2": {
+      "build": "h84518c8_0",
+      "build_number": 0,
+      "depends": [
+        "libcxx >=11.1.0",
+        "libprotobuf >=3.19.1,<3.20.0a0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "lz4-c >=1.9.3,<1.9.4.0a0",
+        "snappy >=1.1.8,<2.0a0",
+        "zstd >=1.5.0,<1.6.0a0"
+      ],
+      "license": "Apache-2.0",
+      "license_family": "Apache",
+      "md5": "3748d5bc7a6a7b624fab14a149864138",
+      "name": "orc",
+      "sha256": "0defcc2fb756bbec388b66bb0d76c3be92a45f017f86edf73573dd485e59d989",
+      "size": 464516,
+      "subdir": "osx-64",
+      "timestamp": 1640091317602,
+      "version": "1.7.2"
+    },
+    "pandas-1.4.0-py39h4d6be9b_0.tar.bz2": {
+      "build": "py39h4d6be9b_0",
+      "build_number": 0,
+      "depends": [
+        "libcxx >=11.1.0",
+        "numpy >=1.19.5,<2.0a0",
+        "python >=3.9,<3.10.0a0",
+        "python-dateutil >=2.7.3",
+        "python_abi 3.9.* *_cp39",
+        "pytz >=2017.2"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "ab9858804abf2943c84039016df5bf01",
+      "name": "pandas",
+      "sha256": "04f8e5c796ffc8046ac26ddc6c6dc289693dd1727b74d680b8b157912745b17d",
+      "size": 12931243,
+      "subdir": "osx-64",
+      "timestamp": 1642872167516,
+      "version": "1.4.0"
+    },
+    "parquet-cpp-1.5.1-2.tar.bz2": {
+      "build": "2",
+      "build_number": 2,
+      "depends": [
+        "arrow-cpp >=0.11.0"
+      ],
+      "license": "Apache 2.0",
+      "md5": "79a5f78c42817594ae016a7896521a97",
+      "name": "parquet-cpp",
+      "noarch": "generic",
+      "sha256": "15e50657515b791734ba045da5135377404ca37c518b2066b9c6451c65cd732e",
+      "size": 3118,
+      "subdir": "noarch",
+      "timestamp": 1541734907649,
+      "version": "1.5.1"
+    },
+    "parso-0.8.3-pyhd8ed1ab_0.tar.bz2": {
+      "build": "pyhd8ed1ab_0",
+      "build_number": 0,
+      "depends": [
+        "python >=3.6"
+      ],
+      "license": "MIT",
+      "license_family": "MIT",
+      "md5": "17a565a0c3899244e938cdf417e7b094",
+      "name": "parso",
+      "noarch": "python",
+      "sha256": "4e26d5daf5de0e31aa5e74ac56386a361b202433b83f024fdadbf07d4a244da4",
+      "size": 71048,
+      "subdir": "noarch",
+      "timestamp": 1638335054552,
+      "version": "0.8.3"
+    },
+    "pip-22.0.3-pyhd8ed1ab_0.tar.bz2": {
+      "build": "pyhd8ed1ab_0",
+      "build_number": 0,
+      "depends": [
+        "python >=3.7",
+        "setuptools",
+        "wheel"
+      ],
+      "license": "MIT",
+      "license_family": "MIT",
+      "md5": "45dedae69a0ea21cb8566d04b2ca5536",
+      "name": "pip",
+      "noarch": "python",
+      "sha256": "051b82ff7183969e7d8928c8f9adcb40a6a6baf6f7dc39c5a5824b71ce477b43",
+      "size": 1549889,
+      "subdir": "noarch",
+      "timestamp": 1643885429755,
+      "version": "22.0.3"
+    },
+    "py4j-0.10.9.3-pyhd8ed1ab_1.tar.bz2": {
+      "build": "pyhd8ed1ab_1",
+      "build_number": 1,
+      "depends": [
+        "python >=3.6"
+      ],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "be4e187a895d2ae834e050a14b025888",
+      "name": "py4j",
+      "noarch": "python",
+      "sha256": "af4fa4d4eabf2d04c4a8c3d3caf09c50606bf9c7f9799f60d5271509d3f6a5ee",
+      "size": 184458,
+      "subdir": "noarch",
+      "timestamp": 1639545886682,
+      "version": "0.10.9.3"
+    },
+    "pyarrow-6.0.1-py39h4d6536f_8_cpu.tar.bz2": {
+      "build": "py39h4d6536f_8_cpu",
+      "build_number": 8,
+      "constrains": [
+        "arrow-cpp-proc * cpu"
+      ],
+      "depends": [
+        "arrow-cpp 6.0.1 py39hf938c1e_8_cpu",
+        "libcxx >=11.1.0",
+        "numpy >=1.16,<2.0a0",
+        "parquet-cpp 1.5.1.*",
+        "python >=3.9,<3.10.0a0",
+        "python_abi 3.9.* *_cp39"
+      ],
+      "license": "Apache-2.0",
+      "md5": "e1f942f681aadfa601dc97b67f560c53",
+      "name": "pyarrow",
+      "sha256": "8f5c61acdb3974c151f64aa066b4842034f44639cb50869b55c236c24a9bca11",
+      "size": 2809187,
+      "subdir": "osx-64",
+      "timestamp": 1642966996929,
+      "version": "6.0.1"
+    },
+    "python-3.9.10-h1dd9edd_2_cpython.tar.bz2": {
+      "build": "h1dd9edd_2_cpython",
+      "build_number": 2,
+      "constrains": [
+        "python_abi 3.9.* *_cp39"
+      ],
+      "depends": [
+        "bzip2 >=1.0.8,<2.0a0",
+        "libffi >=3.4.2,<3.5.0a0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "ncurses >=6.3,<7.0a0",
+        "openssl >=1.1.1l,<1.1.2a",
+        "readline >=8.1,<9.0a0",
+        "sqlite >=3.37.0,<4.0a0",
+        "tk >=8.6.11,<8.7.0a0",
+        "tzdata",
+        "xz >=5.2.5,<5.3.0a0"
+      ],
+      "license": "Python-2.0",
+      "md5": "db64214498d34ffbc4c33f4cd8e75e8a",
+      "name": "python",
+      "sha256": "df44aab0ab14bd854825fed707de30493f5620f9f4a228f58b297d7e54026468",
+      "size": 13031496,
+      "subdir": "osx-64",
+      "timestamp": 1643751729661,
+      "version": "3.9.10"
+    },
+    "python-dateutil-2.8.2-pyhd8ed1ab_0.tar.bz2": {
+      "build": "pyhd8ed1ab_0",
+      "build_number": 0,
+      "depends": [
+        "python >=3.6",
+        "six >=1.5"
+      ],
+      "license": "Apache-2.0",
+      "md5": "dd999d1cc9f79e67dbb855c8924c7984",
+      "name": "python-dateutil",
+      "noarch": "python",
+      "sha256": "54d7785c7678166aa45adeaccfc1d2b8c3c799ca2dc05d4a82bb39b1968bd7da",
+      "size": 245987,
+      "subdir": "noarch",
+      "timestamp": 1626286448716,
+      "version": "2.8.2"
+    },
+    "python_abi-3.9-2_cp39.tar.bz2": {
+      "build": "2_cp39",
+      "build_number": 2,
+      "constrains": [
+        "pypy <0a0"
+      ],
+      "depends": [
+        "python 3.9.*"
+      ],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "262f557ee8ca777fe2190956038024cd",
+      "name": "python_abi",
+      "sha256": "684ad12c7e7f92aa2794c45c3a0e0f6a0c0e6251819126c065ee0d0b4da166dc",
+      "size": 4046,
+      "subdir": "osx-64",
+      "timestamp": 1624472247236,
+      "version": "3.9"
+    },
+    "pytz-2021.3-pyhd8ed1ab_0.tar.bz2": {
+      "build": "pyhd8ed1ab_0",
+      "build_number": 0,
+      "depends": [
+        "python >=3"
+      ],
+      "license": "MIT",
+      "md5": "7e4f811bff46a5a6a7e0094921389395",
+      "name": "pytz",
+      "noarch": "python",
+      "sha256": "3202ebd55b901bc3e77316304007d85194d27987bfafbf53cba4f40b5ee890b0",
+      "size": 248127,
+      "subdir": "noarch",
+      "timestamp": 1633452206554,
+      "version": "2021.3"
+    },
+    "re2-2021.11.01-he49afe7_0.tar.bz2": {
+      "build": "he49afe7_0",
+      "build_number": 0,
+      "depends": [
+        "libcxx >=11.1.0"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "0fdbc27fc0cfe4873554514762905562",
+      "name": "re2",
+      "sha256": "733205004ba8ac47ab7c208e7cf8a38f704b820ea86c9a472d43048d69f3d150",
+      "size": 199423,
+      "subdir": "osx-64",
+      "timestamp": 1635753210344,
+      "version": "2021.11.01"
+    },
+    "readline-8.1-h05e3726_0.tar.bz2": {
+      "build": "h05e3726_0",
+      "build_number": 0,
+      "depends": [
+        "ncurses >=6.2,<6.3.0a0"
+      ],
+      "license": "GPL-3.0-only",
+      "md5": "2832e9b6a7caa7cb192fcda6cfcd8871",
+      "name": "readline",
+      "sha256": "03e79b905e70ef1e83a4f23fc07dae03592b80e7528f3624d7a1627d31c4daf6",
+      "size": 272444,
+      "subdir": "osx-64",
+      "timestamp": 1616443986006,
+      "version": "8.1"
+    },
+    "setuptools-60.8.1-py39h6e9494a_0.tar.bz2": {
+      "build": "py39h6e9494a_0",
+      "build_number": 0,
+      "depends": [
+        "python >=3.9,<3.10.0a0",
+        "python_abi 3.9.* *_cp39"
+      ],
+      "license": "MIT",
+      "license_family": "MIT",
+      "md5": "d7e7c9a8f2a1aea3da5e91149a73b95b",
+      "name": "setuptools",
+      "sha256": "71eeadf1cf47aeff32eb6c122823eee8b92ae46054ec06d1dc9c42c10e558dbf",
+      "size": 1224211,
+      "subdir": "osx-64",
+      "timestamp": 1644283184106,
+      "version": "60.8.1"
+    },
+    "six-1.16.0-pyh6c4a22f_0.tar.bz2": {
+      "build": "pyh6c4a22f_0",
+      "build_number": 0,
+      "depends": [
+        "python"
+      ],
+      "license": "MIT",
+      "license_family": "MIT",
+      "md5": "e5f25f8dbc060e9a8d912e432202afc2",
+      "name": "six",
+      "noarch": "python",
+      "sha256": "a85c38227b446f42c5b90d9b642f2c0567880c15d72492d8da074a59c8f91dd6",
+      "size": 14259,
+      "subdir": "noarch",
+      "timestamp": 1620240338595,
+      "version": "1.16.0"
+    },
+    "snappy-1.1.8-hb1e8313_3.tar.bz2": {
+      "build": "hb1e8313_3",
+      "build_number": 3,
+      "depends": [
+        "libcxx >=10.0.1"
+      ],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "73b65b3935375b56deb96f6794ed721e",
+      "name": "snappy",
+      "sha256": "7088dec29b220f45e99e92ccb6a2ef1d46fc8d43b642ae4c12a4b24af6148376",
+      "size": 29870,
+      "subdir": "osx-64",
+      "timestamp": 1599659144934,
+      "version": "1.1.8"
+    },
+    "sqlite-3.37.0-h23a322b_0.tar.bz2": {
+      "build": "h23a322b_0",
+      "build_number": 0,
+      "depends": [
+        "libzlib >=1.2.11,<1.3.0a0",
+        "ncurses >=6.2,<6.3.0a0",
+        "readline >=8.1,<9.0a0",
+        "zlib >=1.2.11,<1.3.0a0"
+      ],
+      "license": "Unlicense",
+      "md5": "68f13bbe00ac288ffc1c1b868bc4da23",
+      "name": "sqlite",
+      "sha256": "80ee9434db28668a6853950e3e7f77d72842373b13cc5a695b35c26689de3fde",
+      "size": 1845646,
+      "subdir": "osx-64",
+      "timestamp": 1638108523893,
+      "version": "3.37.0"
+    },
+    "tk-8.6.11-h5dbffcc_1.tar.bz2": {
+      "build": "h5dbffcc_1",
+      "build_number": 1,
+      "depends": [
+        "zlib >=1.2.11,<1.3.0a0"
+      ],
+      "license": "TCL",
+      "license_family": "BSD",
+      "md5": "e35b11155bd70facee39dfdec7368ad0",
+      "name": "tk",
+      "sha256": "271dd232cd8192b84010f3736604e33ea4905bb0e6512199d92334af1cb90310",
+      "size": 3472552,
+      "subdir": "osx-64",
+      "timestamp": 1630564082305,
+      "version": "8.6.11"
+    },
+    "tzdata-2021e-he74cb21_0.tar.bz2": {
+      "build": "he74cb21_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "LicenseRef-Public-Domain",
+      "md5": "a751ec502589ebdc2eceb183ff602569",
+      "name": "tzdata",
+      "noarch": "generic",
+      "sha256": "df50dce9c5d44daf1233ec4be7b1b6c4674a4d715ff55fe43ad27c272765da82",
+      "size": 123537,
+      "subdir": "noarch",
+      "timestamp": 1634920345602,
+      "version": "2021e"
+    },
+    "wheel-0.37.1-pyhd8ed1ab_0.tar.bz2": {
+      "build": "pyhd8ed1ab_0",
+      "build_number": 0,
+      "depends": [
+        "python !=3.0,!=3.1,!=3.2,!=3.3,!=3.4"
+      ],
+      "license": "MIT",
+      "md5": "1ca02aaf78d9c70d9a81a3bed5752022",
+      "name": "wheel",
+      "noarch": "python",
+      "sha256": "aede66e6370f3b936164a703e48362f9080d7162234058fb2ee63cc84d528afc",
+      "size": 32022,
+      "subdir": "noarch",
+      "timestamp": 1640197340002,
+      "version": "0.37.1"
+    },
+    "xz-5.2.5-haf1e3a3_1.tar.bz2": {
+      "build": "haf1e3a3_1",
+      "build_number": 1,
+      "depends": [],
+      "license": "LGPL-2.1 and GPL-2.0",
+      "md5": "41116deb499e9bc58048c297d6403ce6",
+      "name": "xz",
+      "sha256": "df1db3f4abb8c7166ae045934040aa5b254521ac4251a5f95eb33adce776d950",
+      "size": 233058,
+      "subdir": "osx-64",
+      "timestamp": 1597209105682,
+      "version": "5.2.5"
+    },
+    "zlib-1.2.11-h9173be1_1013.tar.bz2": {
+      "build": "h9173be1_1013",
+      "build_number": 1013,
+      "depends": [
+        "libzlib 1.2.11 h9173be1_1013"
+      ],
+      "license": "Zlib",
+      "license_family": "Other",
+      "md5": "cf985617d679990418c380099620b01a",
+      "name": "zlib",
+      "sha256": "9102c5f89c78c56b0bb0766a074f509d67362cf97aa66d706d4e95e9061bb03c",
+      "size": 88814,
+      "subdir": "osx-64",
+      "timestamp": 1633226920610,
+      "version": "1.2.11"
+    },
+    "zstd-1.5.2-h582d3a0_0.tar.bz2": {
+      "build": "h582d3a0_0",
+      "build_number": 0,
+      "depends": [
+        "libcxx >=11.1.0",
+        "libzlib >=1.2.11,<1.3.0a0",
+        "lz4-c >=1.9.3,<1.9.4.0a0",
+        "xz >=5.2.5,<5.3.0a0"
+      ],
+      "license": "BSD-3-Clause",
+      "md5": "df9ed22d1725b8fecaede2d579fd6bc4",
+      "name": "zstd",
+      "sha256": "7a21bc5c2a151a10b4cf7dbf0b4d0a117a7e6b639e78d68db06c9ae3a0ffb954",
+      "size": 461127,
+      "subdir": "osx-64",
+      "timestamp": 1642737181357,
+      "version": "1.5.2"
+    }
+  },
+  "packages.conda": {},
+  "removed": [],
+  "repodata_version": 1
+}

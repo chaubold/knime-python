@@ -1,0 +1,1 @@
+{"build": "h0d85af4_6", "build_number": 6, "depends": ["libbrotlicommon 1.0.9 h0d85af4_6"], "license": "MIT", "name": "libbrotlidec", "subdir": "osx-64", "timestamp": 1635846265713, "version": "1.0.9", "size": 33490, "md5": "8c6e36e5df668a3d44193837319b3444", "sha256": "25184fa0dbdf971476e3bd82c498e613db5ef3adfe162c93270928431330af37"}

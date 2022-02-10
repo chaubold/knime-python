@@ -1,0 +1,1 @@
+{"build": "h9173be1_1013", "build_number": 1013, "depends": ["libzlib 1.2.11 h9173be1_1013"], "license": "Zlib", "license_family": "Other", "name": "zlib", "subdir": "osx-64", "timestamp": 1633226920610, "version": "1.2.11", "size": 88814, "md5": "cf985617d679990418c380099620b01a", "sha256": "9102c5f89c78c56b0bb0766a074f509d67362cf97aa66d706d4e95e9061bb03c"}

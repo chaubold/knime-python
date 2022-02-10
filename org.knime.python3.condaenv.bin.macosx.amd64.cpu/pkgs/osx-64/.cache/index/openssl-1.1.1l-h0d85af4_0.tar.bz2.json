@@ -1,0 +1,1 @@
+{"build": "h0d85af4_0", "build_number": 0, "depends": ["ca-certificates"], "license": "OpenSSL", "license_family": "Apache", "name": "openssl", "subdir": "osx-64", "timestamp": 1630664741490, "version": "1.1.1l", "size": 1984978, "md5": "f7bcdbb7a5dae97030eee20b884b1f8a", "sha256": "cd2e39b522f944907b465c29b1d038ebf941aaf94ed57d119df9cba8140296f3"}

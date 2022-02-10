@@ -1,0 +1,1 @@
+{"build": "pyhd8ed1ab_0", "build_number": 0, "depends": ["python >=3.6"], "license": "MIT", "license_family": "MIT", "name": "parso", "noarch": "python", "subdir": "noarch", "timestamp": 1638335054552, "version": "0.8.3", "size": 71048, "md5": "17a565a0c3899244e938cdf417e7b094", "sha256": "4e26d5daf5de0e31aa5e74ac56386a361b202433b83f024fdadbf07d4a244da4"}

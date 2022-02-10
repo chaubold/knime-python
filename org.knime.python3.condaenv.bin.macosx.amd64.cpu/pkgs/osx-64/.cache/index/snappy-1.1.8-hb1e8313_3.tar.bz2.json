@@ -1,0 +1,1 @@
+{"build": "hb1e8313_3", "build_number": 3, "depends": ["libcxx >=10.0.1"], "license": "BSD-3-Clause", "license_family": "BSD", "name": "snappy", "subdir": "osx-64", "timestamp": 1599659144934, "version": "1.1.8", "size": 29870, "md5": "73b65b3935375b56deb96f6794ed721e", "sha256": "7088dec29b220f45e99e92ccb6a2ef1d46fc8d43b642ae4c12a4b24af6148376"}

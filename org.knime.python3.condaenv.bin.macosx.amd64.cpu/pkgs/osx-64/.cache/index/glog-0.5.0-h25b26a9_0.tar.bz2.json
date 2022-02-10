@@ -1,0 +1,1 @@
+{"build": "h25b26a9_0", "build_number": 0, "depends": ["gflags >=2.2.2,<2.3.0a0", "libcxx >=11.1.0"], "license": "BSD-3-Clause", "name": "glog", "subdir": "osx-64", "timestamp": 1620639048992, "version": "0.5.0", "size": 96465, "md5": "b2553b0a3fa0b47e8f8c4095be26fdc5", "sha256": "b4a5c089432e4e50351db6ec67187aecafc360ed75a1b6768e87fda4453785ad"}

@@ -1,0 +1,1 @@
+{"build": "he49afe7_0", "build_number": 0, "depends": ["libcxx >=11.1.0"], "license": "Apache-2.0", "license_family": "Apache", "name": "abseil-cpp", "subdir": "osx-64", "timestamp": 1622836332927, "version": "20210324.2", "size": 959335, "md5": "7ada5c1455955c8fee7c8ee3beace5f4", "sha256": "37d40240ed811415e352dd576cc37e8fc428c8e35486fab8afef37e1b6f5e68c"}

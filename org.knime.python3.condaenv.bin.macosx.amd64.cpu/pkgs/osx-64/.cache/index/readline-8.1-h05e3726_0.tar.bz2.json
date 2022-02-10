@@ -1,0 +1,1 @@
+{"build": "h05e3726_0", "build_number": 0, "depends": ["ncurses >=6.2,<6.3.0a0"], "license": "GPL-3.0-only", "name": "readline", "subdir": "osx-64", "timestamp": 1616443986006, "version": "8.1", "size": 272444, "md5": "2832e9b6a7caa7cb192fcda6cfcd8871", "sha256": "03e79b905e70ef1e83a4f23fc07dae03592b80e7528f3624d7a1627d31c4daf6"}

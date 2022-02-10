@@ -1,0 +1,1 @@
+{"build": "9_3_0_h6c81a4c_23", "build_number": 23, "depends": ["libgfortran5"], "license": "GPL-3.0-only WITH GCC-exception-3.1", "license_family": "GPL", "name": "libgfortran", "subdir": "osx-64", "timestamp": 1627439591339, "version": "5.0.0", "size": 19697, "md5": "60f48cef2d50674e0428c5579b6c3f66", "sha256": "bea6b12682bace803e55533856033d7cc628e43b5e7f5d04bd251618a426e145"}

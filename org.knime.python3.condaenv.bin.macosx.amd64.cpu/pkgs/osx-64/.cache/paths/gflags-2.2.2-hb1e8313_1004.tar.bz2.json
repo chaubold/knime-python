@@ -1,0 +1,119 @@
+{
+  "paths": [
+    {
+      "_path": "bin/gflags_completions.sh",
+      "path_type": "hardlink",
+      "sha256": "cc8a0aae240363a0f2561f5e664ee0e96e8f04dee152f9750583ee4344606ace",
+      "size_in_bytes": 5126
+    },
+    {
+      "_path": "include/gflags/gflags.h",
+      "path_type": "hardlink",
+      "sha256": "5b900a9619a185210dcc6a9c7d74851933bf66a6d11f28f7861d62a683a35b90",
+      "size_in_bytes": 30616
+    },
+    {
+      "_path": "include/gflags/gflags_completions.h",
+      "path_type": "hardlink",
+      "sha256": "824f96e57d0099e654834786347aa44f5d01ca42820380502cb654dc5e233988",
+      "size_in_bytes": 5761
+    },
+    {
+      "_path": "include/gflags/gflags_declare.h",
+      "path_type": "hardlink",
+      "sha256": "d101c69d005e42b832b85cb5f66acaee96f5c02e0fb131c6962e5edf8a039a86",
+      "size_in_bytes": 5366
+    },
+    {
+      "_path": "include/gflags/gflags_gflags.h",
+      "path_type": "hardlink",
+      "sha256": "6040845c7dd3b491c9f9ea39d7ef0ce38144206558ba95fee21b91205d3599fa",
+      "size_in_bytes": 4071
+    },
+    {
+      "_path": "lib/cmake/gflags/gflags-config-version.cmake",
+      "path_type": "hardlink",
+      "sha256": "58c530f798bff1705904c473e8f3da13a6c2668b8768f33e5c480f81258d6106",
+      "size_in_bytes": 668
+    },
+    {
+      "_path": "lib/cmake/gflags/gflags-config.cmake",
+      "path_type": "hardlink",
+      "sha256": "6d2b773af7c9aa5d644808063f3dc370032bd818665830e071c0126350de7d76",
+      "size_in_bytes": 6225
+    },
+    {
+      "_path": "lib/cmake/gflags/gflags-nonamespace-targets-release.cmake",
+      "path_type": "hardlink",
+      "sha256": "0141ad9cb704eff020bac8526aa107a2e1ef4bf15c17d39240335f02738957d3",
+      "size_in_bytes": 1404
+    },
+    {
+      "_path": "lib/cmake/gflags/gflags-nonamespace-targets.cmake",
+      "path_type": "hardlink",
+      "sha256": "e74c09e392c3632ac61daa624611f22549c5c37c5266b143a44d5dc41165c9ba",
+      "size_in_bytes": 3618
+    },
+    {
+      "_path": "lib/cmake/gflags/gflags-targets-release.cmake",
+      "path_type": "hardlink",
+      "sha256": "65994e5c6e752abcd941b8852e4e05a3a2cf59aa7c132b0c738c51eb0c93f447",
+      "size_in_bytes": 1484
+    },
+    {
+      "_path": "lib/cmake/gflags/gflags-targets.cmake",
+      "path_type": "hardlink",
+      "sha256": "f3cbcfe623a863940c904e8714e0ae190f421132f514783531dce86dc3a333ae",
+      "size_in_bytes": 3670
+    },
+    {
+      "_path": "lib/libgflags.2.2.2.dylib",
+      "file_mode": "binary",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/gflags_1599590761862/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+      "sha256": "6ecc6a188dc47a7306eed37fe8064583ddf610ab5c35a017101a68a9c07ef84c",
+      "size_in_bytes": 123804
+    },
+    {
+      "_path": "lib/libgflags.2.2.dylib",
+      "path_type": "softlink",
+      "sha256": "6ecc6a188dc47a7306eed37fe8064583ddf610ab5c35a017101a68a9c07ef84c",
+      "size_in_bytes": 123804
+    },
+    {
+      "_path": "lib/libgflags.dylib",
+      "path_type": "softlink",
+      "sha256": "6ecc6a188dc47a7306eed37fe8064583ddf610ab5c35a017101a68a9c07ef84c",
+      "size_in_bytes": 123804
+    },
+    {
+      "_path": "lib/libgflags_nothreads.2.2.2.dylib",
+      "file_mode": "binary",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/gflags_1599590761862/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+      "sha256": "98ff35c2114015534f3956a4808b5416563e0bea8b31fd14736dd1139eef8ab8",
+      "size_in_bytes": 122996
+    },
+    {
+      "_path": "lib/libgflags_nothreads.2.2.dylib",
+      "path_type": "softlink",
+      "sha256": "98ff35c2114015534f3956a4808b5416563e0bea8b31fd14736dd1139eef8ab8",
+      "size_in_bytes": 122996
+    },
+    {
+      "_path": "lib/libgflags_nothreads.dylib",
+      "path_type": "softlink",
+      "sha256": "98ff35c2114015534f3956a4808b5416563e0bea8b31fd14736dd1139eef8ab8",
+      "size_in_bytes": 122996
+    },
+    {
+      "_path": "lib/pkgconfig/gflags.pc",
+      "file_mode": "text",
+      "path_type": "hardlink",
+      "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/gflags_1599590761862/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+      "sha256": "954e790436ee921a64edfecb732212e170d88ff7bbecfce5a7082102d70154c3",
+      "size_in_bytes": 583
+    }
+  ],
+  "paths_version": 1
+}
