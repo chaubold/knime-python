@@ -49,7 +49,7 @@ Provides base implementations and utilities for the development of KNIME nodes i
 """
 from abc import ABC, abstractmethod
 from numbers import Number
-from typing import List
+from typing import List, Tuple
 import knime_table as kt
 
 # TODO currently not part of our dependencies but maybe worth adding instead of reimplementing here
@@ -67,8 +67,8 @@ class PythonNode(ABC):
         return inSchemas
 
     def execute(
-        self, tables: list[kt.ReadTable], objects: list, exec_context
-    ) -> tuple[list[kt.WriteTable], list]:
+        self, tables: List[kt.ReadTable], objects: List, exec_context
+    ) -> Tuple[List[kt.WriteTable], list]:
         out_t = [t for t in tables]
         return (out_t, objects)
 

@@ -90,4 +90,10 @@ final class DelegatingTextSettingsDataService implements TextSettingsDataService
         jsonSettings.saveTo(settings.get(SettingsType.MODEL));
     }
 
+    @Override
+    public void saveDefaultSettings(final Map<SettingsType, NodeSettingsWO> settings, final PortObjectSpec[] specs) {
+        // TODO IMPLEMENT
+
+    }
+
 }

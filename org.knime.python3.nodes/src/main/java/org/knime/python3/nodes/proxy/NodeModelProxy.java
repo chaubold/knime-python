@@ -137,5 +137,8 @@ public interface NodeModelProxy {
         void set_progress(double progress);
 
         boolean is_cancelled();
+
+        // TODO this should probably not be here
+        String getViewPath() throws IOException;
     }
 }

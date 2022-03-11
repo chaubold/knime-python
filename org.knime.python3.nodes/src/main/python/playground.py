@@ -2,6 +2,7 @@ from typing import List, Tuple
 import knime_node as kn
 import knime_schema as ks
 import knime_table as kt
+import knime_views as kv
 from packaging.version import Version
 import logging
 
@@ -12,6 +13,7 @@ class MyDecoratedNode(kn.PythonNode):
     def __init__(self) -> None:
         super().__init__()
         self._num_columns: int = 5
+        self._param1 = 10
         self._param2 = "awesome"
         self._backwards_compat_param = "Some parameter introduced in a later version"
 
@@ -69,6 +71,19 @@ class MyDecoratedNode(kn.PythonNode):
         self, tables: List[kt.ReadTable], objects: list, exec_context
     ) -> Tuple[List[kt.WriteTable], list]:
         logger.warning(f"Executing with values {self._param2} and {self._num_columns}")
+
+        # Create the plotly view
+        import plotly.express as px
+        df = tables[0].to_pandas()
+        col1 = "Universe_0_0"
+        col2 = "Universe_0_1"
+        col_label = "Cluster Membership"
+        fig = px.scatter(df, x=col1, y=col2, color=col_label, custom_data=[df.index])
+
+        # TODO use ViewSink like on the python-views branch
+        with open(exec_context.getViewPath(), "w") as f:
+            f.write(kv.view(fig).html)
+
         num_columns = self._num_columns + 1  # +1 for the RowKey
         t = kt.write_table(tables[0][0:num_columns].to_pyarrow())
 

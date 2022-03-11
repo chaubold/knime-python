@@ -96,6 +96,7 @@ import org.knime.core.node.workflow.NodeContext;
 import org.knime.core.table.schema.AnnotatedColumnarSchema;
 import org.knime.core.table.schema.DefaultAnnotatedColumnarSchema;
 import org.knime.core.table.virtual.serialization.AnnotatedColumnarSchemaSerializer;
+import org.knime.core.util.PathUtils;
 import org.knime.core.util.ThreadUtils;
 import org.knime.python2.kernel.Python2KernelBackend;
 import org.knime.python2.kernel.PythonCancelable;
@@ -141,6 +142,8 @@ final class DelegatingNodeModel extends NodeModel {
     // END STUFF FOR CONFIG AND EXEC
 
     private JsonNodeSettings m_settings;
+
+    Path m_viewPath = null;
 
     // TODO retrieve the expected in and outputs from Python
     protected DelegatingNodeModel(final Supplier<CloseableNodeModelProxy> pythonNodeSupplier,
@@ -286,6 +289,15 @@ final class DelegatingNodeModel extends NodeModel {
                     }
                     return false;
                 }
+
+                // TODO this should probably not be here
+                @Override
+                public String getViewPath() throws IOException {
+                    if (m_viewPath == null) {
+                        m_viewPath = PathUtils.createTempDir("python_view").resolve("index.html");
+                    }
+                    return m_viewPath.toString();
+                }
             };
 
             List<PythonArrowDataSink> sinks = node.execute(sources, inputObjectPaths, outputObjectPaths, execContext);
@@ -357,6 +369,7 @@ final class DelegatingNodeModel extends NodeModel {
 
     @Override
     protected void reset() {
+        m_viewPath = null;
         // nothing to reset
     }
 
