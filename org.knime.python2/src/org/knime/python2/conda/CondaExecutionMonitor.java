@@ -86,14 +86,21 @@ class CondaExecutionMonitor {
         Future<?> errorListener = null;
         try {
             final ThreadPool pool = KNIMEConstants.GLOBAL_THREAD_POOL;
+System.out.println(Thread.currentThread().getId() + ", pool max threads: " + pool.getMaxThreads()
+                + ", pool running threads: " + pool.getRunningThreads());
             outputListener = pool.enqueue(() -> parseOutputStream(conda.getInputStream(), hasJsonOutput));
             errorListener = pool.enqueue(() -> parseErrorStream(conda.getErrorStream()));
+System.out.println(Thread.currentThread().getId() + ", Started listeners");
             final int condaExitCode = awaitTermination(conda, this);
+System.out.println(Thread.currentThread().getId() + ", Conda exited with code " + condaExitCode);
             if (condaExitCode != 0) {
                 // Wait for listeners to finish consuming their streams before creating the error message.
                 try {
+                    System.out.println(Thread.currentThread().getId() + ", waiting for stdout listener");
                     outputListener.get();
+                    System.out.println(Thread.currentThread().getId() + ", waiting for stderr listener");
                     errorListener.get();
+                    System.out.println(Thread.currentThread().getId() + ", done waiting for listeners");
                 } catch (final InterruptedException ex) {
                     Thread.currentThread().interrupt();
                     throw new PythonCanceledExecutionException(ex);
@@ -105,15 +112,20 @@ class CondaExecutionMonitor {
             }
         } finally {
             if (outputListener != null) {
+                System.out.println(Thread.currentThread().getId() + ", canceling stdout listener");
                 outputListener.cancel(true);
+                System.out.println(Thread.currentThread().getId() + ", done canceling stdout listener");
             }
             if (errorListener != null) {
+                System.out.println(Thread.currentThread().getId() + ", canceling stderr listener");
                 errorListener.cancel(true);
+                System.out.println(Thread.currentThread().getId() + ", done canceling stderr listener");
             }
         }
     }
 
     private void parseOutputStream(final InputStream standardOutput, final boolean isJsonOutput) {
+System.out.println(Thread.currentThread().getId() + ", starting parsing stdout");
         try {
             if (isJsonOutput) {
                 parseJsonOutput(standardOutput);
@@ -202,6 +214,7 @@ class CondaExecutionMonitor {
         try (final BufferedReader reader = new BufferedReader(new InputStreamReader(standardOutput))) {
             String line;
             while (!isCanceledOrInterrupted() && (line = reader.readLine()) != null) {
+System.out.println(Thread.currentThread().getId() + ", Conda stdout: " + line);
                 line = line.trim();
                 if (!line.equals("")) {
                     handleCustomNonJsonOutput(line);
@@ -226,10 +239,12 @@ class CondaExecutionMonitor {
     }
 
     private void parseErrorStream(final InputStream errorOutput) {
+System.out.println(Thread.currentThread().getId() + ", starting parsing stderr");
         try (final BufferedReader reader = new BufferedReader(new InputStreamReader(errorOutput))) {
             String line;
             boolean inWarning = false;
             while (!isCanceledOrInterrupted() && (line = reader.readLine()) != null) {
+System.out.println(Thread.currentThread().getId() + ", Conda stderr: " + line);
                 line = line.trim();
                 if (!line.equals("")) {
                     inWarning = inWarning || line.startsWith("==> WARNING: A newer version of conda exists. <==");

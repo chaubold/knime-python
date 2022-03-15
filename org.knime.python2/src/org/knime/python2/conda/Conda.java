@@ -726,7 +726,9 @@ public final class Conda {
     private void callCondaAndAwaitTermination(final CondaExecutionMonitor monitor, final String... arguments)
         throws IOException {
         try {
+synchronized (Conda.class) {
             callCondaAndMonitorExecution(monitor, arguments);
+}
         } catch (final PythonCanceledExecutionException ex) {
             throw new IOException("Execution was interrupted.", ex);
         }
@@ -738,6 +740,7 @@ public final class Conda {
         final Process conda = startCondaProcess(arguments);
         try {
             monitor.monitorExecution(conda, hasJsonOutput);
+System.out.println(Thread.currentThread().getId() + ", Conda done");
         } finally {
             conda.destroy(); // Should not be necessary, but let's play safe here.
         }
@@ -748,6 +751,7 @@ public final class Conda {
         argumentList.add(m_executable);
         Collections.addAll(argumentList, arguments);
         final ProcessBuilder pb = new ProcessBuilder(argumentList);
+System.out.println(Thread.currentThread().getId() + ", Executing conda '" + String.join(" ", argumentList) + "'");
         return pb.start();
     }
 }
