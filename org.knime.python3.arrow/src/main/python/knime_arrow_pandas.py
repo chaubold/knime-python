@@ -54,35 +54,99 @@ import knime_arrow_types as kat
 import knime_arrow_struct_dict_encoding as kas
 import pandas as pd
 import numpy as np
+import psutil
+import os
+import time
+
+
+def get_process_mb() -> float:
+    process = psutil.Process(os.getpid())
+    return process.memory_info().rss / float(2 ** 20)
 
 
 def pandas_df_to_arrow(
     data_frame: pd.DataFrame, to_batch=False
 ) -> Union[pa.Table, pa.RecordBatch]:
 
-    if data_frame.shape == (
-        0,
-        0,
-    ):
+    if data_frame.shape == (0, 0,):
         if to_batch:
             return pa.RecordBatch.from_arrays([])
         else:
             return pa.table([])
 
-    col_names = data_frame.columns
+    col_names = [str(c) for c in data_frame.columns]
     row_keys = data_frame.index.to_series().astype(str)
-    data_frame = pd.concat(
-        [row_keys, data_frame],
-        axis=1,
-        copy=False,
-        ignore_index=True,
-    )
-    data_frame.columns = ["Row ID"] + [str(c) for c in col_names]
 
-    if to_batch:
-        return pa.RecordBatch.from_pandas(data_frame, preserve_index=False)
-    else:
-        return pa.Table.from_pandas(data_frame, preserve_index=False)
+    if True:
+        start = time.time()
+        print(f"1. Memory usage before concat: {get_process_mb()} mb")
+
+        data_frame1 = pd.concat(
+            [row_keys, data_frame], axis=1, copy=False, ignore_index=True,
+        )
+        data_frame1.columns = ["<Row Key>"] + col_names
+
+        if to_batch:
+            result = pa.RecordBatch.from_pandas(data_frame1, preserve_index=False)
+        else:
+            result = pa.Table.from_pandas(data_frame1, preserve_index=False)
+
+        print(f"1. Memory usage after concat: {get_process_mb()} mb")
+        end = time.time()
+        print(f"1. Took {end - start}")
+
+        # This produces wrong results! The Table Difference Checker will find differences after a plain roundtrip
+
+    if False:
+        start = time.time()
+        print(f"2. Memory usage before concat: {get_process_mb()} mb")
+        data_frame2 = pd.concat(
+            [row_keys.reset_index(drop=True), data_frame.reset_index(drop=True)], axis=1
+        )
+        data_frame2.columns = ["<Row Key>"] + col_names
+
+        if to_batch:
+            result2 = pa.RecordBatch.from_pandas(data_frame2)
+        else:
+            result2 = pa.Table.from_pandas(data_frame2)
+
+        print(f"2. Memory usage after concat: {get_process_mb()} mb")
+        end = time.time()
+        print(f"2. Took {end - start}")
+
+        # if result.schema != result2.schema:
+        #     print(f"New: {result.schema}")
+        #     print(f"Old: {result2.schema}")
+        #     raise AssertionError
+
+        result = result2
+
+    if False:
+        start = time.time()
+        print(f"3. Memory usage before concat: {get_process_mb()} mb")
+
+        if to_batch:
+            arrow = pa.RecordBatch.from_pandas(data_frame)
+        else:
+            arrow = pa.Table.from_pandas(data_frame)
+
+        arrow_keys = pa.array(row_keys, type=pa.string())
+        schema = arrow.schema.remove(len(arrow.schema) - 1)
+        schema = schema.insert(0, pa.field("<Row Key>", pa.string()))
+        columns = [arrow_keys] + arrow.columns[:-1]
+
+        if to_batch:
+            result3 = pa.RecordBatch.from_arrays(columns, schema=schema)
+        else:
+            result3 = pa.Table.from_arrays(columns, schema=schema)
+
+        print(f"3. Memory usage after concat: {get_process_mb()} mb")
+        end = time.time()
+        print(f"3. Took {end - start}")
+
+        result = result3
+
+    return result
 
 
 def arrow_data_to_pandas_df(data: Union[pa.Table, pa.RecordBatch]) -> pd.DataFrame:
