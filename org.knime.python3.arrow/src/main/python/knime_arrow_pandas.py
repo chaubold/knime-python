@@ -59,6 +59,7 @@ import numpy as np
 def pandas_df_to_arrow(
     data_frame: pd.DataFrame, to_batch=False
 ) -> Union[pa.Table, pa.RecordBatch]:
+
     if data_frame.shape == (
         0,
         0,
@@ -68,29 +69,27 @@ def pandas_df_to_arrow(
         else:
             return pa.table([])
 
-    # Convert the index to a str series and prepend to the data_frame
-
-    # extract and drop index from DF
+    col_names = data_frame.columns
     row_keys = data_frame.index.to_series().astype(str)
-    row_keys.name = "<Row Key>"  # TODO what is the right string?
     data_frame = pd.concat(
-        [row_keys.reset_index(drop=True), data_frame.reset_index(drop=True)],
+        [row_keys, data_frame],
         axis=1,
+        copy=False,
+        ignore_index=True,
     )
-
-    # Convert all column names to string or PyArrow might complain
-    data_frame.columns = [str(c) for c in data_frame.columns]
+    data_frame.columns = ["Row ID"] + [str(c) for c in col_names]
 
     if to_batch:
-        return pa.RecordBatch.from_pandas(data_frame)
+        return pa.RecordBatch.from_pandas(data_frame, preserve_index=False)
     else:
-        return pa.Table.from_pandas(data_frame)
+        return pa.Table.from_pandas(data_frame, preserve_index=False)
 
 
 def arrow_data_to_pandas_df(data: Union[pa.Table, pa.RecordBatch]) -> pd.DataFrame:
     # Use Pandas' String data type if available instead of "object" if we're using a
     # Pandas version that is new enough. Gives better type safety and preserves its
     # type even if all values are missing in a column.
+
     if hasattr(pd, "StringDtype"):
 
         def mapper(dtype):
