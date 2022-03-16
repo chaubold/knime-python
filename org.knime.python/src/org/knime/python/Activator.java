@@ -81,6 +81,8 @@ public class Activator implements BundleActivator {
      */
     @Override
     public void start(final BundleContext bundleContext) throws Exception {
+        System.out.println("Activate python plugin");
+        Thread.dumpStack();
         // When this plugin is loaded test the python installation
         new Thread(new Runnable() {
             @Override

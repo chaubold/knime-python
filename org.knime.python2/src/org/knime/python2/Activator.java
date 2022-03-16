@@ -80,6 +80,8 @@ public final class Activator implements BundleActivator {
 
     @Override
     public void start(final BundleContext bundleContext) throws Exception {
+        System.out.println("Activate python2 plugin");
+        Thread.dumpStack();
         // We need to collect all registered serializers before testing the installation since serializers may specify
         // additional required modules.
         SerializationLibraryExtensions.init();
