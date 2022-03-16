@@ -61,14 +61,17 @@ import time
 
 def get_process_mb() -> float:
     process = psutil.Process(os.getpid())
-    return process.memory_info().rss / float(2 ** 20)
+    return process.memory_info().rss / float(2**20)
 
 
 def pandas_df_to_arrow(
     data_frame: pd.DataFrame, to_batch=False
 ) -> Union[pa.Table, pa.RecordBatch]:
 
-    if data_frame.shape == (0, 0,):
+    if data_frame.shape == (
+        0,
+        0,
+    ):
         if to_batch:
             return pa.RecordBatch.from_arrays([])
         else:
@@ -81,10 +84,23 @@ def pandas_df_to_arrow(
         start = time.time()
         print(f"1. Memory usage before concat: {get_process_mb()} mb")
 
-        data_frame1 = pd.concat(
-            [row_keys, data_frame], axis=1, copy=False, ignore_index=True,
+        # Way 1 (tests in the testflow are passed):
+        # data_frame.insert(0, column="Row ID", value=data_frame.index.values.astype(str))
+
+        # Way 2 (tests in the testflow are passed):
+        # data_frame = data_frame.rename_axis("Row ID").reset_index()
+        # data_frame["Row ID"] = data_frame["Row ID"].astype("string", copy=False)
+
+        # Way 3 (tests in the testflow are NOT passed):
+        data_frame = pd.concat(
+            [row_keys, data_frame],
+            axis=1,
+            copy=False,
+            ignore_index=True,
         )
-        data_frame1.columns = ["<Row Key>"] + col_names
+        data_frame.columns = ["Row ID"] + col_names
+
+        data_frame1 = data_frame
 
         if to_batch:
             result = pa.RecordBatch.from_pandas(data_frame1, preserve_index=False)
@@ -100,6 +116,7 @@ def pandas_df_to_arrow(
     if False:
         start = time.time()
         print(f"2. Memory usage before concat: {get_process_mb()} mb")
+
         data_frame2 = pd.concat(
             [row_keys.reset_index(drop=True), data_frame.reset_index(drop=True)], axis=1
         )
