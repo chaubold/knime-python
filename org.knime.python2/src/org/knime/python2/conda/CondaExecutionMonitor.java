@@ -82,6 +82,7 @@ class CondaExecutionMonitor {
 
     void monitorExecution(final Process conda, final boolean hasJsonOutput)
         throws IOException, PythonCanceledExecutionException {
+Thread.dumpStack();
         Future<?> outputListener = null;
         Future<?> errorListener = null;
         try {
