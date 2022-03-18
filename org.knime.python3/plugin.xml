@@ -3,7 +3,6 @@
 <plugin>
    <extension-point id="PythonValueFactory" name="PythonValueFactory" schema="schema/PythonValueFactory.exsd"/>
    <extension-point id="BundledCondaChannel" name="BundledCondaChannel" schema="schema/BundledCondaChannel.exsd"/>
-   <extension-point id="BundledCondaExecutable" name="BundledCondaExecutable" schema="schema/BundledCondaExecutable.exsd"/>
    <extension-point id="CondaEnvironment" name="CondaEnvironment" schema="schema/CondaEnvironment.exsd"/>
 
 </plugin>

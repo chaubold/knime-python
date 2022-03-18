@@ -52,7 +52,7 @@ import org.knime.python3.CondaChannel;
 import org.knime.python3.PythonSourceDirectoryLocator;
 
 /**
- * @author Carsten Haubold, KNIME GmbH, Konstanz, Germany, KNIME GmbH, Konstanz, Germany
+ * @author Carsten Haubold, KNIME GmbH, Konstanz, Germany
  */
 public class PythonBaseCondaChannel implements CondaChannel {
 

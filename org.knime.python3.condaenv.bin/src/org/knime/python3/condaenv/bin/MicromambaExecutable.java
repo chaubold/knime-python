@@ -48,7 +48,7 @@ package org.knime.python3.condaenv.bin;
 
 import java.nio.file.Path;
 
-import org.knime.python3.CondaExecutable;
+import org.knime.conda.bin.CondaExecutable;
 import org.knime.python3.PythonSourceDirectoryLocator;
 
 /**

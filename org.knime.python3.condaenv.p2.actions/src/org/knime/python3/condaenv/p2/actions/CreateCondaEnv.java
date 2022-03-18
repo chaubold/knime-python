@@ -61,8 +61,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.p2.engine.spi.ProvisioningAction;
+import org.knime.conda.bin.CondaExecutable;
 import org.knime.python3.CondaChannel;
-import org.knime.python3.CondaExecutable;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
