@@ -73,6 +73,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
+import org.knime.conda.bin.CondaExecutable;
 import org.knime.core.columnar.arrow.ArrowBatchReadStore;
 import org.knime.core.columnar.arrow.ArrowBatchStore;
 import org.knime.core.columnar.arrow.ArrowColumnStoreFactory;
@@ -246,6 +247,8 @@ public final class Python3KernelBackend implements PythonKernelBackend {
         }
         try {
             m_command = command;
+
+            System.out.println(CondaExecutable.getInstance().getPath().toString());
 
             // TODO: perform installation testing in the running process. We do not want to spawn an extra Python
             // process just for testing. Instead, make testing part of launching the process.
