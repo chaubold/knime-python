@@ -33,6 +33,10 @@
 		<module>org.knime.python3.py4j.dependencies</module>
 		<module>org.knime.python3.scripting</module>
 		<module>org.knime.python3.scripting.nodes</module>
+		<module>org.knime.python3.nodes</module>
+		<module>org.knime.python3.nodes.testing</module>
+		<module>org.knime.features.python3.nodes</module>
+		<module>org.knime.features.python3.nodes.testing</module>
 		<module>org.knime.update.python</module>
 	</modules>
 
@@ -64,6 +68,11 @@
 			<url>${knime.conda.p2}</url>
 		</repository>
 		<repository>
+			<id>p2-knime-conda-channels</id>
+			<layout>p2</layout>
+			<url>${knime.conda.channels.p2}</url>
+		</repository>
+		<repository>
 			<id>p2-knime-expressions</id>
 			<layout>p2</layout>
 			<url>${knime.expressions.p2}</url>
@@ -92,6 +101,11 @@
 			<id>p2-knime-shared</id>
 			<layout>p2</layout>
 			<url>${knime.shared.p2}</url>
+		</repository>
+		<repository>
+			<id>p2-knime-base-views</id>
+			<layout>p2</layout>
+			<url>${knime.base.views.p2}</url>
 		</repository>
 		<repository>
 			<id>p2-knime-tp</id>
