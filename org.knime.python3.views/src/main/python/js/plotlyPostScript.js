@@ -1,5 +1,5 @@
-const iFrameKnimeService = new knimeService.IFrameKnimeService();
-const selectionService = new knimeService.SelectionService(iFrameKnimeService);
+const iFrameKnimeService = new KnimeUIExtensionService.IFrameKnimeService();
+const selectionService = new KnimeUIExtensionService.SelectionService(iFrameKnimeService);
 
 const d = document.getElementById('{plot_id}');
 let selected = []

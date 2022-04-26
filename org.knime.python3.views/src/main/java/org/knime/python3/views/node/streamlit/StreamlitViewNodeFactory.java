@@ -229,6 +229,8 @@ public final class StreamlitViewNodeFactory extends NodeFactory<StreamlitViewNod
             } catch (final IOException ex) {
                 // TODO handle
                 throw new IllegalStateException(ex);
+            } catch (InterruptedException ex) {
+                // TODO Auto-generated catch block
             }
 
             // Get the entry point

@@ -84,9 +84,11 @@ def _js_path(name):
     return os.path.normpath(os.path.join(__file__, "..", "js", name))
 
 
-# TODO KNIME_SERVICE_JS - Get a minified version of this from a git submodule
+# TODO KNIME_SERVICE_JS - Get the JS file from a git submodule pointing to `knime-ui-extension-service`
+# TODO KNIME_SERVICE_JS - Should we have a global dev mode vs production mode?
 
-with open(_js_path("knimeService.js"), "r") as f:
+# with open(_js_path("knime-ui-extension-service.dev.js"), "r") as f:  # Dev Mode
+with open(_js_path("knime-ui-extension-service.min.js"), "r") as f:
     KNIME_SERVICE_JS = f.read()
 
 
