@@ -247,6 +247,36 @@ public final class PurePythonNodeSetFactory extends ExtensionNodeSetFactory {
             return m_node.getType();
         }
 
+        @Override
+        public String getShortDescription() {
+            return m_node.getShortDescription();
+        }
+
+        @Override
+        public String getFullDescription() {
+            return m_node.getFullDescription();
+        }
+
+        @Override
+        public Port[] getInputPorts() {
+            return new Port[0];
+        }
+
+        @Override
+        public Port[] getOutputPorts() {
+            return new Port[0];
+        }
+
+        @Override
+        public Tab[] getTabs() {
+            return new Tab[0];
+        }
+
+        @Override
+        public View[] getViews() {
+            return new View[0];
+        }
+
     }
 
 }

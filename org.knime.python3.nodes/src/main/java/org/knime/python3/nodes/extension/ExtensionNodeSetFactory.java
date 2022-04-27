@@ -165,7 +165,7 @@ public abstract class ExtensionNodeSetFactory implements NodeSetFactory {
             CheckUtils.checkSetting(extension != null, "Unknown extension id '%s' encountered.", extensionId);
             @SuppressWarnings("null") // checked in preceding line
             var node = extension.getNode(nodeId);
-            m_nodeDescription = new ExtensionNodeDescription(node);
+            m_nodeDescription = ExtensionNodeDescriptionFactory.createDescription(node);
             m_nodeFactoryConfig = config;
             var proxyProvider = extension.createProxyProvider(nodeId);
             m_proxyProvider = proxyProvider;

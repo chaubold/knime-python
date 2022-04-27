@@ -88,8 +88,22 @@ class PythonNode(ABC):
         The returned dict should have a general description of the node, the individual parameters
         as well as inputs and outputs.
         """
+        class_doc = type(self).__doc__
+        lines = class_doc.splitlines()
+        if len(lines) == 0:
+            short_description = "Please document your node class with a docstring"
+        else:
+            short_description = lines[0]
+        if len(lines) > 1:
+            full_description = "\n".join(lines[1:])
+        else:
+            full_description = short_description
+        
         # TODO generate from doc string
-        pass
+        return {
+            "short_description": short_description,
+            "full_description": full_description,
+        }
 
 
 class _Node:
@@ -121,6 +135,12 @@ class _Node:
         self.category = category
         self.after = after
 
+        node = node_factory()
+        description = node.get_description()
+        self.short_description = description["short_description"]
+        self.full_description = description["full_description"]
+
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -129,6 +149,8 @@ class _Node:
             "icon_path": self.icon_path,
             "category": self.category,
             "after": self.after,
+            "short_description": self.short_description,
+            "full_description": self.full_description,
         }
 
 

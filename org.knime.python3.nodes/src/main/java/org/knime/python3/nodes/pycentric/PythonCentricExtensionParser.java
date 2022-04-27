@@ -132,7 +132,9 @@ public final class PythonCentricExtensionParser implements PythonExtensionParser
             objectNode.get("after").textValue(), //
             objectNode.get("icon_path").textValue(), //
             objectNode.get("name").textValue(), //
-            objectNode.get("node_type").textValue() //
+            objectNode.get("node_type").textValue(), //
+            objectNode.get("short_description").textValue(), //
+            objectNode.get("full_description").textValue() //
         );
     }
 

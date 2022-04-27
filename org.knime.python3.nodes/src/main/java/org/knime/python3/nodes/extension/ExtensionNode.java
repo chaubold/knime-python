@@ -88,4 +88,86 @@ public interface ExtensionNode {
      */
     String getType();
 
+    String getShortDescription();
+
+    String getFullDescription();
+
+    Port[] getInputPorts();
+
+    Port[] getOutputPorts();
+
+    Tab[] getTabs();
+
+    View[] getViews();
+
+    // TODO remove once Java 17 can be used to turn below classes into records
+    public abstract static class Described {
+        private final String m_name;
+
+        private final String m_description;
+
+        protected Described(final String name, final String description) {
+            m_name = name;
+            m_description = description;
+        }
+
+        public String getName() {
+            return m_name;
+        }
+
+        public String getDescription() {
+            return m_description;
+        }
+    }
+
+    public static final class Port {
+
+        private final String m_name;
+
+        private final String m_description;
+
+        public Port(final String name, final String description) {
+            m_name = name;
+            m_description = description;
+        }
+
+        public String getName() {
+            return m_name;
+        }
+
+        public String getDescription() {
+            return m_description;
+        }
+    }
+
+    public static final class Tab extends Described {
+        private final Option[] m_options;
+
+        public Tab(final String name, final String description, final Option... options) {
+            super(name, description);
+            m_options = options.clone();
+        }
+
+        public Option[] getOptions() {
+            return m_options.clone();
+        }
+    }
+
+    public static final class Option extends Described {
+
+        public Option(final String name, final String description) {
+            super(name, description);
+        }
+
+    }
+
+    public static final class View extends Described {
+
+        public View(final String name, final String description) {
+            super(name, description);
+        }
+
+
+    }
+
 }

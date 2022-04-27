@@ -53,7 +53,7 @@ package org.knime.python3.nodes;
  *
  * @author Adrian Nembach, KNIME GmbH, Konstanz, Germany
  */
-public final class PythonNode {
+public final class PythonNode { // TODO record in Java 17
 
     private final String m_id;
 
@@ -67,6 +67,10 @@ public final class PythonNode {
 
     private final String m_type;
 
+    private final String m_shortDescription;
+
+    private final String m_fullDescription;
+
     /**
      * Constructor.
      *
@@ -76,15 +80,19 @@ public final class PythonNode {
      * @param iconPath to the icon of this node
      * @param name human-readable name of the node
      * @param type of the node e.g. Manipulator
+     * @param shortDescription a short (one-line) description of what the node does
+     * @param fullDescription an in-depth description of what the node does
      */
     public PythonNode(final String id, final String categoryPath, final String afterId, final String iconPath,
-        final String name, final String type) {
+        final String name, final String type, final String shortDescription, final String fullDescription) {
         m_id = id;
         m_categoryPath = categoryPath;
         m_afterId = afterId;
         m_iconPath = iconPath;
         m_name = name;
         m_type = type;
+        m_shortDescription = shortDescription;
+        m_fullDescription = fullDescription;
     }
 
     /**
@@ -127,5 +135,13 @@ public final class PythonNode {
      */
     public String getType() {
         return m_type;
+    }
+
+    public String getShortDescription() {
+        return m_shortDescription;
+    }
+
+    public String getFullDescription() {
+        return m_fullDescription;
     }
 }
