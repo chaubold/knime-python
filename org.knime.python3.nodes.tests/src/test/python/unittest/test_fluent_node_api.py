@@ -42,63 +42,65 @@
 #  when such Node is propagated with or for interoperation with KNIME.
 # ------------------------------------------------------------------------
 
-"""
-@author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
-"""
-import os
-import sys
+from typing import List, Tuple
+import unittest
+import pythonpath
+import knime_node as kn
+import knime_table as kt
+import knime_schema as ks
 
-# path to knime_nodes
-sys.path.append(
-    os.path.normpath(
-        os.path.join(
-            __file__,
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "org.knime.python3.nodes",
-            "src",
-            "main",
-            "python",
-        )
-    )
-)
 
-sys.path.append(
-    os.path.normpath(
-        os.path.join(
-            __file__,
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "org.knime.python3",
-            "src",
-            "main",
-            "python",
-        )
-    )
+@kn.node(name="My Test Node", node_type="Learner", icon_path="icon.png", category="/")
+@kn.input_table(name="Input Data", description="We read data from here")
+@kn.input_table(
+    name="Second input table", description="We might also read data from there"
 )
+@kn.output_table(name="Output Data", description="Whatever the node has produced")
+@kn.output_port(name="Some output port", description="Maybe a model")
+class MyTestNode(kn.PythonNode):
+    def __init__(self) -> None:
+        super().__init__()
+        self._some_param = 42
 
-sys.path.append(
-    os.path.normpath(
-        os.path.join(
-            __file__,
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "org.knime.python3.arrow",
-            "src",
-            "main",
-            "python",
-        )
-    )
-)
+    @kn.Parameter
+    def some_param(self):
+        return self._some_param
+
+    @some_param.setter
+    def some_param(self, value):
+        self._some_param = value
+
+    def configure(self, input_schemas: List[ks.Schema]) -> List[ks.Schema]:
+        return input_schemas
+
+    def execute(
+        self, tables: List[kt.ReadTable], objects: List, exec_context
+    ) -> Tuple[List[kt.WriteTable], List]:
+        return [kt.write_table(table) for table in tables], []
+
+
+class NodeApiTest(unittest.TestCase):
+    node_id = "//My Test Node"
+
+    def setUp(self):
+        self.node = kn._nodes.get(NodeApiTest.node_id, None)
+
+    def test_node_registration(self):
+        self.assertTrue(NodeApiTest.node_id in kn._nodes)
+
+    def test_no_node_view(self):
+        self.assertIsNone(self.node.view)
+
+    def test_input_ports(self):
+        self.assertEqual(2, len(self.node.input_ports))
+        self.assertEqual(kn._PortType.TABLE, self.node.input_ports[0].type)
+        self.assertEqual(kn._PortType.TABLE, self.node.input_ports[1].type)
+
+    def test_output_ports(self):
+        self.assertEqual(2, len(self.node.output_ports))
+        self.assertEqual(kn._PortType.TABLE, self.node.output_ports[0].type)
+        self.assertEqual(kn._PortType.PICKLED, self.node.output_ports[1].type)
+
+
+if __name__ == "__main__":
+    unittest.main()

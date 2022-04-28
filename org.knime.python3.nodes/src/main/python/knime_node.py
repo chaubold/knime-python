@@ -124,7 +124,7 @@ class _Node:
     after: str
     input_ports: List[_Port]
     output_ports: List[_Port]
-    views: List[_View]
+    views: Optional[List[_View]]
 
     def __init__(
         self,
@@ -208,11 +208,11 @@ def _get_ports(node_class, port_slot) -> List[_Port]:
     return node_class.__knime_configuration__[port_slot]
 
 
-def _get_view(node_class, port_slot) -> Optional[_View]:
+def _get_view(node_class) -> Optional[_View]:
     if not hasattr(node_class, "__knime_configuration__"):
         return None
 
-    return node_class.__knime_configuration__["view"]
+    return node_class.__knime_configuration__.get("view", None)
 
 
 def input_port(name: str, description: str):
