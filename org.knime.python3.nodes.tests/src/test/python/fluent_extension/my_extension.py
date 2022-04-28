@@ -5,6 +5,11 @@ import knime_schema as ks
 
 
 @kn.node(name="My Node", node_type="Learner", icon_path="icon.png", category="/")
+@kn.input_table(name="Input Data", description="We read data from here")
+@kn.input_table(
+    name="Second input table", description="We might also read data from there"
+)
+@kn.output_table(name="Output Data", description="Whatever the node has produced")
 class MyNode(kn.PythonNode):
     def __init__(self) -> None:
         super().__init__()
@@ -21,5 +26,7 @@ class MyNode(kn.PythonNode):
     def configure(self, input_schemas: List[ks.Schema]) -> List[ks.Schema]:
         return input_schemas
 
-    def execute(self, tables: List[kt.ReadTable], objects: List, exec_context) -> Tuple[List[kt.WriteTable], List]:
+    def execute(
+        self, tables: List[kt.ReadTable], objects: List, exec_context
+    ) -> Tuple[List[kt.WriteTable], List]:
         return [kt.write_table(table) for table in tables], []

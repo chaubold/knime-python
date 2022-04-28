@@ -48,8 +48,10 @@ Provides base implementations and utilities for the development of KNIME nodes i
 @author Adrian Nembach, KNIME GmbH, Konstanz, Germany
 """
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from numbers import Number
-from typing import List, Tuple
+from enum import Enum, auto
+from typing import List, Optional, Tuple, Type
 import knime_table as kt
 
 # TODO currently not part of our dependencies but maybe worth adding instead of reimplementing here
@@ -92,20 +94,41 @@ class PythonNode(ABC):
         pass
 
 
+class _PortType(Enum):
+    PICKLED = auto()
+    TABLE = auto()
+
+
+@dataclass
+class _Port:
+    type: _PortType
+    name: str
+    description: str
+
+
+@dataclass
+class _View:
+    name: str
+    description: str
+
+
 class _Node:
     """Class representing an actual node in KNIME AP."""
 
-    node_factory: Callable
+    node_class: Type
     id: str
     name: str
     node_type: str
     icon_path: str
     category: str
     after: str
+    input_ports: List[_Port]
+    output_ports: List[_Port]
+    views: List[_View]
 
     def __init__(
         self,
-        node_factory: Callable,
+        node_class,
         id: str,
         name: str,
         node_type: str,
@@ -113,13 +136,16 @@ class _Node:
         category: str,
         after: str,
     ) -> None:
-        self.node_factory = node_factory
+        self.node_class = node_class
         self.id = id
         self.name = name
         self.node_type = node_type
         self.icon_path = icon_path
         self.category = category
         self.after = after
+        self.input_ports = _get_ports(node_class, "input_ports")
+        self.output_ports = _get_ports(node_class, "output_ports")
+        self.view = _get_view(node_class)
 
     def to_dict(self):
         return {
@@ -138,15 +164,15 @@ _nodes = {}
 # TODO allow to define categories
 def node(
     name: str, node_type: str, icon_path: str, category: str, after: str = None
-) -> Callable:
+) -> Type:
     """
     Use this decorator to annotate a PythonNode class or function that creates a PythonNode instance that should correspond to a node in KNIME.
     """
 
-    def register(factory_method):
+    def register(node_class):
         id = f"{category}/{name}"
         _nodes[id] = _Node(
-            node_factory=factory_method,
+            node_class=node_class,
             id=id,
             name=name,
             node_type=node_type,
@@ -154,11 +180,91 @@ def node(
             category=category,
             after=after,
         )
-        return factory_method
+        return node_class
 
     return register
 
 
+def _initialize_knime_config(node_class):
+    if not hasattr(node_class, "__knime_configuration__"):
+        node_class.__knime_configuration__ = {}
+
+
+def _add_port(node_class, port_slot: str, port: _Port):
+    _initialize_knime_config(node_class)
+    if port_slot not in node_class.__knime_configuration__:
+        node_class.__knime_configuration__[port_slot] = []
+
+    # because decorators are called last to first, we insert new ports at the front
+    node_class.__knime_configuration__[port_slot].insert(0, port)
+
+    return node_class
+
+
+def _get_ports(node_class, port_slot) -> List[_Port]:
+    if not hasattr(node_class, "__knime_configuration__"):
+        return []
+
+    return node_class.__knime_configuration__[port_slot]
+
+
+def _get_view(node_class, port_slot) -> Optional[_View]:
+    if not hasattr(node_class, "__knime_configuration__"):
+        return None
+
+    return node_class.__knime_configuration__["view"]
+
+
+def input_port(name: str, description: str):
+    """
+    Use this decorator to define a (Pickled) port object input port of a node.
+    """
+    return lambda node_class: _add_port(
+        node_class, "input_ports", _Port(_PortType.PICKLED, name, description)
+    )
+
+
+def input_table(name: str, description: str):
+    """
+    Use this decorator to define an input port of type "Table" of a node.
+    """
+    return lambda node_class: _add_port(
+        node_class, "input_ports", _Port(_PortType.TABLE, name, description)
+    )
+
+
+def output_port(name: str, description: str):
+    """
+    Use this decorator to define a (Pickled) port object output port of a node.
+    """
+    return lambda node_class: _add_port(
+        node_class, "output_ports", _Port(_PortType.PICKLED, name, description)
+    )
+
+
+def output_table(name: str, description: str):
+    """
+    Use this decorator to define an output port of type "Table" of a node.
+    """
+    return lambda node_class: _add_port(
+        node_class, "output_ports", _Port(_PortType.TABLE, name, description)
+    )
+
+
+def view(name: str, description: str):
+    """
+    Use this decorator to specify that this node has a view
+    """
+
+    def add_view(node_class):
+        _initialize_knime_config(node_class)
+        node_class.__knime_configuration__["view"] = _View(name, description)
+        return node_class
+
+    return add_view
+
+
+# ---------------------------------------------------------------------------------------------------------
 class Parameter:
     """
     Decorator class that essentially is an extension of property that includes the type as well as other information useful
