@@ -75,8 +75,10 @@ public final class YmlPythonNodeExtensionParser implements PythonExtensionParser
     }
 
     private static PythonNodeExtension parse(final Map<String, Object> extensionObject) {
-        var id = (String)extensionObject.get("id");
-        var name = (String)extensionObject.get("name");
+        var groupId = (String)extensionObject.get("group_id");
+        var bundleName = (String)extensionObject.get("name");
+        var id = groupId + "." + bundleName;
+        var name = (String)extensionObject.get("description");
         var author = (String)extensionObject.get("author");
         var environmentName = (String)extensionObject.get("environment_name");
         var factoryModule = (String)extensionObject.get("factory_module");
@@ -90,10 +92,12 @@ public final class YmlPythonNodeExtensionParser implements PythonExtensionParser
     }
 
     private static PythonNode parseNode(final Map<String, Object> nodeObject) {
-        var id = (String)nodeObject.get("id");
+        var groupId = (String)nodeObject.get("group_id");
+        var bundleName = (String)nodeObject.get("name");
+        var id = groupId + "." + bundleName;
         var categoryPath = (String)nodeObject.get("category_path");
         var afterId = (String)nodeObject.get("after_id");
-        var name = (String)nodeObject.get("name");
+        var name = (String)nodeObject.get("description");
         var iconPath = (String)nodeObject.get("icon");
         var type = (String)nodeObject.get("type");
         return new PythonNode(id, categoryPath, afterId, iconPath, name, type);
