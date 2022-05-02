@@ -47,6 +47,7 @@ Helper module that provides method for extracting parameter and UI definitions f
 an annotated PythonNode.
 
 @author Adrian Nembach, KNIME GmbH, Konstanz, Germany
+@author Carsten Haubold
 """
 
 from knime_node import Parameter, UI, Rule, PythonNode
